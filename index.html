@@ -130,7 +130,7 @@
             </div>
             <div class="flex justify-end gap-2 mt-6">
                 <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 text-white text-sm">Cancelar</button>
-                <button id="btn-login-action" onclick="window.authenticate()" class="px-4 py-2 rounded bg-cyan-600 text-white font-bold text-sm">Entrar</button>
+                <button id="btn-login-action" onclick="window.authenticate()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm">Entrar</button>
             </div>
             <p id="login-error" class="text-red-500 text-xs mt-2 hidden text-center font-bold">Credenciais incorretas!</p>
         </div>
@@ -266,7 +266,9 @@
         const TURNOS_Q1 = [{ id: 't1', label: '08h-11h' }, { id: 't3', label: '14h-17h' }, { id: 't5', label: '20h-23h' }, { id: 't7', label: '02h-05h' }];
         const TURNOS_Q2 = [{ id: 't2', label: '11h-14h' }, { id: 't4', label: '17h-20h' }, { id: 't6', label: '23h-02h' }, { id: 't8', label: '05h-08h' }];
         
+        // Array local para armazenar comandantes criados
         let commanders = [{ nome: 'Cmt Geral', user: 'admin', senha: '123' }];
+        
         let isEditMode = false;
         let currentDate = new Date().toLocaleDateString('en-CA'); // Formato YYYY-MM-DD
         let unsubscribeSnapshot = null;
@@ -596,18 +598,32 @@
             document.getElementById('tab-register').className = mode === 'register' ? 'flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan' : 'flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500';
             
             document.getElementById('login-nome-input').classList.toggle('hidden', mode === 'login');
-            document.getElementById('btn-login-action').innerText = mode === 'login' ? 'Cadastrar' : 'Entrar';
+            // CORREÇÃO: Os nomes dos botões foram ajustados corretamente
+            document.getElementById('btn-login-action').innerText = mode === 'login' ? 'Entrar' : 'Cadastrar';
             document.getElementById('login-error').classList.add('hidden');
         };
 
         window.authenticate = async () => {
             const user = document.getElementById('login-user-input').value.trim().toLowerCase();
             const pass = document.getElementById('login-senha-input').value;
+            const nome = document.getElementById('login-nome-input').value.trim();
             const errorEl = document.getElementById('login-error');
             
-            if(!user || !pass) { errorEl.innerText = "Preencha tudo!"; errorEl.classList.remove('hidden'); return; }
+            if(!user || !pass) { errorEl.innerText = "Preencha usuário e senha!"; errorEl.classList.remove('hidden'); return; }
 
-            // Lógica Simplificada para Immersive (Usa a conta padrão admin/123)
+            // Lógica para cadastrar um novo comandante localmente
+            if (loginMode === 'register') {
+                if(!nome) { errorEl.innerText = "Preencha o Nome do Cmt!"; errorEl.classList.remove('hidden'); return; }
+                if(commanders.some(c => c.user === user)) { errorEl.innerText = "Usuário já existe!"; errorEl.classList.remove('hidden'); return; }
+                
+                commanders.push({ nome, user, senha: pass });
+                window.showToast("Comandante cadastrado!");
+                window.setLoginMode('login'); // Volta para a tela de login
+                document.getElementById('login-senha-input').value = ''; // Limpa a senha
+                return;
+            }
+
+            // Lógica de Login
             const isValid = (user === 'admin' && pass === '123') || commanders.some(c => c.user === user && c.senha === pass);
             
             if(isValid) {

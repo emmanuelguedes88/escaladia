@@ -2,11 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Escala do Dia</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala do Dia - Itaquitinga</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -14,10 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        policedark: '#020617', // Slate 950
+                        policedark: '#0f172a',
                         policeblue: '#1e3a8a',
-                        policegold: '#eab308',
-                        policecyan: '#06b6d4', // Neon Cyan
+                        policecyan: '#06b6d4',
                     }
                 }
             }
@@ -25,26 +22,24 @@
     </script>
     <style>
         body { background-color: #020617; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
-        
-        /* Fundo Animado com Emojis */
         #matrix-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; opacity: 0.15; }
-        .falling-item { position: absolute; font-size: 1.5rem; animation: fall linear infinite; }
+        .falling-item { position: absolute; font-size: 1.5rem; animation: fall linear infinite; text-shadow: 0 0 5px #06b6d4; }
         @keyframes fall { 
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; } 
+            0% { transform: translateY(-50px); opacity: 0; } 
             10% { opacity: 1; } 
             90% { opacity: 1; } 
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } 
+            100% { transform: translateY(100vh); opacity: 0; } 
         }
-        
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
         
         .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(6, 182, 212, 0.3); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
         
         input:disabled, select:disabled {
-            background-color: rgba(30, 41, 59, 0.5) !important; border-color: transparent !important; color: #94a3b8 !important; cursor: not-allowed;
+            background-color: transparent !important; color: #94a3b8 !important; cursor: not-allowed; border-color: transparent !important; appearance: none;
         }
+        select:disabled { background-image: none; }
         
         .input-active {
             background-color: #1e293b; border: 1px solid #334155; color: white; border-radius: 0.25rem;
@@ -52,119 +47,103 @@
         }
         .input-active:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 8px rgba(6, 182, 212, 0.5); }
         
-        .neon-text { text-shadow: 0 0 5px rgba(6, 182, 212, 0.8); }
-        .neon-border { box-shadow: 0 0 10px rgba(6, 182, 212, 0.3), inset 0 0 5px rgba(6, 182, 212, 0.2); }
+        .btn-neon { position: relative; overflow: hidden; }
+        .btn-neon::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: rgba(255,255,255,0.1); transform: rotate(45deg); transition: all 0.3s; opacity: 0; }
+        .btn-neon:hover::after { opacity: 1; transform: rotate(45deg) translate(50%, 50%); }
     </style>
 </head>
 <body class="min-h-screen relative pb-24">
 
-    <!-- Fundo Tático -->
+    <!-- Lista invisível para o Autocompletar -->
+    <datalist id="efetivo-list"></datalist>
+
     <div id="matrix-bg"></div>
 
-    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 pt-4 sm:pt-6">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 pt-4">
+        <!-- HEADER PRINCIPAL -->
         <header class="text-center mb-6 glass-panel rounded-xl p-4 sm:p-6 border-t-4 border-t-policecyan relative">
-            <div class="flex justify-center mb-2"><i class="fa-solid fa-shield-halved text-4xl text-policecyan drop-shadow-md"></i></div>
-            <h1 class="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-white mb-2 neon-text">Escala do Dia</h1>
+            <div class="flex justify-center mb-2"><i class="fa-solid fa-shield-halved text-4xl text-policecyan" style="filter: drop-shadow(0 0 10px #06b6d4);"></i></div>
+            <h1 class="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-white mb-4">Escala do Dia</h1>
             
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4 text-sm bg-gray-900/60 p-3 rounded-lg border border-cyan-900 inline-flex max-w-full overflow-hidden">
-                <div class="flex items-center gap-2">
-                    <span class="text-gray-400 font-bold hidden sm:inline"><i class="fa-regular fa-calendar-days mr-1"></i> Data:</span>
-                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-1 rounded" onchange="window.changeDate(this.value)">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-3 text-sm bg-gray-900/80 p-3 rounded-lg border border-gray-700 w-full max-w-4xl mx-auto flex-wrap">
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
+                    <span class="text-gray-400 font-bold"><i class="fa-regular fa-calendar-days mr-1"></i> Data:</span>
+                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-1 rounded w-auto" onchange="window.changeDate(this.value)">
                 </div>
-                <div id="status-badge" class="px-3 py-1 rounded-full font-bold text-[10px] sm:text-xs uppercase tracking-wider bg-gray-600 text-white whitespace-nowrap">Carregando...</div>
+                <div id="status-badge" class="px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-gray-600 text-white w-full sm:w-auto text-center">Carregando...</div>
                 
-                <div class="flex flex-wrap justify-center gap-2 md:ml-2 md:border-l md:border-gray-700 md:pl-4">
-                    <button id="btn-checkin" onclick="window.openCheckinModal()" class="bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded font-bold transition shadow-[0_0_10px_rgba(6,182,212,0.4)] border border-cyan-500 flex items-center gap-2 text-xs sm:text-sm">
+                <div class="flex flex-wrap justify-center gap-2 w-full md:w-auto md:ml-4 md:border-l md:border-gray-600 md:pl-4">
+                    <button id="btn-checkin" onclick="window.openCheckinModal()" class="btn-neon bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded font-bold transition shadow-[0_0_10px_rgba(6,182,212,0.5)] border border-cyan-400 flex items-center gap-2 flex-1 sm:flex-none justify-center">
                         <i class="fa-solid fa-location-crosshairs"></i> Check-in GPS
                     </button>
-                    <button id="btn-policial" onclick="window.abrirModalServico()" class="bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded font-bold transition shadow-lg border border-green-500 flex items-center gap-2 text-xs sm:text-sm">
-                        <i class="fa-solid fa-clipboard-user"></i> Informar Serviço
+                    <button id="btn-policial" onclick="window.openPolicialModal()" class="btn-neon bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded font-bold transition border border-green-500 flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                        <i class="fa-solid fa-user-plus"></i> Informar Serviço
                     </button>
-                    <button id="btn-toggle-mode" onclick="window.toggleEditMode()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-3 py-2 rounded font-bold transition shadow-lg border border-gray-500 flex items-center gap-2 text-xs sm:text-sm">
-                        <i class="fa-solid fa-user-shield"></i> Cmt Guarda
+                    <button id="btn-toggle-mode" onclick="window.toggleEditMode()" class="btn-neon bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 py-2 rounded font-bold transition border border-gray-500 flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                        <i class="fa-solid fa-star"></i> Cmt Guarda
                     </button>
                 </div>
             </div>
         </header>
 
         <div id="main-content">
-            <!-- Renderizado dinamicamente -->
-        </div>
-    </div>
-
-    <!-- Modal de Alerta Customizado (Substitui o alert nativo) -->
-    <div id="custom-alert-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[70] hidden backdrop-blur-sm">
-        <div class="bg-gray-900 border-2 border-red-500 rounded-xl p-6 w-80 shadow-[0_0_20px_rgba(239,68,68,0.3)] text-center transform scale-95 transition-transform duration-200" id="alert-box">
-            <i id="alert-icon" class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4 drop-shadow-md"></i>
-            <h3 id="alert-title" class="text-xl font-bold text-white mb-2">Atenção</h3>
-            <p id="alert-msg" class="text-sm text-gray-300 mb-6"></p>
-            <button onclick="document.getElementById('custom-alert-modal').classList.add('hidden')" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded font-bold w-full border border-gray-500 transition">OK, Entendido</button>
-        </div>
-    </div>
-
-    <!-- Modal de Confirmação Customizado (Substitui o confirm nativo) -->
-    <div id="custom-confirm-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[70] hidden backdrop-blur-sm">
-        <div class="bg-gray-900 border-2 border-yellow-500 rounded-xl p-6 w-80 shadow-[0_0_20px_rgba(234,179,8,0.3)] text-center">
-            <i class="fa-solid fa-circle-question text-5xl text-yellow-500 mb-4"></i>
-            <h3 class="text-xl font-bold text-white mb-2">Confirmar Ação</h3>
-            <p id="confirm-msg" class="text-sm text-gray-300 mb-6"></p>
-            <div class="flex gap-3">
-                <button onclick="window.closeConfirm()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded font-bold border border-gray-500">Cancelar</button>
-                <button id="btn-confirm-action" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-white py-2 rounded font-bold border border-yellow-400">Confirmar</button>
-            </div>
+            <!-- Renderizado dinamicamente pelo JS -->
         </div>
     </div>
 
     <!-- Modal Comandante -->
-    <div id="login-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden backdrop-blur-sm p-4">
-        <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
             <h3 class="text-lg font-bold mb-4 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-shield text-policecyan mr-2"></i>Acesso do Comandante</h3>
             <div id="login-tabs" class="flex gap-2 mb-4">
                 <button onclick="window.setLoginMode('login')" id="tab-login" class="flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan">Entrar</button>
                 <button onclick="window.setLoginMode('register')" id="tab-register" class="flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500">Cadastrar</button>
             </div>
             <div class="space-y-3">
-                <input type="text" id="login-nome-input" class="input-active hidden" placeholder="Nome Completo do Cmt">
-                <input type="text" id="login-user-input" class="input-active" placeholder="Usuário (Ex: admin)">
+                <input type="text" id="login-nome-input" class="input-active hidden" placeholder="Graduação e Nome (Ex: 1º SGT Guedes)">
+                <input type="text" id="login-user-input" class="input-active" placeholder="Usuário (Matrícula sem dígito)">
                 <input type="password" id="login-senha-input" class="input-active" placeholder="Senha">
             </div>
             <div class="flex justify-end gap-2 mt-6">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 text-white text-sm">Cancelar</button>
-                <button id="btn-login-action" onclick="window.authenticate()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm">Entrar</button>
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm">Cancelar</button>
+                <button id="btn-login-action" onclick="window.authenticate()" class="px-4 py-2 rounded bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm">Entrar</button>
             </div>
-            <p id="login-error" class="text-red-500 text-xs mt-2 hidden text-center font-bold">Credenciais incorretas!</p>
+            <p id="login-error" class="text-red-400 text-xs mt-2 hidden text-center font-bold"></p>
         </div>
     </div>
 
-    <!-- Modal Check-in GPS (Visual Cyan Neon) -->
-    <div id="checkin-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden backdrop-blur-sm p-4">
-        <div class="bg-gray-900 border-2 border-cyan-500 rounded-xl p-6 w-full max-w-sm neon-border">
-            <h3 class="text-xl font-bold mb-2 text-white border-b border-cyan-900 pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-location-crosshairs text-cyan-400"></i> Localização Tática
-            </h3>
-            <p class="text-[11px] text-gray-400 mb-4 leading-tight">Obrigatório para entrar na escala. Sua posição será aferida pela cerca virtual de Itaquitinga.</p>
+    <!-- Modal Check-in GPS -->
+    <div id="checkin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-policedark border border-cyan-500 rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+            <h3 class="text-lg font-bold mb-2 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-location-crosshairs text-cyan-400 mr-2"></i>Bater Ponto (GPS)</h3>
+            <p class="text-xs text-gray-400 mb-4">Confirme sua chegada na Unidade (Raio de 2km).</p>
             <div class="space-y-3">
-                <input type="text" id="checkin-nome" class="input-active border-cyan-900 focus:border-cyan-500" placeholder="Nome de Guerra">
-                <input type="text" id="checkin-mat" class="input-active border-cyan-900 focus:border-cyan-500" placeholder="Matrícula">
+                <select id="checkin-grad" class="input-active bg-gray-800">
+                    <option value="">Graduação...</option>
+                    <option value="SD">SD</option><option value="CB">CB</option><option value="3º SGT">3º SGT</option><option value="2º SGT">2º SGT</option><option value="1º SGT">1º SGT</option><option value="SUB TEN">SUB TEN</option><option value="2º TEN">2º TEN</option><option value="1º TEN">1º TEN</option><option value="CAP">CAP</option><option value="MAJ">MAJ</option><option value="TC">TC</option><option value="CEL">CEL</option>
+                </select>
+                <input type="text" id="checkin-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'checkin-mat', 'checkin-grad')" class="input-active" placeholder="Nome de Guerra" autocomplete="off">
+                <input type="text" id="checkin-mat" class="input-active" placeholder="Matrícula">
             </div>
             <div class="flex justify-end gap-2 mt-6">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 text-white text-sm">Cancelar</button>
-                <button id="btn-submit-checkin" onclick="window.submitCheckin()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm flex items-center gap-2 shadow-[0_0_10px_rgba(6,182,212,0.5)]">
-                    <i class="fa-solid fa-satellite-dish"></i> Bater Ponto
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm">Cancelar</button>
+                <button id="btn-submit-checkin" onclick="window.submitCheckin()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow flex items-center gap-2">
+                    <i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Policial (Informar Serviço) -->
-    <div id="policial-modal" class="fixed inset-0 bg-black/80 flex items-start pt-4 sm:pt-10 justify-center z-50 hidden overflow-y-auto p-2">
-        <div class="bg-policedark border border-green-600 rounded-xl p-4 sm:p-6 w-full max-w-[500px] shadow-2xl mb-10">
-            <h3 class="text-lg sm:text-xl font-bold mb-1 text-white"><i class="fa-solid fa-clipboard-user text-green-400 mr-2"></i>Informar Serviço</h3>
+    <!-- Modal Informar Serviço (Sentinela / Efetivo) -->
+    <div id="policial-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-start pt-4 sm:pt-10 justify-center z-50 hidden overflow-y-auto p-2">
+        <div class="bg-policedark border border-green-500 rounded-xl p-4 sm:p-6 w-full max-w-lg shadow-2xl mb-10 relative">
+            <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 id="modal-pol-title" class="text-lg sm:text-xl font-bold mb-1 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-plus text-green-400 mr-2"></i>Informar Serviço</h3>
             
-            <div class="space-y-3 mt-4">
+            <div class="space-y-4 mt-4">
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">Função na Escala</label>
-                    <select id="pol-role" class="input-active" onchange="window.renderPolicialDynamic()">
+                    <label class="text-xs text-cyan-400 font-bold block mb-1 uppercase tracking-wider">Qual sua função?</label>
+                    <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800" onchange="window.renderPolicialDynamic()">
                         <option value="sentinelasQ1">Sentinela (1º Quarto)</option>
                         <option value="sentinelasQ2">Sentinela (2º Quarto)</option>
                         <option value="comandante">Comandante da Guarda</option>
@@ -176,62 +155,89 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gray-900/50 p-3 rounded border border-gray-700">
                     <div>
-                        <label class="text-xs text-gray-400 block mb-1">Graduação</label>
-                        <select id="pol-grad" class="input-active"></select>
+                        <label class="text-[10px] text-gray-400 block uppercase">Graduação</label>
+                        <select id="pol-grad" class="input-active bg-gray-800"></select>
                     </div>
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-1">Matrícula</label>
-                        <!-- Matrícula travada se preenchida pelo check-in -->
+                    <div class="sm:col-span-2 relative">
+                        <label class="text-[10px] text-gray-400 block uppercase">Nome Completo/Guerra</label>
+                        <!-- Autocompletar aqui -->
+                        <input type="text" id="pol-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-mat', 'pol-grad')" class="input-active bg-gray-800" placeholder="Digite o nome..." autocomplete="off">
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label class="text-[10px] text-gray-400 block uppercase">Matrícula</label>
                         <input type="text" id="pol-mat" class="input-active bg-gray-800" placeholder="Ex: 12345-6">
                     </div>
-                </div>
-                
-                <div>
-                    <label class="text-xs text-gray-400 block mb-1">Nome de Guerra</label>
-                    <!-- Nome travado se preenchido pelo check-in -->
-                    <input type="text" id="pol-nome" class="input-active bg-gray-800" placeholder="Nome...">
                 </div>
 
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">Situação</label>
-                    <select id="pol-status" class="input-active" onchange="window.checkPermutaUI()">
+                    <select id="pol-status" class="input-active bg-gray-800 font-bold" onchange="window.checkPermutaUI()">
                         <option value="ORDINÁRIO">ORDINÁRIO</option>
-                        <option value="PJES">PJES</option>
-                        <option value="PERMUTA">PERMUTA</option>
+                        <option value="PJES" class="text-blue-400">PJES</option>
+                        <option value="PERMUTA" class="text-yellow-400">PERMUTA</option>
                     </select>
                 </div>
 
-                <!-- Área Permuta -->
-                <div id="pol-permuta-area" class="hidden bg-yellow-900/30 p-3 rounded-lg border border-yellow-700 space-y-3">
-                    <h4 class="text-yellow-500 font-bold text-sm"><i class="fa-solid fa-arrow-right-arrow-left"></i> Substituído</h4>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="pol-subnome" class="input-active border-yellow-700 text-sm" placeholder="Nome quem sai">
-                        <input type="text" id="pol-submat" class="input-active border-yellow-700 text-sm" placeholder="Mat. quem sai">
+                <!-- Área Dinâmica: Permuta -->
+                <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-3 rounded-lg border border-yellow-700 space-y-3">
+                    <h4 class="text-yellow-500 font-bold text-sm"><i class="fa-solid fa-right-left"></i> Dados do Substituído (Quem sai)</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="text-[10px] text-yellow-500 block">Graduação</label>
+                            <select id="pol-subgrad" class="input-active border-yellow-800 bg-gray-900 text-yellow-100"></select>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="text-[10px] text-yellow-500 block">Nome</label>
+                            <input type="text" id="pol-subnome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-submat', 'pol-subgrad')" class="input-active border-yellow-800 bg-gray-900 text-yellow-100" placeholder="Quem está saindo..." autocomplete="off">
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label class="text-[10px] text-yellow-500 block">Matrícula</label>
+                            <input type="text" id="pol-submat" class="input-active border-yellow-800 bg-gray-900 text-yellow-100" placeholder="Matrícula de quem sai">
+                        </div>
                     </div>
-                    <div>
-                        <label class="text-xs text-yellow-500 block mb-1">Anexar Documento (PDF)</label>
-                        <input type="file" id="pol-pdf" accept="application/pdf" class="text-xs text-gray-400 w-full bg-gray-800 rounded p-1">
+                    
+                    <div class="pt-2 border-t border-yellow-800/50">
+                        <label class="text-[10px] text-yellow-500 block mb-1">Anexar Documento da Permuta (PDF ou Foto)</label>
+                        <div class="flex items-center gap-2">
+                            <label id="label-file-container" class="cursor-pointer bg-yellow-700 hover:bg-yellow-600 text-white px-3 py-2 rounded text-xs font-bold transition flex items-center justify-center gap-2 w-full text-center">
+                                <i class="fa-solid fa-paperclip"></i> <span id="label-file-text">Selecionar Arquivo</span>
+                                <input type="file" id="pol-pdf" accept="image/*,application/pdf" class="hidden" onchange="window.handleFileSelect(this)">
+                            </label>
+                        </div>
+                        <p id="file-helper-text" class="text-[10px] text-gray-400 mt-1 italic">O documento será salvo junto com as suas informações.</p>
                     </div>
                 </div>
 
-                <!-- Área Dinâmica: Postos -->
-                <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-lg border border-gray-700"></div>
+                <!-- Área Dinâmica: Postos de Sentinela -->
+                <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-lg border border-gray-700">
+                    <!-- Preenchido via JS -->
+                </div>
             </div>
             
             <div class="flex justify-end gap-2 mt-6 border-t border-gray-700 pt-4">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 text-white font-bold text-sm">Cancelar</button>
-                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-4 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-bold text-sm shadow flex items-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> Enviar
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm w-full sm:w-auto">Cancelar</button>
+                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-4 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-bold text-sm shadow flex justify-center items-center gap-2 w-full sm:w-auto">
+                    <i class="fa-solid fa-save"></i> Salvar na Escala
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Toast de Notificação -->
-    <div id="toast" class="fixed bottom-4 right-4 text-white px-4 py-3 rounded shadow-lg transition-opacity duration-300 opacity-0 pointer-events-none z-[80] flex items-center gap-3 font-bold">
-        <i id="toast-icon" class="fa-solid fa-check-circle text-xl"></i> <span id="toast-msg">Sucesso!</span>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-2 transform translate-y-[-20px]">
+        <i id="toast-icon" class="fa-solid fa-check-circle"></i> <span id="toast-msg" class="font-semibold text-sm"></span>
+    </div>
+
+    <!-- Modal Custom Alert -->
+    <div id="alert-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[250] hidden p-4">
+        <div class="bg-gray-900 border border-red-500 rounded-xl p-6 w-full max-w-sm text-center shadow-[0_0_30px_rgba(239,68,68,0.4)]">
+            <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4"></i>
+            <h3 id="alert-title" class="text-xl font-bold text-white mb-2">Atenção</h3>
+            <p id="alert-msg" class="text-gray-300 mb-6 text-sm"></p>
+            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded font-bold w-full">Ciente</button>
+        </div>
     </div>
 
     <script type="module">
@@ -240,7 +246,7 @@
         import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-        const firebaseConfig = {
+        let firebaseConfig = {
             apiKey: "AIzaSyCBvHgurMJzqgPv9_kb5XiWfTaTxjlGuhQ",
             authDomain: "escaladia-e86d7.firebaseapp.com",
             projectId: "escaladia-e86d7",
@@ -248,119 +254,107 @@
             messagingSenderId: "666578280957",
             appId: "1:666578280957:web:518ceae985d1de61d8b994"
         };
-        
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const storage = getStorage(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'escala-itaquitinga';
-
-        // --- DADOS DA CERCA VIRTUAL (GEOFENCING) ---
-        // Endereço: Itaquitinga - Unnamed Road, 55950-000
-        const PRESIDIO_LAT = -7.70579; 
-        const PRESIDIO_LNG = -35.03077;
-        const RAIO_PERMITIDO_METROS = 2000; // 2 km
+        const appId = 'escala-itaquitinga';
 
         const GRADUACOES = ['SD', 'CB', '3º SGT', '2º SGT', '1º SGT', 'SUB TEN', '2º TEN', '1º TEN', 'CAP', 'MAJ', 'TC', 'CEL'];
         const STATUS_OPCOES = ['ORDINÁRIO', 'PJES', 'PERMUTA'];
         const TURNOS_Q1 = [{ id: 't1', label: '08h-11h' }, { id: 't3', label: '14h-17h' }, { id: 't5', label: '20h-23h' }, { id: 't7', label: '02h-05h' }];
         const TURNOS_Q2 = [{ id: 't2', label: '11h-14h' }, { id: 't4', label: '17h-20h' }, { id: 't6', label: '23h-02h' }, { id: 't8', label: '05h-08h' }];
         
-        // Array local para armazenar comandantes criados
-        let commanders = [{ nome: 'Cmt Geral', user: 'admin', senha: '123' }];
-        
+        const PRESIDIO_LAT = -7.70579;
+        const PRESIDIO_LNG = -35.03077;
+        const RAIO_PERMITIDO_METROS = 2000; 
+
         let isEditMode = false;
-        let currentDate = new Date().toLocaleDateString('en-CA'); // Formato YYYY-MM-DD
+        let currentDate = new Date().toISOString().split('T')[0];
         let unsubscribeSnapshot = null;
-        let isOfflineMode = false;
+        let fileToUpload = null; 
         
         const defaultState = {
             status: 'draft',
             postosAtivos: ['Posto 2', 'Posto 3', 'Posto 6', 'Posto 7', 'Posto 8', 'Posto 9'],
             efetivoFixo: {
-                comandante: { nome: '', matricula: '', grad: '1º SGT', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' },
-                auxiliar: { nome: '', matricula: '', grad: 'CB', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' },
-                armeiro: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' },
-                rancheiro: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' },
-                motorista: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' },
-                operacoes: { nome: '', matricula: '', grad: '2º TEN', status: 'ORDINÁRIO', subNome: '', subMat: '', pdfUrl: '' }
+                comandante: { nome: '', matricula: '', grad: '1º SGT', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
+                auxiliar: { nome: '', matricula: '', grad: 'CB', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
+                armeiro: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
+                rancheiro: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
+                motorista: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
+                operacoes: { nome: '', matricula: '', grad: '2º TEN', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' }
             },
             sentinelasQ1: [], sentinelasQ2: [], checkins: []
         };
-
         let state = JSON.parse(JSON.stringify(defaultState));
+        let efetivoConhecido = []; // Lista para o Autocompletar
 
-        // Funções Utilitárias Globais
-        window.generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
 
-        window.showToast = (msg, type = "success") => {
+        function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
-            toast.className = `fixed bottom-4 right-4 text-white px-5 py-3 rounded shadow-lg transition-opacity duration-300 z-[80] flex items-center gap-3 font-bold ${type === 'warning' ? 'bg-orange-600' : (type === 'error' ? 'bg-red-600' : 'bg-green-600')}`;
-            document.getElementById('toast-icon').className = type === 'warning' ? 'fa-solid fa-triangle-exclamation' : (type === 'error' ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-check-circle');
+            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 z-[250] flex items-center gap-2 transform translate-y-0 ${type === 'warning' ? 'bg-yellow-600' : (type==='error'?'bg-red-600':'bg-green-600')}`;
+            document.getElementById('toast-icon').className = type === 'warning' ? 'fa-solid fa-triangle-exclamation' : (type==='error'?'fa-solid fa-xmark':'fa-solid fa-check-circle');
             document.getElementById('toast-msg').innerText = msg;
             toast.style.opacity = '1';
-            setTimeout(() => { toast.style.opacity = '0'; }, 4000);
-        };
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translate-y(-20px)'; }, 4000);
+        }
 
-        // Substitutos para Alert e Confirm Nativos
-        window.customAlert = (title, message, isError = false) => {
+        window.showAlert = (title, msg) => {
             document.getElementById('alert-title').innerText = title;
-            document.getElementById('alert-msg').innerHTML = message;
-            
-            const box = document.getElementById('alert-box');
-            const icon = document.getElementById('alert-icon');
-            
-            if(isError) {
-                box.className = "bg-gray-900 border-2 border-red-500 rounded-xl p-6 w-80 shadow-[0_0_20px_rgba(239,68,68,0.3)] text-center transform scale-100 transition-transform duration-200";
-                icon.className = "fa-solid fa-hand text-5xl text-red-500 mb-4";
-            } else {
-                box.className = "bg-gray-900 border-2 border-cyan-500 rounded-xl p-6 w-80 shadow-[0_0_20px_rgba(6,182,212,0.3)] text-center transform scale-100 transition-transform duration-200";
-                icon.className = "fa-solid fa-circle-exclamation text-5xl text-cyan-500 mb-4";
-            }
-            document.getElementById('custom-alert-modal').classList.remove('hidden');
+            document.getElementById('alert-msg').innerText = msg;
+            document.getElementById('alert-modal').classList.remove('hidden');
         };
 
-        let confirmCallback = null;
-        window.customConfirm = (msg, callback) => {
-            document.getElementById('confirm-msg').innerText = msg;
-            confirmCallback = callback;
-            document.getElementById('custom-confirm-modal').classList.remove('hidden');
-        };
-        
-        window.closeConfirm = () => {
-            document.getElementById('custom-confirm-modal').classList.add('hidden');
-            confirmCallback = null;
-        };
-        
-        document.getElementById('btn-confirm-action').addEventListener('click', () => {
-            if(confirmCallback) confirmCallback();
-            window.closeConfirm();
-        });
-
-        // Fórmula de Haversine (Matemática de Distância GPS)
         function calcularDistanciaGPS(lat1, lon1, lat2, lon2) {
-            const R = 6371e3; // Raio da Terra em metros
-            const p1 = lat1 * Math.PI/180;
-            const p2 = lat2 * Math.PI/180;
-            const dp = (lat2-lat1) * Math.PI/180;
-            const dl = (lon2-lon1) * Math.PI/180;
-
+            const R = 6371e3;
+            const p1 = lat1 * Math.PI/180, p2 = lat2 * Math.PI/180, dp = (lat2-lat1) * Math.PI/180, dl = (lon2-lon1) * Math.PI/180;
             const a = Math.sin(dp/2) * Math.sin(dp/2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl/2) * Math.sin(dl/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return Math.round(R * c); // Distância em metros
+            return Math.round(R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))); 
+        }
+
+        function extrairEfetivoMemoria() {
+            const temp = {};
+            const add = (p) => { if(p && p.nome && p.matricula) temp[p.matricula] = { nome: p.nome, matricula: p.matricula, grad: p.grad }; };
+            Object.values(state.efetivoFixo).forEach(add);
+            state.sentinelasQ1.forEach(add);
+            state.sentinelasQ2.forEach(add);
+            state.checkins.forEach(add);
+            efetivoConhecido = Object.values(temp);
+            
+            const dl = document.getElementById('efetivo-list');
+            dl.innerHTML = efetivoConhecido.map(p => `<option value="${p.nome}">${p.grad} - Mat: ${p.matricula}</option>`).join('');
+        }
+
+        window.handleNomeInput = (val, matId, gradId) => {
+            const found = efetivoConhecido.find(p => p.nome.toUpperCase() === val.toUpperCase());
+            if(found) {
+                document.getElementById(matId).value = found.matricula;
+                document.getElementById(gradId).value = found.grad;
+            }
+        };
+
+        async function saveCurrentState() {
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'escalas', currentDate);
+                await setDoc(docRef, state);
+                extrairEfetivoMemoria();
+            } catch(e) {
+                showToast("Modo Offline Ativado (Sem internet ou Firebase Bloqueado)", "warning");
+                localStorage.setItem(`escala_${currentDate}`, JSON.stringify(state));
+            }
         }
 
         async function listenToDate(dateStr) {
             currentDate = dateStr;
             document.getElementById('data-servico').value = currentDate;
-            document.getElementById('status-badge').innerText = "Atualizando...";
-            
+            document.getElementById('status-badge').innerText = "Carregando...";
             if (unsubscribeSnapshot) unsubscribeSnapshot();
 
             const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'escalas', currentDate);
-            
             unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
-                isOfflineMode = false;
                 if (docSnap.exists()) {
                     state = docSnap.data();
                     if(!state.sentinelasQ1) state.sentinelasQ1 = [];
@@ -369,82 +363,138 @@
                 } else {
                     state = JSON.parse(JSON.stringify(defaultState));
                 }
+                extrairEfetivoMemoria();
                 render();
             }, (error) => {
-                isOfflineMode = true;
-                console.warn("Modo Local Ativado. Motivo: O banco de dados negou permissão de leitura.");
-                window.showToast("Modo Offline Ativado", "warning");
-                
+                console.warn("DB Listener Off. Usando LocalStorage.");
                 const localData = localStorage.getItem(`escala_${currentDate}`);
-                if (localData) state = JSON.parse(localData);
-                else state = JSON.parse(JSON.stringify(defaultState));
+                state = localData ? JSON.parse(localData) : JSON.parse(JSON.stringify(defaultState));
+                extrairEfetivoMemoria();
                 render();
             });
         }
 
         window.changeDate = (val) => { if(val) listenToDate(val); };
 
-        async function saveCurrentState() {
-            try {
-                if (isOfflineMode) throw new Error("Modo offline ativo");
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'escalas', currentDate);
-                await setDoc(docRef, state);
-            } catch(e) {
-                if (e.code === 'permission-denied') isOfflineMode = true;
-                localStorage.setItem(`escala_${currentDate}`, JSON.stringify(state));
+        window.handleFileSelect = (input) => {
+            if(input.files && input.files.length > 0) {
+                fileToUpload = input.files[0];
+                const text = document.getElementById('label-file-text');
+                const container = document.getElementById('label-file-container');
+                
+                text.innerHTML = `📎 Anexado: ${fileToUpload.name.substring(0,15)}...`;
+                container.classList.remove('bg-yellow-700', 'hover:bg-yellow-600');
+                container.classList.add('bg-green-600', 'hover:bg-green-500');
+                
+                document.getElementById('file-helper-text').innerText = "Anexo pronto! Ele será enviado ao Salvar.";
+                document.getElementById('file-helper-text').classList.replace('text-gray-400', 'text-green-400');
+                showToast("Arquivo selecionado com sucesso!");
             }
+        };
+
+        async function processFileUpload(file, path) {
+            const fileRef = storageRef(storage, path);
+            await uploadBytes(fileRef, file);
+            // Pega o LINK DIRETO do Firebase Storage
+            const directUrl = await getDownloadURL(fileRef);
+            return directUrl;
         }
 
-        window.abrirModalServico = () => {
-            if(state.status === 'approved') {
-                window.customAlert("Escala Fechada", "Esta escala já foi aprovada pelo Comandante e não aceita mais alterações.", true);
-                return;
-            }
+        window.openCheckinModal = () => {
+            document.getElementById('checkin-grad').innerHTML = `<option value="">Graduação...</option>` + GRADUACOES.map(g=>`<option value="${g}">${g}</option>`).join('');
+            document.getElementById('checkin-nome').value = '';
+            document.getElementById('checkin-mat').value = '';
+            document.getElementById('checkin-modal').classList.remove('hidden');
+        };
 
-            // Verifica se fez Check-in (Exceto para Cmt Logado)
-            let checkinHj = null;
-            try { checkinHj = JSON.parse(localStorage.getItem('sessaoCheckin')); } catch(e){}
+        window.submitCheckin = () => {
+            const grad = document.getElementById('checkin-grad').value;
+            const nome = document.getElementById('checkin-nome').value.trim().toUpperCase();
+            const mat = document.getElementById('checkin-mat').value.trim();
+            
+            if(!grad || !nome || !mat) return showToast("Preencha Graduação, Nome e Matrícula!", "warning");
+            
+            const btn = document.getElementById('btn-submit-checkin');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando Satélite...';
+            btn.disabled = true;
 
-            const fezCheckinHoje = checkinHj && checkinHj.data === currentDate;
-
-            if (!isEditMode && !fezCheckinHoje) {
-                window.customAlert(
-                    "Acesso Bloqueado", 
-                    "<b>Você ainda não bateu o ponto!</b><br><br>Por medida de segurança, você só pode inserir seu serviço na escala após confirmar sua chegada através do botão <b>Check-in GPS</b>.",
-                    true
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const distancia = calcularDistanciaGPS(lat, lng, PRESIDIO_LAT, PRESIDIO_LNG);
+                        
+                        if (distancia > RAIO_PERMITIDO_METROS) {
+                            window.closeModals();
+                            window.showAlert("Fora do Perímetro", `O sistema detectou que você está a ${distancia} metros do presídio.\nO limite máximo é ${RAIO_PERMITIDO_METROS} metros.\n\nAproxime-se da unidade para bater o ponto.`);
+                        } else {
+                            const timestamp = new Date().toISOString();
+                            if(!state.checkins) state.checkins = [];
+                            state.checkins = state.checkins.filter(c => c.matricula !== mat);
+                            state.checkins.push({ id: generateId(), grad, nome, matricula: mat, lat, lng, timestamp });
+                            await saveCurrentState();
+                            window.closeModals();
+                            showToast(`Check-in Confirmado! Distância: ${distancia}m`);
+                            render();
+                        }
+                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                        btn.disabled = false;
+                    },
+                    (error) => {
+                        window.showAlert("Falha no GPS", "Erro ao obter localização. Verifique se o GPS está ativado e se você deu permissão ao site.");
+                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                        btn.disabled = false;
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                 );
-                return;
-            }
-
-            // Se chegou aqui, pode abrir
-            document.getElementById('pol-grad').innerHTML = GRADUACOES.map(g => `<option value="${g}">${g}</option>`).join('');
-            
-            const matInput = document.getElementById('pol-mat');
-            const nomeInput = document.getElementById('pol-nome');
-            
-            // Auto-preencher se tiver check-in
-            if (!isEditMode && fezCheckinHoje) {
-                matInput.value = checkinHj.mat;
-                nomeInput.value = checkinHj.nome;
-                matInput.disabled = true;
-                nomeInput.disabled = true;
             } else {
-                matInput.value = '';
-                nomeInput.value = '';
-                matInput.disabled = false;
-                nomeInput.disabled = false;
+                window.showAlert("Erro", "Navegador sem suporte a GPS.");
+                btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                btn.disabled = false;
+            }
+        };
+
+        window.openPolicialModal = () => {
+            if(state.status === 'approved') return window.showAlert("Escala Fechada", "A escala foi aprovada pelo Comandante e não pode mais ser alterada.");
+            
+            // Reseta Tudo
+            fileToUpload = null;
+            document.getElementById('pol-grad').innerHTML = GRADUACOES.map(g => `<option value="${g}">${g}</option>`).join('');
+            document.getElementById('pol-subgrad').innerHTML = GRADUACOES.map(g => `<option value="${g}">${g}</option>`).join('');
+            document.getElementById('pol-nome').value = '';
+            document.getElementById('pol-mat').value = '';
+            document.getElementById('pol-status').value = 'ORDINÁRIO';
+            document.getElementById('pol-subnome').value = '';
+            document.getElementById('pol-submat').value = '';
+            
+            const fileText = document.getElementById('label-file-text');
+            const fileContainer = document.getElementById('label-file-container');
+            fileText.innerHTML = 'Selecionar Arquivo';
+            fileContainer.classList.remove('bg-green-600', 'hover:bg-green-500');
+            fileContainer.classList.add('bg-yellow-700', 'hover:bg-yellow-600');
+            document.getElementById('file-helper-text').innerText = "O documento será salvo junto com as suas informações.";
+            document.getElementById('file-helper-text').classList.replace('text-green-400', 'text-gray-400');
+            
+            if(!isEditMode) {
+                const matPrompt = prompt("Digite sua MATRÍCULA para verificar o Check-in GPS:");
+                if(!matPrompt) return;
+                
+                const fezCheckin = state.checkins.find(c => c.matricula === matPrompt.trim());
+                if(!fezCheckin) return window.showAlert("Acesso Negado", "Você não realizou o Check-in GPS hoje.\nUse o botão no topo da tela para registrar sua chegada antes de informar o serviço.");
+                
+                // Preenche (e permite edição manual caso tenha errado no GPS)
+                document.getElementById('pol-nome').value = fezCheckin.nome;
+                document.getElementById('pol-mat').value = fezCheckin.matricula;
+                document.getElementById('pol-grad').value = fezCheckin.grad;
+                document.getElementById('modal-pol-title').innerHTML = '<i class="fa-solid fa-user-check text-green-400 mr-2"></i>Informar Serviço';
+            } else {
+                document.getElementById('modal-pol-title').innerHTML = '<i class="fa-solid fa-user-shield text-cyan-400 mr-2"></i>Inserir Policial (Cmt)';
             }
 
             document.getElementById('policial-modal').classList.remove('hidden');
             window.renderPolicialDynamic();
-        };
-
-        window.openCheckinModal = () => document.getElementById('checkin-modal').classList.remove('hidden');
-        
-        window.closeModals = () => {
-            document.getElementById('login-modal').classList.add('hidden');
-            document.getElementById('policial-modal').classList.add('hidden');
-            document.getElementById('checkin-modal').classList.add('hidden');
+            window.checkPermutaUI();
         };
 
         window.checkPermutaUI = () => {
@@ -457,12 +507,12 @@
             const area = document.getElementById('pol-dynamic-area');
             if (role.startsWith('sentinelas')) {
                 const turnos = role === 'sentinelasQ1' ? TURNOS_Q1 : TURNOS_Q2;
-                let html = '<label class="text-[11px] text-cyan-400 font-bold block mb-2 uppercase tracking-wide"><i class="fa-solid fa-map-pin"></i> Selecione seus postos:</label><div class="grid grid-cols-2 gap-2">';
+                let html = '<label class="text-xs text-cyan-400 font-bold block mb-2"><i class="fa-solid fa-map-pin"></i> Selecione seus postos no quarto de hora:</label><div class="grid grid-cols-2 gap-3">';
                 turnos.forEach((t, idx) => {
                     html += `
                         <div>
-                            <span class="text-[10px] bg-blue-900/50 text-cyan-400 px-1 py-0.5 rounded block w-max mb-1"><i class="fa-regular fa-clock"></i> ${t.label}</span>
-                            <select id="pol-posto-${idx}" class="input-active text-xs p-1.5">
+                            <label class="text-[10px] text-gray-400 block">${t.label}</label>
+                            <select id="pol-posto-${idx}" class="input-active bg-gray-900 border-gray-600 text-sm py-2">
                                 <option value="Folga">🛌 Folga</option>
                                 ${state.postosAtivos.map(p => `<option value="${p}">${p}</option>`).join('')}
                             </select>
@@ -473,119 +523,92 @@
                 area.innerHTML = html;
                 area.classList.remove('hidden');
             } else {
-                area.innerHTML = ''; area.classList.add('hidden');
+                area.innerHTML = '';
+                area.classList.add('hidden');
             }
-        };
-
-        window.submitCheckin = () => {
-            const nome = document.getElementById('checkin-nome').value.trim();
-            const mat = document.getElementById('checkin-mat').value.trim();
-            
-            if(!nome || !mat) return window.showToast("Preencha Nome e Matrícula!", "warning");
-            
-            const btn = document.getElementById('btn-submit-checkin');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Obtendo Satélites...';
-            btn.disabled = true;
-
-            if (!navigator.geolocation) {
-                window.customAlert("Dispositivo Incompatível", "Seu navegador não suporta leitura de GPS.", true);
-                btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Bater Ponto';
-                btn.disabled = false;
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    
-                    // Cálculo da Cerca Virtual
-                    const distancia = calcularDistanciaGPS(lat, lng, PRESIDIO_LAT, PRESIDIO_LNG);
-                    
-                    if (distancia > RAIO_PERMITIDO_METROS) {
-                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Bater Ponto';
-                        btn.disabled = false;
-                        window.customAlert(
-                            "Fora do Perímetro!", 
-                            `Você está a <b>${distancia} metros</b> de distância do Presídio de Itaquitinga.<br><br>Você precisa estar no máximo a ${RAIO_PERMITIDO_METROS}m da Guarda para bater o ponto.`, 
-                            true
-                        );
-                        return;
-                    }
-
-                    // Se passou na cerca:
-                    const timestamp = new Date().toISOString();
-                    if(!state.checkins) state.checkins = [];
-                    
-                    if(state.checkins.find(c => c.matricula === mat)) {
-                        window.showToast("Sua matrícula já registrou check-in hoje!", "warning");
-                        window.closeModals();
-                        return;
-                    }
-
-                    state.checkins.push({ id: window.generateId(), nome, matricula: mat, lat, lng, timestamp, dist: distancia });
-                    await saveCurrentState();
-                    
-                    // Salvar no dispositivo do policial que ele já bateu ponto hoje (para desbloquear cadastro)
-                    localStorage.setItem('sessaoCheckin', JSON.stringify({ mat: mat, nome: nome, data: currentDate }));
-                    
-                    window.closeModals();
-                    window.customAlert("Sucesso Operacional", `Check-in realizado com sucesso!<br><br>Você está a ${distancia}m da base. Agora você pode informar seu serviço.`);
-                    btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Bater Ponto';
-                    btn.disabled = false;
-                    document.getElementById('checkin-nome').value = '';
-                    document.getElementById('checkin-mat').value = '';
-                    render();
-                },
-                (error) => {
-                    btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Bater Ponto';
-                    btn.disabled = false;
-                    let motivo = "Ative a Localização do celular e tente novamente.";
-                    if(error.code === 1) motivo = "Você NEGOU a permissão de GPS para este site. Libere nas configurações do navegador.";
-                    if(error.message && error.message.includes("secure context")) motivo = "O GPS exige uma conexão segura (HTTPS). Acesse via link oficial.";
-                    
-                    window.customAlert("Falha de Sinal GPS", motivo, true);
-                },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-            );
         };
 
         window.submitPolicialData = async () => {
             const role = document.getElementById('pol-role').value;
             const grad = document.getElementById('pol-grad').value;
             const mat = document.getElementById('pol-mat').value.trim();
-            const nome = document.getElementById('pol-nome').value.trim();
+            const nome = document.getElementById('pol-nome').value.trim().toUpperCase();
             const status = document.getElementById('pol-status').value;
             
-            if(!mat || !nome) return window.showToast("Preencha Matrícula e Nome!", "warning");
+            if(!mat || !nome) return showToast("Preencha Matrícula e Nome!", "warning");
 
-            let subNome = '', subMat = '', pdfUrl = '';
+            let subNome = '', subMat = '', subGrad = 'SD', pdfUrl = '';
             
             if (status === 'PERMUTA') {
-                subNome = document.getElementById('pol-subnome').value;
+                subGrad = document.getElementById('pol-subgrad').value;
+                subNome = document.getElementById('pol-subnome').value.toUpperCase();
                 subMat = document.getElementById('pol-submat').value;
-                if(!subNome || !subMat) return window.showToast("Preencha quem está sendo substituído!", "warning");
+                
+                if(!subNome || !subMat) return showToast("Preencha quem está saindo na permuta!", "warning");
+                
+                if (fileToUpload) {
+                    const btn = document.getElementById('btn-submit-pol');
+                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Enviando Arquivo...`;
+                    btn.disabled = true;
+                    try {
+                        const fileName = `escalas_pdfs/${currentDate}/${Date.now()}_${mat}`;
+                        pdfUrl = await processFileUpload(fileToUpload, fileName);
+                    } catch (e) {
+                        btn.innerHTML = `<i class="fa-solid fa-save"></i> Salvar na Escala`;
+                        btn.disabled = false;
+                        return window.showAlert("Erro de Firebase", "O Firebase Storage bloqueou o arquivo.\nVocê precisa ir no painel do Firebase > Storage > Regras e mudar para 'allow read, write: if true;'");
+                    }
+                }
+            }
+
+            let p = ['Folga','Folga','Folga','Folga'];
+            if (role.startsWith('sentinelas')) {
+                p = [
+                    document.getElementById('pol-posto-0').value,
+                    document.getElementById('pol-posto-1').value,
+                    document.getElementById('pol-posto-2').value,
+                    document.getElementById('pol-posto-3').value
+                ];
+                
+                if(!isEditMode) {
+                    const postosUsados = p.filter(x => x !== 'Folga');
+                    const duplicados = postosUsados.filter((item, index) => postosUsados.indexOf(item) !== index);
+                    if(duplicados.length > 0) return window.showAlert("Bloqueio", "Você não pode escolher o mesmo posto duas vezes!\n(Apenas o Comandante tem permissão para repetir postos).");
+                    
+                    for(let i=0; i<4; i++) {
+                        if(p[i] !== 'Folga') {
+                            const choque = state[role].find(s => s.postos[i] === p[i]);
+                            if(choque) return window.showAlert("Choque de Posto", `O ${p[i]} já foi escolhido por ${choque.grad} ${choque.nome} neste horário.`);
+                        }
+                    }
+                }
             }
 
             if (role.startsWith('sentinelas')) {
-                const p0 = document.getElementById('pol-posto-0').value;
-                const p1 = document.getElementById('pol-posto-1').value;
-                const p2 = document.getElementById('pol-posto-2').value;
-                const p3 = document.getElementById('pol-posto-3').value;
-                state[role].push({ id: window.generateId(), grad, nome, matricula: mat, status, subNome, subMat, pdfUrl, postos: [p0, p1, p2, p3] });
+                state[role].push({ id: generateId(), grad, nome, matricula: mat, status, subNome, subMat, subGrad, pdfUrl, postos: p });
             } else {
-                state.efetivoFixo[role] = { grad, nome, matricula: mat, status, subNome, subMat, pdfUrl };
+                state.efetivoFixo[role] = { grad, nome, matricula: mat, status, subNome, subMat, subGrad, pdfUrl };
             }
 
             await saveCurrentState();
             window.closeModals();
-            window.showToast("Dados inseridos na escala!");
+            showToast("Policial adicionado com sucesso!");
+        };
+
+        window.closeModals = () => {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('policial-modal').classList.add('hidden');
+            document.getElementById('checkin-modal').classList.add('hidden');
         };
 
         window.toggleEditMode = () => {
             if (isEditMode) {
-                isEditMode = false; window.showToast("Modo Visualização Ativado"); render();
+                isEditMode = false; showToast("Modo Visualização"); render();
             } else {
+                document.getElementById('login-user-input').value = '';
+                document.getElementById('login-senha-input').value = '';
+                document.getElementById('login-nome-input').value = '';
+                document.getElementById('login-error').classList.add('hidden');
                 window.setLoginMode('login');
                 document.getElementById('login-modal').classList.remove('hidden');
             }
@@ -596,280 +619,294 @@
             loginMode = mode;
             document.getElementById('tab-login').className = mode === 'login' ? 'flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan' : 'flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500';
             document.getElementById('tab-register').className = mode === 'register' ? 'flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan' : 'flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500';
-            
             document.getElementById('login-nome-input').classList.toggle('hidden', mode === 'login');
-            // CORREÇÃO: Os nomes dos botões foram ajustados corretamente
             document.getElementById('btn-login-action').innerText = mode === 'login' ? 'Entrar' : 'Cadastrar';
-            document.getElementById('login-error').classList.add('hidden');
         };
 
         window.authenticate = async () => {
             const user = document.getElementById('login-user-input').value.trim().toLowerCase();
             const pass = document.getElementById('login-senha-input').value;
             const nome = document.getElementById('login-nome-input').value.trim();
-            const errorEl = document.getElementById('login-error');
+            const err = document.getElementById('login-error');
             
-            if(!user || !pass) { errorEl.innerText = "Preencha usuário e senha!"; errorEl.classList.remove('hidden'); return; }
-
-            // Lógica para cadastrar um novo comandante localmente
-            if (loginMode === 'register') {
-                if(!nome) { errorEl.innerText = "Preencha o Nome do Cmt!"; errorEl.classList.remove('hidden'); return; }
-                if(commanders.some(c => c.user === user)) { errorEl.innerText = "Usuário já existe!"; errorEl.classList.remove('hidden'); return; }
-                
-                commanders.push({ nome, user, senha: pass });
-                window.showToast("Comandante cadastrado!");
-                window.setLoginMode('login'); // Volta para a tela de login
-                document.getElementById('login-senha-input').value = ''; // Limpa a senha
-                return;
-            }
-
-            // Lógica de Login
-            const isValid = (user === 'admin' && pass === '123') || commanders.some(c => c.user === user && c.senha === pass);
+            if(!user || !pass) { err.innerText = "Preencha tudo!"; err.classList.remove('hidden'); return; }
+            if(user === 'admin' && pass === '123') { isEditMode = true; window.closeModals(); render(); return; } 
             
-            if(isValid) {
-                isEditMode = true; 
-                window.closeModals();
-                window.showToast(`Logado como Comandante!`); 
-                render();
-            } else {
-                errorEl.innerText = "Acesso Negado!";
-                errorEl.classList.remove('hidden');
+            try {
+                const cmdRef = collection(db, 'artifacts', appId, 'public', 'data', 'commanders');
+                if (loginMode === 'register') {
+                    if(!nome) { err.innerText = "Faltou a Grad. e Nome!"; err.classList.remove('hidden'); return; }
+                    await addDoc(cmdRef, { nome, user, senha: pass });
+                    showToast("Cadastrado com sucesso! Faça login.");
+                    window.setLoginMode('login');
+                } else {
+                    const snap = await getDocs(cmdRef);
+                    let found = null;
+                    snap.forEach(doc => { if(doc.data().user === user && doc.data().senha === pass) found = doc.data(); });
+                    if(found) {
+                        isEditMode = true; window.closeModals(); showToast(`Bem-vindo, Cmt ${found.nome}`); render();
+                    } else {
+                        err.innerText = "Credenciais incorretas!"; err.classList.remove('hidden');
+                    }
+                }
+            } catch(e) {
+                isEditMode = true; window.closeModals(); showToast("Login Forçado (Offline/Bloqueado)"); render();
             }
         };
 
-        window.approveScale = () => {
-            window.customConfirm("Aprovar e travar a escala definitivamente?", async () => {
-                state.status = 'approved';
-                await saveCurrentState();
-                window.showToast("Escala Aprovada!");
-                isEditMode = false;
-                render();
-            });
-        };
-
-        window.reopenScale = () => {
-            window.customConfirm("Reabrir edição? (Os policiais poderão inserir dados novamente)", async () => {
-                state.status = 'draft';
-                await saveCurrentState();
-                window.showToast("Escala reaberta.");
-                render();
-            });
-        };
-
-        window.removeSentinela = (qKey, id) => {
-            window.customConfirm("Excluir este policial da escala?", async () => {
+        window.approveScale = async () => { state.status = 'approved'; await saveCurrentState(); showToast("Escala Aprovada!"); isEditMode = false; render(); };
+        window.reopenScale = async () => { state.status = 'draft'; await saveCurrentState(); showToast("Escala Reaberta."); render(); };
+        
+        window.removeSentinela = async (qKey, id) => {
+            document.getElementById('alert-title').innerText = "Remover Policial";
+            document.getElementById('alert-msg').innerText = "Tem certeza que deseja apagar este policial da escala?";
+            document.getElementById('alert-modal').classList.remove('hidden');
+            document.querySelector('#alert-modal button').onclick = async () => {
                 state[qKey] = state[qKey].filter(s => s.id !== id);
                 await saveCurrentState();
-            });
+                document.getElementById('alert-modal').classList.add('hidden');
+            };
+        };
+        
+        window.updateEfetivo = (role, field, val) => { if(isEditMode) { state.efetivoFixo[role][field] = val; saveCurrentState(); } };
+        window.updateTurno = (qKey, id, slot, val, el) => {
+            if(!isEditMode) return;
+            const list = state[qKey];
+            if (val !== 'Folga') {
+                const conflict = list.find(s => s.id !== id && s.postos[slot] === val);
+                if (conflict) {
+                    showToast(`Choque! O ${val} já está com ${conflict.grad} ${conflict.nome}.`, "warning");
+                    el.value = list.find(s => s.id === id).postos[slot];
+                    return;
+                }
+            }
+            list.find(s => s.id === id).postos[slot] = val;
+            el.className = val === 'Folga' ? "input-active text-sm text-gray-500 text-center" : "input-active text-sm text-cyan-400 font-bold bg-cyan-900/20 border-cyan-800 text-center";
+            saveCurrentState();
         };
 
-        function renderRoleForm(roleKey, label, icon) {
-            const data = state.efetivoFixo[roleKey];
-            const isPermuta = data.status === 'PERMUTA';
-            const disableAttr = isEditMode && state.status === 'draft' ? '' : 'disabled';
-            const bgClass = disableAttr === '' ? 'input-active text-sm' : 'bg-transparent border-none text-gray-300 text-sm pl-0 w-full font-semibold';
+        window.generateWhatsAppReport = () => {
+            let r = `*ESCALA - PRESÍDIO ITAQUITINGA*\n📅 ${currentDate.split('-').reverse().join('/')}\nStatus: *${state.status==='approved'?'✅ APROVADA':'⏳ RASCUNHO'}*\n\n*🛡️ EFETIVO FIXO*\n`;
+            
+            const formatPol = (p) => {
+                let txt = `${p.grad} ${p.nome} (Mat: ${p.matricula})`;
+                if(p.status==='PERMUTA') {
+                    txt += `\n   ↳ 🔄 Substitui: ${p.subGrad} ${p.subNome} (Mat: ${p.subMat})`;
+                    if(p.pdfUrl) txt += `\n   ↳ 📎 Anexo PDF/Foto: ${p.pdfUrl}`;
+                } else if(p.status==='PJES') {
+                    txt += ` [PJES]`;
+                }
+                return txt;
+            };
 
-            let html = `
-                <div class="glass-panel p-3 sm:p-4 rounded-lg flex flex-col gap-2 transition">
-                    <h3 class="text-policegold font-bold uppercase text-xs sm:text-sm border-b border-gray-700 pb-1 flex items-center gap-2">
-                        <i class="${icon}"></i> ${label}
-                    </h3>
-                    <div class="flex flex-col sm:flex-row gap-2 w-full">
+            const fixos = [{k:'comandante',l:'Cmt'},{k:'auxiliar',l:'Aux'},{k:'operacoes',l:'Op'},{k:'armeiro',l:'Arm'},{k:'rancheiro',l:'Ran'},{k:'motorista',l:'Mot'}];
+            fixos.forEach(f => { const p = state.efetivoFixo[f.k]; if(p.nome) r += `- ${f.l}: ${formatPol(p)}\n`; });
+
+            const renderQ = (list, turnos) => {
+                list.forEach(s => {
+                    r += `\n👤 ${formatPol(s)}\n   ↳ ` + s.postos.map((p,i) => `${turnos[i].label.split('h')[0]}h: ${p==='Folga'?'🛌':p}`).join(' | ') + `\n`;
+                });
+            };
+
+            r += `\n*⏱️ 1º QUARTO*\n`; renderQ(state.sentinelasQ1, TURNOS_Q1);
+            r += `\n*⏱️ 2º QUARTO*\n`; renderQ(state.sentinelasQ2, TURNOS_Q2);
+            
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(r)}`, '_blank');
+        };
+
+        // Layouts UI (Tabelas Restauradas)
+        function getPdfBadgeHTML(url) {
+            if(!url) return '<span class="ml-2 text-[10px] text-gray-500 italic">(Sem Anexo)</span>';
+            return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap"><i class="fa-solid fa-link"></i> Abrir Anexo</a>`;
+        }
+
+        function renderRoleForm(roleKey, label, icon) {
+            const d = state.efetivoFixo[roleKey];
+            const isPermuta = d.status === 'PERMUTA';
+            const dis = isEditMode && state.status === 'draft' ? '' : 'disabled';
+            const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
+
+            let h = `<div class="glass-panel p-3 rounded-lg flex flex-col gap-2 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-policecyan"></div>
+                    <h3 class="text-policecyan font-bold uppercase text-xs mb-1 ml-2"><i class="${icon}"></i> ${label}</h3>
+                    <div class="flex flex-col sm:flex-row gap-2 ml-2">
                         <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-500 uppercase font-bold">Grad.</label>
-                            <select class="${bgClass}" ${disableAttr}>
-                                ${GRADUACOES.map(g => `<option value="${g}" ${data.grad === g ? 'selected' : ''}>${g}</option>`).join('')}
+                            <label class="text-[9px] text-gray-400 block uppercase">Grad.</label>
+                            <select onchange="window.updateEfetivo('${roleKey}','grad',this.value)" class="${inClass}" ${dis}>
+                                ${GRADUACOES.map(g => `<option value="${g}" ${d.grad===g?'selected':''}>${g}</option>`).join('')}
                             </select>
                         </div>
-                        <div class="w-full sm:w-2/4 border-t border-gray-800 sm:border-0 pt-1 sm:pt-0">
-                            <label class="text-[9px] text-gray-500 uppercase font-bold">Nome / Guerra</label>
-                            <input type="text" value="${data.nome}" class="${bgClass}" placeholder="-" ${disableAttr}>
+                        <div class="w-full sm:w-2/4">
+                            <label class="text-[9px] text-gray-400 block uppercase">Nome Completo</label>
+                            <input type="text" value="${d.nome}" onchange="window.updateEfetivo('${roleKey}','nome',this.value)" list="efetivo-list" class="${inClass}" placeholder="-" ${dis}>
                         </div>
-                        <div class="w-full sm:w-1/4 border-t border-gray-800 sm:border-0 pt-1 sm:pt-0">
-                            <label class="text-[9px] text-gray-500 uppercase font-bold">Situação</label>
-                            <select class="${bgClass} ${isPermuta ? 'text-yellow-400' : ''}" ${disableAttr}>
-                                ${STATUS_OPCOES.map(s => `<option value="${s}" ${data.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                        <div class="w-full sm:w-1/4">
+                            <label class="text-[9px] text-gray-400 block uppercase">Situação</label>
+                            <select onchange="window.updateEfetivo('${roleKey}','status',this.value)" class="${inClass} ${isPermuta?'text-yellow-400':(d.status==='PJES'?'text-blue-400':'')}" ${dis}>
+                                ${STATUS_OPCOES.map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
                             </select>
                         </div>
                     </div>`;
-            if (isPermuta) {
-                html += `<div class="mt-2 bg-yellow-900/30 p-2 rounded text-xs border border-yellow-800"><span class="text-yellow-500">Subst: ${data.subNome}</span></div>`;
+            if(isPermuta) {
+                h += `<div class="flex items-center gap-2 mt-1 ml-2 bg-yellow-900/20 p-2 rounded border border-yellow-700/50 text-[10px]">
+                        <i class="fa-solid fa-arrow-turn-up fa-rotate-90 text-yellow-500"></i> <span class="text-yellow-500">Subst:</span>
+                        <input type="text" value="${d.subGrad} ${d.subNome}" class="${inClass} w-32 text-yellow-300 py-0" ${dis}>
+                        <span class="text-yellow-500">Mat:</span> <input type="text" value="${d.subMat}" class="${inClass} w-20 text-yellow-300 py-0" ${dis}>
+                        ${getPdfBadgeHTML(d.pdfUrl)}
+                    </div>`;
             }
-            html += `</div>`;
-            return html;
+            return h + `</div>`;
         }
 
-        function renderQuartoTable(quartoKey, title, icon, horarios) {
-            const list = state[quartoKey];
-            const disableAttr = isEditMode && state.status === 'draft' ? '' : 'disabled';
-            const bgClass = disableAttr === '' ? 'input-active text-xs' : 'bg-transparent border-none text-gray-300 text-xs pl-0';
+        function renderQuartoTable(qKey, title, icon, horarios) {
+            const list = state[qKey];
+            const dis = isEditMode && state.status === 'draft' ? '' : 'disabled';
+            const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
 
-            // Criação das "Badges" (Etiquetas) de horário
-            const badgesHtml = horarios.map(t => 
-                `<th class="p-2 w-24 text-center border-l border-gray-700">
-                    <div class="bg-blue-900/40 text-cyan-400 border border-cyan-800 rounded px-1 py-1 text-[10px] sm:text-xs font-bold whitespace-nowrap">
-                        <i class="fa-regular fa-clock"></i> ${t.label}
+            let h = `<div class="glass-panel p-4 rounded-lg mb-6 border-l-4 border-l-blue-500">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-2 mb-3">
+                        <h3 class="text-white font-bold text-lg"><i class="${icon} text-blue-400 mr-2"></i>${title}</h3>
                     </div>
-                </th>`
-            ).join('');
-
-            let html = `
-                <div class="glass-panel rounded-lg mb-6 border-l-4 border-l-cyan-500 overflow-hidden">
-                    <div class="bg-gray-800/60 p-3 border-b border-gray-700 flex justify-between items-center">
-                        <h3 class="text-white font-bold text-sm sm:text-base"><i class="${icon} text-cyan-400 mr-2"></i>${title}</h3>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[700px]">
+                    <div class="overflow-x-auto pb-2">
+                        <table class="w-full text-left border-collapse whitespace-nowrap min-w-[850px]">
                             <thead>
-                                <tr class="bg-gray-900/80 text-gray-400 text-[10px] uppercase border-b border-gray-700">
-                                    <th class="p-2 w-8 text-center">#</th>
-                                    <th class="p-2 w-48">Policial</th>
+                                <tr class="bg-gray-800 text-gray-400 text-[10px] uppercase border-b border-gray-700">
+                                    <th class="p-2 w-10 text-center">#</th>
+                                    <th class="p-2 w-20">Grad.</th>
+                                    <th class="p-2 w-48">Nome / Matrícula</th>
                                     <th class="p-2 w-24">Situação</th>
-                                    ${badgesHtml}
-                                    ${disableAttr === '' ? `<th class="p-2 w-10"></th>` : ''}
+                                    ${horarios.map(t => `<th class="p-2 w-24 text-center border-l border-gray-700 text-policecyan"><i class="fa-regular fa-clock"></i> ${t.label}</th>`).join('')}
+                                    ${dis===''?`<th class="p-2 w-10"></th>`:''}
                                 </tr>
                             </thead>
-                            <tbody class="text-sm">
-            `;
+                            <tbody class="text-sm">`;
             
-            if(list.length === 0) html += `<tr><td colspan="8" class="p-4 text-center text-gray-500 text-xs italic">Nenhum guerreiro inserido neste quarto ainda.</td></tr>`;
+            if(list.length === 0) h += `<tr><td colspan="9" class="p-4 text-center text-gray-500 italic">Nenhum sentinela informado.</td></tr>`;
 
-            list.forEach((sent, index) => {
-                html += `<tr class="border-b border-gray-800 hover:bg-gray-800/40 transition">
-                    <td class="p-2 text-center text-gray-600 font-mono text-xs">${index + 1}</td>
-                    <td class="p-2">
-                        <div class="font-bold text-white text-xs sm:text-sm">${sent.grad} ${sent.nome}</div>
-                        <div class="text-[10px] text-gray-500 font-mono mt-0.5">Mat: ${sent.matricula}</div>
+            list.forEach((s, idx) => {
+                const isPermuta = s.status === 'PERMUTA';
+                h += `<tr class="border-b border-gray-800 hover:bg-gray-800/40">
+                    <td class="p-2 text-center text-gray-500 font-mono">${idx+1}</td>
+                    <td class="p-2"><select class="${inClass}" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.grad===g?'selected':''}>${g}</option>`).join('')}</select></td>
+                    <td class="p-2"><input type="text" value="${s.nome}" class="${inClass} font-bold text-white mb-1" ${dis}>
+                        <div class="flex items-center gap-1 text-[10px] text-gray-400">Mat: <input type="text" value="${s.matricula}" class="${inClass} py-0 w-24 text-blue-300" ${dis}></div>
                     </td>
-                    <td class="p-2">
-                        <span class="text-[10px] px-2 py-1 rounded font-bold ${sent.status === 'PERMUTA' ? 'bg-yellow-900/50 text-yellow-500' : 'bg-gray-800 text-gray-400'}">${sent.status}</span>
-                    </td>`;
+                    <td class="p-2"><select class="${inClass} ${isPermuta?'text-yellow-400':(s.status==='PJES'?'text-blue-400':'')}" ${dis}>${STATUS_OPCOES.map(op=>`<option value="${op}" ${s.status===op?'selected':''}>${op}</option>`).join('')}</select></td>`;
 
-                sent.postos.forEach((postoAtual, slotIndex) => {
-                    const isFolga = postoAtual === 'Folga' || postoAtual === '';
-                    const selectStyle = isFolga ? (disableAttr === '' ? 'text-gray-500' : 'text-gray-600') : 'text-cyan-400 font-bold bg-cyan-900/20 shadow-[inset_0_0_5px_rgba(6,182,212,0.2)]';
-                    html += `<td class="p-2 border-l border-gray-800 bg-gray-900/20">
-                        <select onchange="window.updateTurno('${quartoKey}', '${sent.id}', ${slotIndex}, this.value, this)" class="${bgClass} ${selectStyle} w-full text-center" ${disableAttr}>
-                            <option value="Folga">🛌 Folga</option>
-                            ${state.postosAtivos.map(p => `<option value="${p}" ${postoAtual === p ? 'selected' : ''}>${p}</option>`).join('')}
+                s.postos.forEach((posto, slotIndex) => {
+                    const isFolga = posto === 'Folga' || posto === '';
+                    const selectBg = isFolga ? (dis===''?'text-gray-400':'text-gray-500') : 'text-cyan-400 font-bold bg-cyan-900/20 border-cyan-800';
+                    h += `<td class="p-2 border-l border-gray-800 bg-gray-900/30 text-center">
+                        <select onchange="window.updateTurno('${qKey}','${s.id}',${slotIndex},this.value,this)" class="${inClass} ${selectBg} text-center" ${dis}>
+                            <option value="Folga" class="text-gray-500">🛌 Folga</option>
+                            ${state.postosAtivos.map(p => `<option value="${p}" ${posto===p?'selected':''}>${p}</option>`).join('')}
                         </select>
                     </td>`;
                 });
 
-                if (disableAttr === '') {
-                    html += `<td class="p-2 text-center"><button onclick="window.removeSentinela('${quartoKey}', '${sent.id}')" class="text-red-500 hover:text-red-400 bg-red-900/30 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button></td>`;
+                if(dis==='') h += `<td class="p-2 text-center"><button onclick="window.removeSentinela('${qKey}','${s.id}')" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>`;
+                h += `</tr>`;
+
+                if(isPermuta) {
+                    h += `<tr class="bg-yellow-900/10 border-b border-gray-800">
+                        <td colspan="4" class="p-2 text-right text-[10px] text-yellow-500 pr-4"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Subst:</td>
+                        <td colspan="2" class="p-2"><div class="flex gap-2 text-xs"><input type="text" value="${s.subGrad} ${s.subNome}" class="${inClass} w-full text-yellow-300 py-0" ${dis}></div></td>
+                        <td colspan="2" class="p-2"><div class="flex items-center gap-2 text-xs"><span class="text-yellow-500">Mat:</span><input type="text" value="${s.subMat}" class="${inClass} w-24 text-yellow-300 py-0" ${dis}> ${getPdfBadgeHTML(s.pdfUrl)}</div></td>
+                        ${dis===''?`<td></td>`:''}
+                    </tr>`;
                 }
-                html += `</tr>`;
             });
-            html += `</tbody></table></div></div>`;
-            return html;
+            h += `</tbody></table></div></div>`;
+            return h;
         }
 
         function renderCheckins() {
-            if (!state.checkins || state.checkins.length === 0) return '';
-            const sorted = [...state.checkins].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-            
-            let html = `
-                <div class="glass-panel rounded-lg mb-6 border-t-4 border-t-purple-500 overflow-hidden mt-8 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                    <div class="bg-gray-800/60 p-3 border-b border-gray-700">
-                        <h3 class="text-white font-bold text-sm sm:text-base"><i class="fa-solid fa-ranking-star text-purple-400 mr-2"></i>Histórico de Chegada GPS</h3>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[500px]">
-                            <thead>
-                                <tr class="bg-gray-900/80 text-gray-400 text-[10px] uppercase border-b border-gray-700">
-                                    <th class="p-2 w-12 text-center">#</th>
-                                    <th class="p-2">Policial</th>
-                                    <th class="p-2 text-center">Hora</th>
-                                    <th class="p-2 text-center">Distância</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-xs sm:text-sm">
-            `;
-            
-            sorted.forEach((c, index) => {
-                const timeStr = new Date(c.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                const icon = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : `<span class="text-gray-600">${index + 1}</span>`));
-                             
-                html += `
-                    <tr class="border-b border-gray-800 hover:bg-gray-800/40">
-                        <td class="p-2 text-center text-lg">${icon}</td>
-                        <td class="p-2"><span class="font-bold text-white">${c.nome}</span> <span class="text-[10px] text-gray-500 block">Mat: ${c.matricula}</span></td>
-                        <td class="p-2 text-center text-purple-400 font-mono font-bold">${timeStr}</td>
-                        <td class="p-2 text-center text-[10px] text-gray-400">📍 ${c.dist}m</td>
-                    </tr>
-                `;
+            if(!state.checkins.length) return '';
+            let h = `<div class="glass-panel p-4 rounded-lg mb-6 border-t-4 border-t-cyan-500 mt-6"><h3 class="text-white font-bold text-lg mb-4"><i class="fa-solid fa-satellite text-cyan-400 mr-2"></i>Histórico GPS</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm whitespace-nowrap min-w-[500px]"><thead class="text-gray-400 border-b border-gray-700 text-[10px] uppercase"><th class="p-2">Ordem</th><th class="p-2">Policial</th><th class="p-2 text-right">Chegada</th></thead><tbody>`;
+            [...state.checkins].sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp)).forEach((c, i) => {
+                const time = new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+                const medal = i===0?'🥇':(i===1?'🥈':(i===2?'🥉':i+1+'º'));
+                h += `<tr class="border-b border-gray-800"><td class="p-2 text-center text-xl">${medal}</td><td class="p-2 text-white font-bold">${c.grad} ${c.nome} <span class="text-[10px] text-gray-500 block">Mat: ${c.matricula}</span></td><td class="p-2 text-right text-cyan-400 font-mono">${time}</td></tr>`;
             });
-            html += `</tbody></table></div></div>`;
-            return html;
+            return h + `</tbody></table></div></div>`;
         }
 
-        window.render = () => {
+        function render() {
             const badge = document.getElementById('status-badge');
+            const btnPol = document.getElementById('btn-policial');
+            const btnTog = document.getElementById('btn-toggle-mode');
             
             if (state.status === 'approved') {
-                badge.className = "px-3 py-1 rounded font-bold text-[10px] sm:text-xs uppercase tracking-wider bg-green-900/80 text-green-400 border border-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]";
-                badge.innerHTML = '<i class="fa-solid fa-lock"></i> Escala Fechada';
+                badge.className = "px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-green-700 text-white shadow-[0_0_10px_rgba(22,163,74,0.5)]";
+                badge.innerHTML = '<i class="fa-solid fa-lock"></i> Aprovada';
+                btnPol.classList.add('hidden');
             } else {
-                badge.className = "px-3 py-1 rounded font-bold text-[10px] sm:text-xs uppercase tracking-wider bg-yellow-900/80 text-yellow-400 border border-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]";
-                badge.innerHTML = '<i class="fa-solid fa-pen-nib"></i> Rascunho / Aberta';
+                badge.className = "px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-600 text-white shadow-[0_0_10px_rgba(202,138,4,0.5)]";
+                badge.innerHTML = '<i class="fa-solid fa-pen"></i> Rascunho';
+                btnPol.classList.remove('hidden');
             }
 
-            let mainHtml = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            if (isEditMode) {
+                btnTog.innerHTML = '<i class="fa-solid fa-eye"></i> Sair do Modo Cmt';
+                btnPol.innerHTML = '<i class="fa-solid fa-user-shield"></i> Inserir Policial';
+                btnPol.className = "btn-neon bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded font-bold flex flex-1 sm:flex-none justify-center items-center gap-2";
+            } else {
+                btnTog.innerHTML = '<i class="fa-solid fa-star"></i> Cmt Guarda';
+                btnPol.innerHTML = '<i class="fa-solid fa-user-plus"></i> Informar Serviço';
+                btnPol.className = "btn-neon bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded font-bold flex flex-1 sm:flex-none justify-center items-center gap-2";
+            }
+
+            document.getElementById('main-content').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     ${renderRoleForm('comandante', 'Cmt Guarda', 'fa-solid fa-star')}
-                    ${renderRoleForm('auxiliar', 'Auxiliar Cmt', 'fa-solid fa-star-half-stroke')}
+                    ${renderRoleForm('auxiliar', 'Auxiliar', 'fa-solid fa-star-half-stroke')}
                     ${renderRoleForm('operacoes', 'Operações', 'fa-solid fa-bolt')}
                     ${renderRoleForm('armeiro', 'Armeiro', 'fa-solid fa-gun')}
                     ${renderRoleForm('rancheiro', 'Rancheiro', 'fa-solid fa-utensils')}
-                    ${renderRoleForm('motorista', 'Motorista', 'fa-solid fa-car')}
+                    ${renderRoleForm('motorista', 'Motorista', 'fa-solid fa-car-side')}
                 </div>
-                
                 ${renderQuartoTable('sentinelasQ1', '1º Quarto', 'fa-solid fa-sun', TURNOS_Q1)}
                 ${renderQuartoTable('sentinelasQ2', '2º Quarto', 'fa-solid fa-moon', TURNOS_Q2)}
-                
                 ${renderCheckins()}
 
-                <div class="flex justify-center mb-10 mt-6 gap-3 flex-wrap">
+                <div class="flex flex-wrap justify-center mb-10 mt-8 gap-4 px-2">
+                    ${isEditMode ? `
+                        <button onclick="window.generateWhatsAppReport()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-4 rounded-xl font-bold shadow-[0_0_15px_rgba(22,163,74,0.5)] flex items-center justify-center gap-2 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-green-400">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar p/ WhatsApp
+                        </button>
+                    ` : ''}
                     ${isEditMode && state.status === 'draft' ? `
-                        <button onclick="window.approveScale()" class="bg-green-700 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold shadow-[0_0_15px_rgba(34,197,94,0.4)] border-2 border-green-500 transition w-full sm:w-auto">
-                            <i class="fa-solid fa-lock text-xl mr-2"></i> APROVAR ESCALA
+                        <button onclick="window.approveScale()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-xl font-bold shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center justify-center gap-2 w-full sm:w-auto transition border border-blue-400">
+                            <i class="fa-solid fa-lock"></i> Aprovar Escala
                         </button>
                     ` : ''}
                     ${isEditMode && state.status === 'approved' ? `
-                        <button onclick="window.reopenScale()" class="bg-yellow-700 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-bold shadow-[0_0_15px_rgba(234,179,8,0.4)] border-2 border-yellow-500 transition w-full sm:w-auto">
-                            <i class="fa-solid fa-unlock text-xl mr-2"></i> REABRIR (DESFAZER)
+                        <button onclick="window.reopenScale()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-2 w-full sm:w-auto transition border border-yellow-400">
+                            <i class="fa-solid fa-unlock"></i> Reabrir Edição
                         </button>
                     ` : ''}
                 </div>
             `;
-            document.getElementById('main-content').innerHTML = mainHtml;
-        };
-        
-        window.initBackground = () => {
+        }
+
+        window.onload = async () => {
             const bg = document.getElementById('matrix-bg');
-            if(!bg) return;
-            const emojis = ['🚔', '🚁', '👮', '🛡️', '🚨', '🔫', '⚖️'];
+            const emojis = ['🚔','🚁','👮','🛡️','🚨'];
             setInterval(() => {
                 const item = document.createElement('div');
                 item.className = 'falling-item';
                 item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
                 item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = (Math.random() * 5 + 4) + 's';
-                item.style.opacity = Math.random() * 0.5 + 0.1;
+                item.style.animationDuration = (Math.random() * 3 + 3) + 's';
                 bg.appendChild(item);
-                setTimeout(() => item.remove(), 9000);
-            }, 500);
-        };
-
-        window.onload = async () => {
-            window.initBackground();
+                setTimeout(() => item.remove(), 6000);
+            }, 300);
+            
             try {
-                // Tentativa de Auth anônima silenciosa
                 await signInAnonymously(auth);
-                listenToDate(currentDate); 
-            } catch (error) {
-                console.warn("Sem Firebase, rodando apenas LocalStorage");
+                listenToDate(currentDate);
+            } catch (e) {
+                console.warn("Auth falhou, indo offline.");
                 listenToDate(currentDate);
             }
         };

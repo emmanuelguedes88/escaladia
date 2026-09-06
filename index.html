@@ -65,21 +65,23 @@
             <div class="flex justify-center mb-2"><i class="fa-solid fa-shield-halved text-4xl text-policecyan" style="filter: drop-shadow(0 0 10px #06b6d4);"></i></div>
             <h1 class="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-white mb-4">Escala do Dia</h1>
             
-            <div class="flex flex-col md:flex-row justify-center items-center gap-3 text-sm bg-gray-900/80 p-3 rounded-lg border border-gray-700 w-full max-w-4xl mx-auto flex-wrap">
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
-                    <span class="text-gray-400 font-bold"><i class="fa-regular fa-calendar-days mr-1"></i> Data:</span>
-                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-1 rounded w-auto" onchange="window.changeDate(this.value)">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-3 text-sm bg-gray-900/80 p-3 rounded-lg border border-gray-700 w-full max-w-5xl mx-auto flex-wrap shadow-inner">
+                <div class="flex flex-wrap items-center gap-2 justify-center">
+                    <span class="text-gray-400 font-bold whitespace-nowrap"><i class="fa-regular fa-calendar-days mr-1"></i> Data:</span>
+                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-1 rounded-md w-auto cursor-pointer" onchange="window.changeDate(this.value)">
                 </div>
-                <div id="status-badge" class="px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-gray-600 text-white w-full sm:w-auto text-center">Carregando...</div>
                 
-                <div class="flex flex-wrap justify-center gap-2 w-full md:w-auto md:ml-4 md:border-l md:border-gray-600 md:pl-4">
-                    <button id="btn-checkin" onclick="window.openCheckinModal()" class="btn-neon bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded font-bold transition shadow-[0_0_10px_rgba(6,182,212,0.5)] border border-cyan-400 flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                <div id="status-badge" class="px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-gray-600 text-white whitespace-nowrap shadow-sm">Carregando...</div>
+                
+                <!-- Botões Arredondados e Modernos -->
+                <div class="flex flex-row flex-wrap justify-center items-center gap-2 w-full md:w-auto md:ml-4 md:border-l md:border-gray-700 md:pl-4">
+                    <button id="btn-checkin" onclick="window.openCheckinModal()" class="btn-neon bg-cyan-900/80 hover:bg-cyan-700 text-cyan-50 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition shadow-[0_0_10px_rgba(6,182,212,0.3)] border border-cyan-500/50 flex items-center gap-2 whitespace-nowrap">
                         <i class="fa-solid fa-location-crosshairs"></i> Check-in GPS
                     </button>
-                    <button id="btn-policial" onclick="window.openPolicialModal()" class="btn-neon bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded font-bold transition border border-green-500 flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                    <button id="btn-policial" onclick="window.openPolicialModal()" class="btn-neon bg-green-900/80 hover:bg-green-700 text-green-50 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition shadow-[0_0_10px_rgba(34,197,94,0.3)] border border-green-500/50 flex items-center gap-2 whitespace-nowrap">
                         <i class="fa-solid fa-user-plus"></i> Informar Serviço
                     </button>
-                    <button id="btn-toggle-mode" onclick="window.toggleEditMode()" class="btn-neon bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 py-2 rounded font-bold transition border border-gray-500 flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                    <button id="btn-toggle-mode" onclick="window.toggleEditMode()" class="btn-neon bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-gray-600 flex items-center gap-2 whitespace-nowrap">
                         <i class="fa-solid fa-star"></i> Cmt Guarda
                     </button>
                 </div>
@@ -100,13 +102,13 @@
                 <button onclick="window.setLoginMode('register')" id="tab-register" class="flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500">Cadastrar</button>
             </div>
             <div class="space-y-3">
-                <input type="text" id="login-nome-input" class="input-active hidden" placeholder="Graduação e Nome (Ex: 1º SGT Guedes)">
-                <input type="text" id="login-user-input" class="input-active" placeholder="Usuário (Matrícula sem dígito)">
-                <input type="password" id="login-senha-input" class="input-active" placeholder="Senha">
+                <input type="text" id="login-nome-input" class="input-active hidden text-sm" placeholder="Grad. e Nome (Ex: CB Silva)">
+                <input type="text" id="login-user-input" class="input-active text-sm" placeholder="Usuário (Sua Matrícula)">
+                <input type="password" id="login-senha-input" class="input-active text-sm" placeholder="Senha">
             </div>
             <div class="flex justify-end gap-2 mt-6">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm">Cancelar</button>
-                <button id="btn-login-action" onclick="window.authenticate()" class="px-4 py-2 rounded bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm">Entrar</button>
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-sm transition">Cancelar</button>
+                <button id="btn-login-action" onclick="window.authenticate()" class="px-5 py-2 rounded-full bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm transition shadow-lg">Entrar</button>
             </div>
             <p id="login-error" class="text-red-400 text-xs mt-2 hidden text-center font-bold"></p>
         </div>
@@ -118,17 +120,17 @@
             <h3 class="text-lg font-bold mb-2 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-location-crosshairs text-cyan-400 mr-2"></i>Bater Ponto (GPS)</h3>
             <p class="text-xs text-gray-400 mb-4">Confirme sua chegada na Unidade (Raio de 2km).</p>
             <div class="space-y-3">
-                <select id="checkin-grad" class="input-active bg-gray-800">
+                <select id="checkin-grad" class="input-active bg-gray-800 text-sm">
                     <option value="">Graduação...</option>
                     <option value="SD">SD</option><option value="CB">CB</option><option value="3º SGT">3º SGT</option><option value="2º SGT">2º SGT</option><option value="1º SGT">1º SGT</option><option value="SUB TEN">SUB TEN</option><option value="2º TEN">2º TEN</option><option value="1º TEN">1º TEN</option><option value="CAP">CAP</option><option value="MAJ">MAJ</option><option value="TC">TC</option><option value="CEL">CEL</option>
                 </select>
-                <input type="text" id="checkin-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'checkin-mat', 'checkin-grad')" class="input-active" placeholder="Nome de Guerra" autocomplete="off">
-                <input type="text" id="checkin-mat" class="input-active" placeholder="Matrícula">
+                <input type="text" id="checkin-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'checkin-mat', 'checkin-grad')" class="input-active text-sm" placeholder="Nome de Guerra" autocomplete="off">
+                <input type="text" id="checkin-mat" class="input-active text-sm" placeholder="Matrícula (Sem dígito)">
             </div>
             <div class="flex justify-end gap-2 mt-6">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm">Cancelar</button>
-                <button id="btn-submit-checkin" onclick="window.submitCheckin()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow flex items-center gap-2">
-                    <i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-sm transition">Cancelar</button>
+                <button id="btn-submit-checkin" onclick="window.submitCheckin()" class="px-4 py-2 rounded-full bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-sm shadow flex items-center gap-2 transition">
+                    <i class="fa-solid fa-satellite-dish"></i> Confirmar
                 </button>
             </div>
         </div>
@@ -137,13 +139,13 @@
     <!-- Modal Informar Serviço (Sentinela / Efetivo) -->
     <div id="policial-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-start pt-4 sm:pt-10 justify-center z-50 hidden overflow-y-auto p-2">
         <div class="bg-policedark border border-green-500 rounded-xl p-4 sm:p-6 w-full max-w-lg shadow-2xl mb-10 relative">
-            <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             <h3 id="modal-pol-title" class="text-lg sm:text-xl font-bold mb-1 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-plus text-green-400 mr-2"></i>Informar Serviço</h3>
             
             <div class="space-y-4 mt-4">
                 <div>
                     <label class="text-xs text-cyan-400 font-bold block mb-1 uppercase tracking-wider">Qual sua função?</label>
-                    <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800" onchange="window.renderPolicialDynamic()">
+                    <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800 text-sm" onchange="window.renderPolicialDynamic()">
                         <option value="sentinelasQ1">Sentinela (1º Quarto)</option>
                         <option value="sentinelasQ2">Sentinela (2º Quarto)</option>
                         <option value="comandante">Comandante da Guarda</option>
@@ -155,25 +157,24 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gray-900/50 p-3 rounded border border-gray-700">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gray-900/50 p-3 rounded-lg border border-gray-700 shadow-inner">
                     <div>
-                        <label class="text-[10px] text-gray-400 block uppercase">Graduação</label>
-                        <select id="pol-grad" class="input-active bg-gray-800"></select>
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Graduação</label>
+                        <select id="pol-grad" class="input-active bg-gray-800 text-sm"></select>
                     </div>
                     <div class="sm:col-span-2 relative">
-                        <label class="text-[10px] text-gray-400 block uppercase">Nome Completo/Guerra</label>
-                        <!-- Autocompletar aqui -->
-                        <input type="text" id="pol-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-mat', 'pol-grad')" class="input-active bg-gray-800" placeholder="Digite o nome..." autocomplete="off">
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Nome Completo/Guerra</label>
+                        <input type="text" id="pol-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-mat', 'pol-grad')" class="input-active bg-gray-800 text-sm" placeholder="Digite o nome..." autocomplete="off">
                     </div>
                     <div class="sm:col-span-3">
-                        <label class="text-[10px] text-gray-400 block uppercase">Matrícula</label>
-                        <input type="text" id="pol-mat" class="input-active bg-gray-800" placeholder="Ex: 12345-6">
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Matrícula</label>
+                        <input type="text" id="pol-mat" class="input-active bg-gray-800 text-sm" placeholder="Ex: 12345">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">Situação</label>
-                    <select id="pol-status" class="input-active bg-gray-800 font-bold" onchange="window.checkPermutaUI()">
+                    <label class="text-xs text-gray-400 block mb-1 font-bold uppercase tracking-wider">Situação</label>
+                    <select id="pol-status" class="input-active bg-gray-800 font-bold text-sm" onchange="window.checkPermutaUI()">
                         <option value="ORDINÁRIO">ORDINÁRIO</option>
                         <option value="PJES" class="text-blue-400">PJES</option>
                         <option value="PERMUTA" class="text-yellow-400">PERMUTA</option>
@@ -181,44 +182,44 @@
                 </div>
 
                 <!-- Área Dinâmica: Permuta -->
-                <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-3 rounded-lg border border-yellow-700 space-y-3">
-                    <h4 class="text-yellow-500 font-bold text-sm"><i class="fa-solid fa-right-left"></i> Dados do Substituído (Quem sai)</h4>
+                <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-3 rounded-xl border border-yellow-700/60 space-y-3 shadow-inner">
+                    <h4 class="text-yellow-500 font-bold text-sm border-b border-yellow-800/50 pb-1 mb-2"><i class="fa-solid fa-right-left mr-1"></i> Substituído (Quem sai da escala)</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="text-[10px] text-yellow-500 block">Graduação</label>
-                            <select id="pol-subgrad" class="input-active border-yellow-800 bg-gray-900 text-yellow-100"></select>
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Graduação</label>
+                            <select id="pol-subgrad" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm"></select>
                         </div>
                         <div class="sm:col-span-2">
-                            <label class="text-[10px] text-yellow-500 block">Nome</label>
-                            <input type="text" id="pol-subnome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-submat', 'pol-subgrad')" class="input-active border-yellow-800 bg-gray-900 text-yellow-100" placeholder="Quem está saindo..." autocomplete="off">
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Nome</label>
+                            <input type="text" id="pol-subnome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-submat', 'pol-subgrad')" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm" placeholder="Quem está saindo..." autocomplete="off">
                         </div>
                         <div class="sm:col-span-3">
-                            <label class="text-[10px] text-yellow-500 block">Matrícula</label>
-                            <input type="text" id="pol-submat" class="input-active border-yellow-800 bg-gray-900 text-yellow-100" placeholder="Matrícula de quem sai">
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Matrícula</label>
+                            <input type="text" id="pol-submat" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm" placeholder="Matrícula de quem sai">
                         </div>
                     </div>
                     
-                    <div class="pt-2 border-t border-yellow-800/50">
-                        <label class="text-[10px] text-yellow-500 block mb-1">Anexar Documento da Permuta (PDF ou Foto)</label>
+                    <div class="pt-2">
+                        <label class="text-[10px] text-yellow-500 block mb-1 uppercase font-bold">Documento / Imagem da Permuta</label>
                         <div class="flex items-center gap-2">
-                            <label id="label-file-container" class="cursor-pointer bg-yellow-700 hover:bg-yellow-600 text-white px-3 py-2 rounded text-xs font-bold transition flex items-center justify-center gap-2 w-full text-center">
-                                <i class="fa-solid fa-paperclip"></i> <span id="label-file-text">Selecionar Arquivo</span>
+                            <label id="label-file-container" class="cursor-pointer bg-yellow-700/80 hover:bg-yellow-600 text-white px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-center gap-2 w-full text-center border border-yellow-500/50 shadow-md">
+                                <i class="fa-solid fa-image"></i> <span id="label-file-text">Selecionar Arquivo (PDF ou Foto)</span>
                                 <input type="file" id="pol-pdf" accept="image/*,application/pdf" class="hidden" onchange="window.handleFileSelect(this)">
                             </label>
                         </div>
-                        <p id="file-helper-text" class="text-[10px] text-gray-400 mt-1 italic">O documento será salvo junto com as suas informações.</p>
+                        <p id="file-helper-text" class="text-[10px] text-yellow-500/70 mt-1 italic text-center font-medium">Você será notificado aqui assim que selecionar.</p>
                     </div>
                 </div>
 
                 <!-- Área Dinâmica: Postos de Sentinela -->
-                <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-lg border border-gray-700">
+                <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-xl border border-gray-700 shadow-inner">
                     <!-- Preenchido via JS -->
                 </div>
             </div>
             
             <div class="flex justify-end gap-2 mt-6 border-t border-gray-700 pt-4">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm w-full sm:w-auto">Cancelar</button>
-                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-4 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-bold text-sm shadow flex justify-center items-center gap-2 w-full sm:w-auto">
+                <button onclick="window.closeModals()" class="px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm w-full sm:w-auto transition">Cancelar</button>
+                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-5 py-2 rounded-full bg-green-700 hover:bg-green-600 text-white font-bold text-sm shadow-lg flex justify-center items-center gap-2 w-full sm:w-auto transition">
                     <i class="fa-solid fa-save"></i> Salvar na Escala
                 </button>
             </div>
@@ -226,17 +227,18 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-2 transform translate-y-[-20px]">
+    <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-2 transform translate-y-[-20px]">
         <i id="toast-icon" class="fa-solid fa-check-circle"></i> <span id="toast-msg" class="font-semibold text-sm"></span>
     </div>
 
     <!-- Modal Custom Alert -->
-    <div id="alert-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[250] hidden p-4">
-        <div class="bg-gray-900 border border-red-500 rounded-xl p-6 w-full max-w-sm text-center shadow-[0_0_30px_rgba(239,68,68,0.4)]">
-            <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4"></i>
-            <h3 id="alert-title" class="text-xl font-bold text-white mb-2">Atenção</h3>
+    <div id="alert-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[250] hidden p-4">
+        <div class="bg-policedark border border-red-500 rounded-2xl p-6 w-full max-w-sm text-center shadow-[0_0_30px_rgba(239,68,68,0.4)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+            <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4 drop-shadow-md"></i>
+            <h3 id="alert-title" class="text-xl font-bold text-white mb-2 uppercase tracking-wide">Atenção</h3>
             <p id="alert-msg" class="text-gray-300 mb-6 text-sm"></p>
-            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded font-bold w-full">Ciente</button>
+            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-full font-bold w-full transition shadow-lg">Ciente</button>
         </div>
     </div>
 
@@ -289,13 +291,13 @@
             sentinelasQ1: [], sentinelasQ2: [], checkins: []
         };
         let state = JSON.parse(JSON.stringify(defaultState));
-        let efetivoConhecido = []; // Lista para o Autocompletar
+        let efetivoConhecido = []; 
 
         function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
 
         function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
-            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 z-[250] flex items-center gap-2 transform translate-y-0 ${type === 'warning' ? 'bg-yellow-600' : (type==='error'?'bg-red-600':'bg-green-600')}`;
+            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 z-[300] flex items-center gap-2 transform translate-y-0 ${type === 'warning' ? 'bg-yellow-600' : (type==='error'?'bg-red-600':'bg-green-600')}`;
             document.getElementById('toast-icon').className = type === 'warning' ? 'fa-solid fa-triangle-exclamation' : (type==='error'?'fa-solid fa-xmark':'fa-solid fa-check-circle');
             document.getElementById('toast-msg').innerText = msg;
             toast.style.opacity = '1';
@@ -381,23 +383,41 @@
                 fileToUpload = input.files[0];
                 const text = document.getElementById('label-file-text');
                 const container = document.getElementById('label-file-container');
+                const helper = document.getElementById('file-helper-text');
                 
-                text.innerHTML = `📎 Anexado: ${fileToUpload.name.substring(0,15)}...`;
-                container.classList.remove('bg-yellow-700', 'hover:bg-yellow-600');
-                container.classList.add('bg-green-600', 'hover:bg-green-500');
+                text.innerHTML = `Anexado: ${fileToUpload.name.substring(0,15)}...`;
+                container.classList.remove('bg-yellow-700/80', 'hover:bg-yellow-600', 'border-yellow-500/50');
+                container.classList.add('bg-green-700/90', 'hover:bg-green-600', 'border-green-400');
                 
-                document.getElementById('file-helper-text').innerText = "Anexo pronto! Ele será enviado ao Salvar.";
-                document.getElementById('file-helper-text').classList.replace('text-gray-400', 'text-green-400');
-                showToast("Arquivo selecionado com sucesso!");
+                helper.innerHTML = '<i class="fa-solid fa-check text-green-400"></i> Arquivo pronto para envio!';
+                helper.classList.replace('text-yellow-500/70', 'text-green-400');
             }
         };
 
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
         async function processFileUpload(file, path) {
-            const fileRef = storageRef(storage, path);
-            await uploadBytes(fileRef, file);
-            // Pega o LINK DIRETO do Firebase Storage
-            const directUrl = await getDownloadURL(fileRef);
-            return directUrl;
+            try {
+                const fileRef = storageRef(storage, path);
+                await uploadBytes(fileRef, file);
+                const directUrl = await getDownloadURL(fileRef);
+                return directUrl;
+            } catch (e) {
+                console.warn("Upload falhou. Tentando Base64 (Plano B)...", e);
+                if (file.size > 700000) {
+                    window.showAlert("Arquivo Muito Grande", "O sistema precisou usar o armazenamento alternativo, que só suporta arquivos de até 700KB. Diminua a foto ou o PDF.");
+                    throw e;
+                }
+                const base64String = await getBase64(file);
+                return base64String;
+            }
         }
 
         window.openCheckinModal = () => {
@@ -438,19 +458,19 @@
                             showToast(`Check-in Confirmado! Distância: ${distancia}m`);
                             render();
                         }
-                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar';
                         btn.disabled = false;
                     },
                     (error) => {
                         window.showAlert("Falha no GPS", "Erro ao obter localização. Verifique se o GPS está ativado e se você deu permissão ao site.");
-                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar';
                         btn.disabled = false;
                     },
                     { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                 );
             } else {
                 window.showAlert("Erro", "Navegador sem suporte a GPS.");
-                btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar Chegada';
+                btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar';
                 btn.disabled = false;
             }
         };
@@ -458,7 +478,6 @@
         window.openPolicialModal = () => {
             if(state.status === 'approved') return window.showAlert("Escala Fechada", "A escala foi aprovada pelo Comandante e não pode mais ser alterada.");
             
-            // Reseta Tudo
             fileToUpload = null;
             document.getElementById('pol-grad').innerHTML = GRADUACOES.map(g => `<option value="${g}">${g}</option>`).join('');
             document.getElementById('pol-subgrad').innerHTML = GRADUACOES.map(g => `<option value="${g}">${g}</option>`).join('');
@@ -470,11 +489,12 @@
             
             const fileText = document.getElementById('label-file-text');
             const fileContainer = document.getElementById('label-file-container');
-            fileText.innerHTML = 'Selecionar Arquivo';
-            fileContainer.classList.remove('bg-green-600', 'hover:bg-green-500');
-            fileContainer.classList.add('bg-yellow-700', 'hover:bg-yellow-600');
-            document.getElementById('file-helper-text').innerText = "O documento será salvo junto com as suas informações.";
-            document.getElementById('file-helper-text').classList.replace('text-green-400', 'text-gray-400');
+            const helper = document.getElementById('file-helper-text');
+            fileText.innerHTML = 'Selecionar Arquivo (PDF ou Foto)';
+            fileContainer.classList.remove('bg-green-700/90', 'hover:bg-green-600', 'border-green-400');
+            fileContainer.classList.add('bg-yellow-700/80', 'hover:bg-yellow-600', 'border-yellow-500/50');
+            helper.innerText = "Você será notificado aqui assim que selecionar.";
+            helper.classList.replace('text-green-400', 'text-yellow-500/70');
             
             if(!isEditMode) {
                 const matPrompt = prompt("Digite sua MATRÍCULA para verificar o Check-in GPS:");
@@ -483,7 +503,6 @@
                 const fezCheckin = state.checkins.find(c => c.matricula === matPrompt.trim());
                 if(!fezCheckin) return window.showAlert("Acesso Negado", "Você não realizou o Check-in GPS hoje.\nUse o botão no topo da tela para registrar sua chegada antes de informar o serviço.");
                 
-                // Preenche (e permite edição manual caso tenha errado no GPS)
                 document.getElementById('pol-nome').value = fezCheckin.nome;
                 document.getElementById('pol-mat').value = fezCheckin.matricula;
                 document.getElementById('pol-grad').value = fezCheckin.grad;
@@ -507,13 +526,13 @@
             const area = document.getElementById('pol-dynamic-area');
             if (role.startsWith('sentinelas')) {
                 const turnos = role === 'sentinelasQ1' ? TURNOS_Q1 : TURNOS_Q2;
-                let html = '<label class="text-xs text-cyan-400 font-bold block mb-2"><i class="fa-solid fa-map-pin"></i> Selecione seus postos no quarto de hora:</label><div class="grid grid-cols-2 gap-3">';
+                let html = '<label class="text-xs text-cyan-400 font-bold block mb-3 uppercase tracking-wider"><i class="fa-solid fa-map-pin"></i> Selecione seus postos:</label><div class="grid grid-cols-2 gap-4">';
                 turnos.forEach((t, idx) => {
                     html += `
-                        <div>
-                            <label class="text-[10px] text-gray-400 block">${t.label}</label>
-                            <select id="pol-posto-${idx}" class="input-active bg-gray-900 border-gray-600 text-sm py-2">
-                                <option value="Folga">🛌 Folga</option>
+                        <div class="bg-gray-900/40 p-2 rounded-lg border border-gray-700/50">
+                            <label class="text-xs text-gray-300 block mb-1 font-semibold text-center"><i class="fa-regular fa-clock text-cyan-500 mr-1"></i> ${t.label}</label>
+                            <select id="pol-posto-${idx}" class="input-active bg-gray-900 border-gray-600 text-sm py-2 text-center font-bold">
+                                <option value="Folga" class="text-gray-500">🛌 Folga</option>
                                 ${state.postosAtivos.map(p => `<option value="${p}">${p}</option>`).join('')}
                             </select>
                         </div>
@@ -542,7 +561,7 @@
             if (status === 'PERMUTA') {
                 subGrad = document.getElementById('pol-subgrad').value;
                 subNome = document.getElementById('pol-subnome').value.toUpperCase();
-                subMat = document.getElementById('pol-submat').value;
+                subMat = document.getElementById('pol-submat').value.trim();
                 
                 if(!subNome || !subMat) return showToast("Preencha quem está saindo na permuta!", "warning");
                 
@@ -551,12 +570,13 @@
                     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Enviando Arquivo...`;
                     btn.disabled = true;
                     try {
-                        const fileName = `escalas_pdfs/${currentDate}/${Date.now()}_${mat}`;
+                        const fileExt = fileToUpload.name.split('.').pop();
+                        const fileName = `escalas_pdfs/${currentDate}/${Date.now()}_${mat}.${fileExt}`;
                         pdfUrl = await processFileUpload(fileToUpload, fileName);
                     } catch (e) {
                         btn.innerHTML = `<i class="fa-solid fa-save"></i> Salvar na Escala`;
                         btn.disabled = false;
-                        return window.showAlert("Erro de Firebase", "O Firebase Storage bloqueou o arquivo.\nVocê precisa ir no painel do Firebase > Storage > Regras e mudar para 'allow read, write: if true;'");
+                        return;
                     }
                 }
             }
@@ -573,7 +593,7 @@
                 if(!isEditMode) {
                     const postosUsados = p.filter(x => x !== 'Folga');
                     const duplicados = postosUsados.filter((item, index) => postosUsados.indexOf(item) !== index);
-                    if(duplicados.length > 0) return window.showAlert("Bloqueio", "Você não pode escolher o mesmo posto duas vezes!\n(Apenas o Comandante tem permissão para repetir postos).");
+                    if(duplicados.length > 0) return window.showAlert("Bloqueio Anti-Repetição", "Você não pode escolher o mesmo posto duas vezes!\n(Apenas o Comandante tem permissão para repetir postos).");
                     
                     for(let i=0; i<4; i++) {
                         if(p[i] !== 'Folga') {
@@ -592,7 +612,7 @@
 
             await saveCurrentState();
             window.closeModals();
-            showToast("Policial adicionado com sucesso!");
+            showToast("Dados salvos com sucesso!");
         };
 
         window.closeModals = () => {
@@ -620,7 +640,19 @@
             document.getElementById('tab-login').className = mode === 'login' ? 'flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan' : 'flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500';
             document.getElementById('tab-register').className = mode === 'register' ? 'flex-1 py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan' : 'flex-1 py-1 text-sm font-bold border-b-2 border-transparent text-gray-500';
             document.getElementById('login-nome-input').classList.toggle('hidden', mode === 'login');
-            document.getElementById('btn-login-action').innerText = mode === 'login' ? 'Entrar' : 'Cadastrar';
+            
+            // Alterando Placeholders dinamicamente para caber na tela
+            const userIn = document.getElementById('login-user-input');
+            const passIn = document.getElementById('login-senha-input');
+            if(mode === 'register') {
+                userIn.placeholder = "Crie um Usuário (Sua matrícula)";
+                passIn.placeholder = "Crie uma Senha";
+                document.getElementById('btn-login-action').innerText = 'Cadastrar';
+            } else {
+                userIn.placeholder = "Usuário (Sua Matrícula)";
+                passIn.placeholder = "Senha";
+                document.getElementById('btn-login-action').innerText = 'Entrar';
+            }
         };
 
         window.authenticate = async () => {
@@ -681,7 +713,7 @@
                 }
             }
             list.find(s => s.id === id).postos[slot] = val;
-            el.className = val === 'Folga' ? "input-active text-sm text-gray-500 text-center" : "input-active text-sm text-cyan-400 font-bold bg-cyan-900/20 border-cyan-800 text-center";
+            el.className = val === 'Folga' ? "input-active text-sm text-gray-500 text-center" : "input-active text-sm text-cyan-400 font-bold bg-cyan-900/30 border-cyan-700 text-center";
             saveCurrentState();
         };
 
@@ -692,15 +724,18 @@
                 let txt = `${p.grad} ${p.nome} (Mat: ${p.matricula})`;
                 if(p.status==='PERMUTA') {
                     txt += `\n   ↳ 🔄 Substitui: ${p.subGrad} ${p.subNome} (Mat: ${p.subMat})`;
-                    if(p.pdfUrl) txt += `\n   ↳ 📎 Anexo PDF/Foto: ${p.pdfUrl}`;
+                    if(p.pdfUrl) {
+                        if(p.pdfUrl.startsWith('data:')) txt += `\n   ↳ 📎 Anexo: [Salvo no App]`;
+                        else txt += `\n   ↳ 📎 Anexo: ${p.pdfUrl}`;
+                    }
                 } else if(p.status==='PJES') {
                     txt += ` [PJES]`;
                 }
                 return txt;
             };
 
-            const fixos = [{k:'comandante',l:'Cmt'},{k:'auxiliar',l:'Aux'},{k:'operacoes',l:'Op'},{k:'armeiro',l:'Arm'},{k:'rancheiro',l:'Ran'},{k:'motorista',l:'Mot'}];
-            fixos.forEach(f => { const p = state.efetivoFixo[f.k]; if(p.nome) r += `- ${f.l}: ${formatPol(p)}\n`; });
+            const fixos = [{k:'comandante',l:'Cmt Guarda'},{k:'auxiliar',l:'Auxiliar'},{k:'operacoes',l:'Operações'},{k:'armeiro',l:'Armeiro'},{k:'rancheiro',l:'Rancheiro'},{k:'motorista',l:'Motorista'}];
+            fixos.forEach(f => { const p = state.efetivoFixo[f.k]; if(p.nome) r += `- *${f.l}*: ${formatPol(p)}\n`; });
 
             const renderQ = (list, turnos) => {
                 list.forEach(s => {
@@ -714,10 +749,11 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(r)}`, '_blank');
         };
 
-        // Layouts UI (Tabelas Restauradas)
+        // Layouts UI - Tabela Original Restaurada
         function getPdfBadgeHTML(url) {
             if(!url) return '<span class="ml-2 text-[10px] text-gray-500 italic">(Sem Anexo)</span>';
-            return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap"><i class="fa-solid fa-link"></i> Abrir Anexo</a>`;
+            if(url.startsWith('data:')) return '<span class="ml-2 text-[10px] text-green-500 font-bold bg-green-900/30 px-1 rounded"><i class="fa-solid fa-check"></i> Anexo Salvo</span>';
+            return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap transition"><i class="fa-solid fa-link"></i> Abrir Anexo</a>`;
         }
 
         function renderRoleForm(roleKey, label, icon) {
@@ -726,32 +762,32 @@
             const dis = isEditMode && state.status === 'draft' ? '' : 'disabled';
             const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
 
-            let h = `<div class="glass-panel p-3 rounded-lg flex flex-col gap-2 relative overflow-hidden">
+            let h = `<div class="glass-panel p-4 rounded-xl flex flex-col gap-2 relative overflow-hidden transition hover:border-cyan-500/50">
                     <div class="absolute top-0 left-0 w-1 h-full bg-policecyan"></div>
-                    <h3 class="text-policecyan font-bold uppercase text-xs mb-1 ml-2"><i class="${icon}"></i> ${label}</h3>
-                    <div class="flex flex-col sm:flex-row gap-2 ml-2">
+                    <h3 class="text-policecyan font-bold uppercase text-xs mb-2 ml-2 tracking-wide"><i class="${icon} mr-1"></i> ${label}</h3>
+                    <div class="flex flex-col sm:flex-row gap-3 ml-2">
                         <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-400 block uppercase">Grad.</label>
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Grad.</label>
                             <select onchange="window.updateEfetivo('${roleKey}','grad',this.value)" class="${inClass}" ${dis}>
                                 ${GRADUACOES.map(g => `<option value="${g}" ${d.grad===g?'selected':''}>${g}</option>`).join('')}
                             </select>
                         </div>
                         <div class="w-full sm:w-2/4">
-                            <label class="text-[9px] text-gray-400 block uppercase">Nome Completo</label>
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Nome Completo</label>
                             <input type="text" value="${d.nome}" onchange="window.updateEfetivo('${roleKey}','nome',this.value)" list="efetivo-list" class="${inClass}" placeholder="-" ${dis}>
                         </div>
                         <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-400 block uppercase">Situação</label>
-                            <select onchange="window.updateEfetivo('${roleKey}','status',this.value)" class="${inClass} ${isPermuta?'text-yellow-400':(d.status==='PJES'?'text-blue-400':'')}" ${dis}>
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Situação</label>
+                            <select onchange="window.updateEfetivo('${roleKey}','status',this.value)" class="${inClass} ${isPermuta?'text-yellow-400 font-bold':(d.status==='PJES'?'text-blue-400 font-bold':'')}" ${dis}>
                                 ${STATUS_OPCOES.map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
                             </select>
                         </div>
                     </div>`;
             if(isPermuta) {
-                h += `<div class="flex items-center gap-2 mt-1 ml-2 bg-yellow-900/20 p-2 rounded border border-yellow-700/50 text-[10px]">
-                        <i class="fa-solid fa-arrow-turn-up fa-rotate-90 text-yellow-500"></i> <span class="text-yellow-500">Subst:</span>
-                        <input type="text" value="${d.subGrad} ${d.subNome}" class="${inClass} w-32 text-yellow-300 py-0" ${dis}>
-                        <span class="text-yellow-500">Mat:</span> <input type="text" value="${d.subMat}" class="${inClass} w-20 text-yellow-300 py-0" ${dis}>
+                h += `<div class="flex items-center gap-2 mt-2 ml-2 bg-yellow-900/20 p-2 rounded-lg border border-yellow-700/50 text-[10px] shadow-inner">
+                        <i class="fa-solid fa-arrow-turn-up fa-rotate-90 text-yellow-500"></i> <span class="text-yellow-500 font-bold">Subst:</span>
+                        <input type="text" value="${d.subGrad} ${d.subNome}" class="${inClass} w-36 text-yellow-300 py-0" ${dis}>
+                        <span class="text-yellow-500 font-bold">Mat:</span> <input type="text" value="${d.subMat}" class="${inClass} w-24 text-yellow-300 py-0" ${dis}>
                         ${getPdfBadgeHTML(d.pdfUrl)}
                     </div>`;
             }
@@ -763,55 +799,55 @@
             const dis = isEditMode && state.status === 'draft' ? '' : 'disabled';
             const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
 
-            let h = `<div class="glass-panel p-4 rounded-lg mb-6 border-l-4 border-l-blue-500">
-                    <div class="flex justify-between items-center border-b border-gray-700 pb-2 mb-3">
-                        <h3 class="text-white font-bold text-lg"><i class="${icon} text-blue-400 mr-2"></i>${title}</h3>
+            let h = `<div class="glass-panel p-4 rounded-xl mb-8 border-l-4 border-l-blue-500 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
+                        <h3 class="text-white font-bold text-lg tracking-wide"><i class="${icon} text-blue-400 mr-2"></i>${title}</h3>
                     </div>
-                    <div class="overflow-x-auto pb-2">
+                    <div class="overflow-x-auto pb-2 scrollbar-hide">
                         <table class="w-full text-left border-collapse whitespace-nowrap min-w-[850px]">
                             <thead>
-                                <tr class="bg-gray-800 text-gray-400 text-[10px] uppercase border-b border-gray-700">
-                                    <th class="p-2 w-10 text-center">#</th>
-                                    <th class="p-2 w-20">Grad.</th>
-                                    <th class="p-2 w-48">Nome / Matrícula</th>
-                                    <th class="p-2 w-24">Situação</th>
-                                    ${horarios.map(t => `<th class="p-2 w-24 text-center border-l border-gray-700 text-policecyan"><i class="fa-regular fa-clock"></i> ${t.label}</th>`).join('')}
-                                    ${dis===''?`<th class="p-2 w-10"></th>`:''}
+                                <tr class="bg-gray-800/80 text-gray-400 text-[10px] uppercase border-b border-gray-700 tracking-wider">
+                                    <th class="p-3 w-10 text-center font-bold">#</th>
+                                    <th class="p-3 w-20 font-bold">Grad.</th>
+                                    <th class="p-3 w-56 font-bold">Nome / Matrícula</th>
+                                    <th class="p-3 w-28 font-bold">Situação</th>
+                                    ${horarios.map(t => `<th class="p-3 w-28 text-center border-l border-gray-700 text-policecyan bg-gray-900/50"><i class="fa-regular fa-clock"></i> ${t.label}</th>`).join('')}
+                                    ${dis===''?`<th class="p-3 w-10"></th>`:''}
                                 </tr>
                             </thead>
                             <tbody class="text-sm">`;
             
-            if(list.length === 0) h += `<tr><td colspan="9" class="p-4 text-center text-gray-500 italic">Nenhum sentinela informado.</td></tr>`;
+            if(list.length === 0) h += `<tr><td colspan="9" class="p-6 text-center text-gray-500 italic">Nenhum guerreiro informado neste quarto.</td></tr>`;
 
             list.forEach((s, idx) => {
                 const isPermuta = s.status === 'PERMUTA';
-                h += `<tr class="border-b border-gray-800 hover:bg-gray-800/40">
-                    <td class="p-2 text-center text-gray-500 font-mono">${idx+1}</td>
-                    <td class="p-2"><select class="${inClass}" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.grad===g?'selected':''}>${g}</option>`).join('')}</select></td>
-                    <td class="p-2"><input type="text" value="${s.nome}" class="${inClass} font-bold text-white mb-1" ${dis}>
-                        <div class="flex items-center gap-1 text-[10px] text-gray-400">Mat: <input type="text" value="${s.matricula}" class="${inClass} py-0 w-24 text-blue-300" ${dis}></div>
+                h += `<tr class="border-b border-gray-800/60 hover:bg-gray-800/40 transition">
+                    <td class="p-3 text-center text-gray-500 font-mono font-bold">${idx+1}</td>
+                    <td class="p-3"><select class="${inClass}" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.grad===g?'selected':''}>${g}</option>`).join('')}</select></td>
+                    <td class="p-3"><input type="text" value="${s.nome}" class="${inClass} font-bold text-white mb-1" ${dis}>
+                        <div class="flex items-center gap-1 text-[10px] text-gray-400 font-bold">MAT: <input type="text" value="${s.matricula}" class="${inClass} py-0 w-28 text-blue-300 font-mono" ${dis}></div>
                     </td>
-                    <td class="p-2"><select class="${inClass} ${isPermuta?'text-yellow-400':(s.status==='PJES'?'text-blue-400':'')}" ${dis}>${STATUS_OPCOES.map(op=>`<option value="${op}" ${s.status===op?'selected':''}>${op}</option>`).join('')}</select></td>`;
+                    <td class="p-3"><select class="${inClass} font-bold ${isPermuta?'text-yellow-400':(s.status==='PJES'?'text-blue-400':'')}" ${dis}>${STATUS_OPCOES.map(op=>`<option value="${op}" ${s.status===op?'selected':''}>${op}</option>`).join('')}</select></td>`;
 
                 s.postos.forEach((posto, slotIndex) => {
                     const isFolga = posto === 'Folga' || posto === '';
-                    const selectBg = isFolga ? (dis===''?'text-gray-400':'text-gray-500') : 'text-cyan-400 font-bold bg-cyan-900/20 border-cyan-800';
-                    h += `<td class="p-2 border-l border-gray-800 bg-gray-900/30 text-center">
-                        <select onchange="window.updateTurno('${qKey}','${s.id}',${slotIndex},this.value,this)" class="${inClass} ${selectBg} text-center" ${dis}>
+                    const selectBg = isFolga ? (dis===''?'text-gray-500':'text-gray-600') : 'text-cyan-400 font-bold bg-cyan-900/30 border-cyan-700';
+                    h += `<td class="p-2 border-l border-gray-800/60 bg-gray-900/20 text-center">
+                        <select onchange="window.updateTurno('${qKey}','${s.id}',${slotIndex},this.value,this)" class="${inClass} ${selectBg} text-center shadow-inner" ${dis}>
                             <option value="Folga" class="text-gray-500">🛌 Folga</option>
                             ${state.postosAtivos.map(p => `<option value="${p}" ${posto===p?'selected':''}>${p}</option>`).join('')}
                         </select>
                     </td>`;
                 });
 
-                if(dis==='') h += `<td class="p-2 text-center"><button onclick="window.removeSentinela('${qKey}','${s.id}')" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>`;
+                if(dis==='') h += `<td class="p-3 text-center"><button onclick="window.removeSentinela('${qKey}','${s.id}')" class="text-red-500 hover:text-red-400 transition transform hover:scale-110"><i class="fa-solid fa-trash"></i></button></td>`;
                 h += `</tr>`;
 
                 if(isPermuta) {
-                    h += `<tr class="bg-yellow-900/10 border-b border-gray-800">
-                        <td colspan="4" class="p-2 text-right text-[10px] text-yellow-500 pr-4"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Subst:</td>
-                        <td colspan="2" class="p-2"><div class="flex gap-2 text-xs"><input type="text" value="${s.subGrad} ${s.subNome}" class="${inClass} w-full text-yellow-300 py-0" ${dis}></div></td>
-                        <td colspan="2" class="p-2"><div class="flex items-center gap-2 text-xs"><span class="text-yellow-500">Mat:</span><input type="text" value="${s.subMat}" class="${inClass} w-24 text-yellow-300 py-0" ${dis}> ${getPdfBadgeHTML(s.pdfUrl)}</div></td>
+                    h += `<tr class="bg-yellow-900/10 border-b border-gray-800/60 shadow-inner">
+                        <td colspan="4" class="p-2 text-right text-[10px] text-yellow-500 font-bold pr-4"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Subst:</td>
+                        <td colspan="2" class="p-2"><div class="flex gap-2 text-xs"><input type="text" value="${s.subGrad} ${s.subNome}" class="${inClass} w-full text-yellow-300 py-0 font-semibold" ${dis}></div></td>
+                        <td colspan="2" class="p-2"><div class="flex items-center gap-2 text-xs"><span class="text-yellow-500 font-bold">Mat:</span><input type="text" value="${s.subMat}" class="${inClass} w-28 text-yellow-300 py-0 font-mono" ${dis}> ${getPdfBadgeHTML(s.pdfUrl)}</div></td>
                         ${dis===''?`<td></td>`:''}
                     </tr>`;
                 }
@@ -822,11 +858,11 @@
 
         function renderCheckins() {
             if(!state.checkins.length) return '';
-            let h = `<div class="glass-panel p-4 rounded-lg mb-6 border-t-4 border-t-cyan-500 mt-6"><h3 class="text-white font-bold text-lg mb-4"><i class="fa-solid fa-satellite text-cyan-400 mr-2"></i>Histórico GPS</h3><div class="overflow-x-auto"><table class="w-full text-left text-sm whitespace-nowrap min-w-[500px]"><thead class="text-gray-400 border-b border-gray-700 text-[10px] uppercase"><th class="p-2">Ordem</th><th class="p-2">Policial</th><th class="p-2 text-right">Chegada</th></thead><tbody>`;
+            let h = `<div class="glass-panel p-4 rounded-xl mb-6 border-t-4 border-t-cyan-500 mt-6 shadow-lg"><h3 class="text-white font-bold text-lg mb-4 tracking-wide"><i class="fa-solid fa-satellite text-cyan-400 mr-2"></i>Histórico de Chegada GPS</h3><div class="overflow-x-auto scrollbar-hide"><table class="w-full text-left text-sm whitespace-nowrap min-w-[500px]"><thead class="text-gray-400 border-b border-gray-700 text-[10px] uppercase tracking-wider"><th class="p-3 font-bold">Ordem</th><th class="p-3 font-bold">Policial</th><th class="p-3 text-right font-bold">Chegada</th></thead><tbody>`;
             [...state.checkins].sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp)).forEach((c, i) => {
                 const time = new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-                const medal = i===0?'🥇':(i===1?'🥈':(i===2?'🥉':i+1+'º'));
-                h += `<tr class="border-b border-gray-800"><td class="p-2 text-center text-xl">${medal}</td><td class="p-2 text-white font-bold">${c.grad} ${c.nome} <span class="text-[10px] text-gray-500 block">Mat: ${c.matricula}</span></td><td class="p-2 text-right text-cyan-400 font-mono">${time}</td></tr>`;
+                const medal = i===0?'<span class="text-2xl drop-shadow-lg">🥇</span>':(i===1?'<span class="text-2xl drop-shadow-lg">🥈</span>':(i===2?'<span class="text-2xl drop-shadow-lg">🥉</span>':`<span class="text-gray-400 font-bold ml-2">${i+1}º</span>`));
+                h += `<tr class="border-b border-gray-800/60 hover:bg-gray-800/40 transition"><td class="p-3 text-center w-16">${medal}</td><td class="p-3 text-white font-bold tracking-wide">${c.grad} ${c.nome} <span class="text-[10px] text-gray-500 block font-mono">Mat: ${c.matricula}</span></td><td class="p-3 text-right text-cyan-400 font-mono font-bold text-lg">${time}</td></tr>`;
             });
             return h + `</tbody></table></div></div>`;
         }
@@ -837,27 +873,29 @@
             const btnTog = document.getElementById('btn-toggle-mode');
             
             if (state.status === 'approved') {
-                badge.className = "px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-green-700 text-white shadow-[0_0_10px_rgba(22,163,74,0.5)]";
-                badge.innerHTML = '<i class="fa-solid fa-lock"></i> Aprovada';
+                badge.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider bg-green-700/90 text-white shadow-[0_0_10px_rgba(22,163,74,0.5)] border border-green-500/50 whitespace-nowrap";
+                badge.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Aprovada';
                 btnPol.classList.add('hidden');
             } else {
-                badge.className = "px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-600 text-white shadow-[0_0_10px_rgba(202,138,4,0.5)]";
-                badge.innerHTML = '<i class="fa-solid fa-pen"></i> Rascunho';
+                badge.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-600/90 text-white shadow-[0_0_10px_rgba(202,138,4,0.5)] border border-yellow-500/50 whitespace-nowrap";
+                badge.innerHTML = '<i class="fa-solid fa-pen mr-1"></i> Rascunho';
                 btnPol.classList.remove('hidden');
             }
 
             if (isEditMode) {
                 btnTog.innerHTML = '<i class="fa-solid fa-eye"></i> Sair do Modo Cmt';
+                btnTog.className = "btn-neon bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 text-xs sm:text-sm rounded-full font-semibold transition flex items-center gap-2 whitespace-nowrap border border-gray-400 shadow-md";
                 btnPol.innerHTML = '<i class="fa-solid fa-user-shield"></i> Inserir Policial';
-                btnPol.className = "btn-neon bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded font-bold flex flex-1 sm:flex-none justify-center items-center gap-2";
+                btnPol.className = "btn-neon bg-blue-900/80 hover:bg-blue-700 text-blue-50 px-4 py-2 text-xs sm:text-sm rounded-full font-semibold transition shadow-[0_0_10px_rgba(59,130,246,0.3)] border border-blue-500/50 flex items-center gap-2 whitespace-nowrap";
             } else {
                 btnTog.innerHTML = '<i class="fa-solid fa-star"></i> Cmt Guarda';
+                btnTog.className = "btn-neon bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-2 text-xs sm:text-sm rounded-full font-semibold transition border border-gray-600 flex items-center gap-2 whitespace-nowrap shadow-md";
                 btnPol.innerHTML = '<i class="fa-solid fa-user-plus"></i> Informar Serviço';
-                btnPol.className = "btn-neon bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded font-bold flex flex-1 sm:flex-none justify-center items-center gap-2";
+                btnPol.className = "btn-neon bg-green-900/80 hover:bg-green-700 text-green-50 px-4 py-2 text-xs sm:text-sm rounded-full font-semibold transition shadow-[0_0_10px_rgba(34,197,94,0.3)] border border-green-500/50 flex items-center gap-2 whitespace-nowrap";
             }
 
             document.getElementById('main-content').innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     ${renderRoleForm('comandante', 'Cmt Guarda', 'fa-solid fa-star')}
                     ${renderRoleForm('auxiliar', 'Auxiliar', 'fa-solid fa-star-half-stroke')}
                     ${renderRoleForm('operacoes', 'Operações', 'fa-solid fa-bolt')}
@@ -869,20 +907,20 @@
                 ${renderQuartoTable('sentinelasQ2', '2º Quarto', 'fa-solid fa-moon', TURNOS_Q2)}
                 ${renderCheckins()}
 
-                <div class="flex flex-wrap justify-center mb-10 mt-8 gap-4 px-2">
+                <div class="flex flex-wrap justify-center mb-10 mt-10 gap-4 px-2">
                     ${isEditMode ? `
-                        <button onclick="window.generateWhatsAppReport()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-4 rounded-xl font-bold shadow-[0_0_15px_rgba(22,163,74,0.5)] flex items-center justify-center gap-2 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-green-400">
-                            <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar p/ WhatsApp
+                        <button onclick="window.generateWhatsAppReport()" class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold shadow-[0_0_15px_rgba(22,163,74,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-green-400">
+                            <i class="fa-brands fa-whatsapp text-3xl"></i> Enviar p/ WhatsApp
                         </button>
                     ` : ''}
                     ${isEditMode && state.status === 'draft' ? `
-                        <button onclick="window.approveScale()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-xl font-bold shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center justify-center gap-2 w-full sm:w-auto transition border border-blue-400">
-                            <i class="fa-solid fa-lock"></i> Aprovar Escala
+                        <button onclick="window.approveScale()" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-bold shadow-[0_0_15px_rgba(37,99,235,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-blue-400">
+                            <i class="fa-solid fa-lock text-2xl"></i> Aprovar Escala
                         </button>
                     ` : ''}
                     ${isEditMode && state.status === 'approved' ? `
-                        <button onclick="window.reopenScale()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-2 w-full sm:w-auto transition border border-yellow-400">
-                            <i class="fa-solid fa-unlock"></i> Reabrir Edição
+                        <button onclick="window.reopenScale()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-4 rounded-full font-bold shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto transition border border-yellow-400 text-lg">
+                            <i class="fa-solid fa-unlock text-2xl"></i> Reabrir Edição
                         </button>
                     ` : ''}
                 </div>

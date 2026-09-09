@@ -20,6 +20,7 @@
             }
         }
     </script>
+    
     <style>
         body { background-color: #020617; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
         #matrix-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; opacity: 0.15; }
@@ -54,15 +55,12 @@
 </head>
 <body class="relative bg-[#020617] min-h-screen text-slate-50">
 
-    <!-- Lista invisível para o Autocompletar -->
     <datalist id="efetivo-list"></datalist>
 
     <div id="matrix-bg"></div>
 
-    <!-- WRAPPER PRINCIPAL - Centraliza o conteúdo dinamicamente -->
     <div id="main-wrapper" class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 flex flex-col min-h-screen transition-all duration-500 justify-center">
         
-        <!-- HEADER PRINCIPAL -->
         <header id="main-header" class="text-center w-full max-w-3xl mx-auto glass-panel rounded-xl p-6 sm:p-8 border-t-4 border-t-policecyan relative transition-all duration-500 shadow-2xl">
             <div class="flex justify-center mb-3"><i class="fa-solid fa-shield-halved text-5xl text-policecyan" style="filter: drop-shadow(0 0 15px #06b6d4);"></i></div>
             <h1 class="text-3xl sm:text-4xl font-bold uppercase tracking-widest text-white mb-6">Escala do Dia</h1>
@@ -76,7 +74,6 @@
                 <div id="status-badge" class="px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider bg-gray-600 text-white whitespace-nowrap shadow-sm">Carregando...</div>
             </div>
 
-            <!-- Botões Arredondados e Modernos -->
             <div class="flex flex-row flex-wrap justify-center items-center gap-3 w-full mt-6" id="header-buttons">
                 <!-- Renderizados via JS -->
             </div>
@@ -87,7 +84,6 @@
         </div>
     </div>
 
-    <!-- Modal Comandante & Admin -->
     <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
         <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]" id="login-container">
             <h3 class="text-lg font-bold mb-4 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-shield text-policecyan mr-2"></i>Acesso Restrito</h3>
@@ -97,18 +93,16 @@
                 <button onclick="window.setLoginTab('admin')" id="tab-admin" class="flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition">Administrador</button>
             </div>
 
-            <!-- Form Comandante -->
             <div id="form-cmd" class="space-y-3">
                 <input type="text" id="cmd-user" class="input-active text-sm" placeholder="Usuário (Sua Matrícula)">
                 <input type="password" id="cmd-pass" class="input-active text-sm" placeholder="Senha">
                 <button onclick="window.loginCommander()" class="w-full py-2 rounded-full bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm transition shadow-lg mt-2">Entrar como Cmt</button>
             </div>
 
-            <!-- Form Administrador -->
             <div id="form-admin" class="space-y-3 hidden">
                 <input type="email" id="admin-email" class="input-active text-sm" placeholder="E-mail do Administrador">
                 <input type="password" id="admin-pass" class="input-active text-sm" placeholder="Senha (Mín. 6 letras)">
-                <button onclick="window.loginAdmin()" class="w-full py-2 rounded-full bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm transition shadow-lg mt-2 border border-slate-500">Entrar como Admin</button>
+                <button onclick="window.loginAdmin()" class="w-full py-2 rounded-full bg-blue-700 hover:bg-blue-600 text-white font-bold text-sm transition shadow-lg mt-2 border border-blue-500">Entrar como Admin</button>
                 <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-800">
                     <button onclick="window.registerAdmin()" class="text-xs text-blue-400 hover:text-blue-300 font-bold transition">Criar Conta Admin</button>
                     <button onclick="window.recoverAdminPassword()" class="text-xs text-yellow-400 hover:text-yellow-300 font-bold transition">Esqueci a Senha</button>
@@ -121,7 +115,6 @@
         </div>
     </div>
 
-    <!-- Modal Gerenciar Comandantes (Admin Only) -->
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] hidden p-4">
         <div class="bg-slate-900 border border-slate-500 rounded-xl p-6 w-full max-w-lg shadow-[0_0_30px_rgba(100,116,139,0.3)]">
             <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-2">
@@ -143,12 +136,10 @@
 
             <h4 class="text-xs text-slate-400 uppercase font-bold mb-2">Comandantes Cadastrados</h4>
             <div class="max-h-48 overflow-y-auto pr-2 space-y-2" id="cmd-list">
-                <!-- Lista renderizada via JS -->
             </div>
         </div>
     </div>
 
-    <!-- Modal Trocar Senha (Commander Only) -->
     <div id="cmd-pass-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] hidden p-4">
         <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
             <h3 class="text-lg font-bold mb-4 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-key text-policecyan mr-2"></i>Trocar Minha Senha</h3>
@@ -160,29 +151,6 @@
         </div>
     </div>
 
-    <!-- Modal Check-in GPS -->
-    <div id="checkin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-policedark border border-cyan-500 rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
-            <h3 class="text-lg font-bold mb-2 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-location-crosshairs text-cyan-400 mr-2"></i>Bater Ponto (GPS)</h3>
-            <p class="text-xs text-gray-400 mb-4">Confirme sua chegada na Unidade (Raio de 2km).</p>
-            <div class="space-y-3">
-                <select id="checkin-grad" class="input-active bg-gray-800 text-sm">
-                    <option value="">Graduação...</option>
-                    <option value="SD">SD</option><option value="CB">CB</option><option value="3º SGT">3º SGT</option><option value="2º SGT">2º SGT</option><option value="1º SGT">1º SGT</option><option value="SUB TEN">SUB TEN</option><option value="2º TEN">2º TEN</option><option value="1º TEN">1º TEN</option><option value="CAP">CAP</option><option value="MAJ">MAJ</option><option value="TC">TC</option><option value="CEL">CEL</option>
-                </select>
-                <input type="text" id="checkin-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'checkin-mat', 'checkin-grad')" class="input-active text-sm" placeholder="Nome de Guerra" autocomplete="off">
-                <input type="text" id="checkin-mat" class="input-active text-sm" placeholder="Matrícula (Sem dígito)">
-            </div>
-            <div class="flex justify-end gap-2 mt-6">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-sm transition">Cancelar</button>
-                <button id="btn-submit-checkin" onclick="window.submitCheckin()" class="px-4 py-2 rounded-full bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-sm shadow flex items-center gap-2 transition">
-                    <i class="fa-solid fa-satellite-dish"></i> Confirmar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Informar Serviço (Sentinela / Efetivo) -->
     <div id="policial-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-start pt-4 sm:pt-10 justify-center z-50 hidden overflow-y-auto p-2">
         <div class="bg-policedark border border-green-500 rounded-xl p-4 sm:p-6 w-full max-w-lg shadow-2xl mb-10 relative">
             <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -194,12 +162,12 @@
                     <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800 text-sm" onchange="window.renderPolicialDynamic()">
                         <option value="sentinelasQ1">Sentinela (1º Quarto)</option>
                         <option value="sentinelasQ2">Sentinela (2º Quarto)</option>
-                        <option value="comandante">Comandante da Guarda</option>
-                        <option value="auxiliar">Auxiliar do Cmt</option>
+                        <option value="comandante" class="hidden font-bold text-cyan-400">Comandante da Guarda</option>
+                        <option value="auxiliar" class="hidden text-cyan-400">Auxiliar do Cmt</option>
                         <option value="armeiro">Armeiro</option>
                         <option value="rancheiro">Rancheiro</option>
                         <option value="motorista">Motorista</option>
-                        <option value="operacoes">Operações</option>
+                        <option value="operacoes" class="hidden text-cyan-400">Operações</option>
                     </select>
                 </div>
 
@@ -227,7 +195,6 @@
                     </select>
                 </div>
 
-                <!-- Área Dinâmica: Permuta -->
                 <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-3 rounded-xl border border-yellow-700/60 space-y-3 shadow-inner">
                     <h4 class="text-yellow-500 font-bold text-sm border-b border-yellow-800/50 pb-1 mb-2"><i class="fa-solid fa-right-left mr-1"></i> Substituído (Quem sai da escala)</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -257,7 +224,6 @@
                     </div>
                 </div>
 
-                <!-- Área Dinâmica: Postos de Sentinela -->
                 <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-xl border border-gray-700 shadow-inner">
                     <!-- Preenchido via JS -->
                 </div>
@@ -272,12 +238,10 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-2 transform translate-y-[-20px]">
         <i id="toast-icon" class="fa-solid fa-check-circle"></i> <span id="toast-msg" class="font-semibold text-sm"></span>
     </div>
 
-    <!-- Modal Custom Alert -->
     <div id="alert-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[250] hidden p-4">
         <div class="bg-policedark border border-red-500 rounded-2xl p-6 w-full max-w-sm text-center shadow-[0_0_30px_rgba(239,68,68,0.4)] relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
@@ -314,15 +278,9 @@
         const TURNOS_Q1 = [{ id: 't1', label: '08h-11h' }, { id: 't3', label: '14h-17h' }, { id: 't5', label: '20h-23h' }, { id: 't7', label: '02h-05h' }];
         const TURNOS_Q2 = [{ id: 't2', label: '11h-14h' }, { id: 't4', label: '17h-20h' }, { id: 't6', label: '23h-02h' }, { id: 't8', label: '05h-08h' }];
         
-        const PRESIDIO_LAT = -7.70579;
-        const PRESIDIO_LNG = -35.03077;
-        const RAIO_PERMITIDO_METROS = 2000; 
-
-        // Estados de Autenticação
-        let isEditMode = false; // Comandante ou Admin Logado
-        let isAdmin = false; // Administrador Mestre
-        let loggedCmdId = null; // ID do documento do comandante para trocar a senha
-        
+        let isEditMode = false;
+        let isAdmin = false;
+        let loggedCmdId = null;
         let currentDate = new Date().toISOString().split('T')[0];
         let unsubscribeSnapshot = null;
         let fileToUpload = null; 
@@ -338,7 +296,7 @@
                 motorista: { nome: '', matricula: '', grad: 'SD', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' },
                 operacoes: { nome: '', matricula: '', grad: '2º TEN', status: 'ORDINÁRIO', subNome: '', subMat: '', subGrad: 'SD', pdfUrl: '' }
             },
-            sentinelasQ1: [], sentinelasQ2: [], checkins: []
+            sentinelasQ1: [], sentinelasQ2: []
         };
         let state = JSON.parse(JSON.stringify(defaultState));
         let efetivoConhecido = []; 
@@ -360,20 +318,12 @@
             document.getElementById('alert-modal').classList.remove('hidden');
         };
 
-        function calcularDistanciaGPS(lat1, lon1, lat2, lon2) {
-            const R = 6371e3;
-            const p1 = lat1 * Math.PI/180, p2 = lat2 * Math.PI/180, dp = (lat2-lat1) * Math.PI/180, dl = (lon2-lon1) * Math.PI/180;
-            const a = Math.sin(dp/2) * Math.sin(dp/2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl/2) * Math.sin(dl/2);
-            return Math.round(R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))); 
-        }
-
         function extrairEfetivoMemoria() {
             const temp = {};
             const add = (p) => { if(p && p.nome && p.matricula) temp[p.matricula] = { nome: p.nome, matricula: p.matricula, grad: p.grad }; };
             Object.values(state.efetivoFixo).forEach(add);
             state.sentinelasQ1.forEach(add);
             state.sentinelasQ2.forEach(add);
-            state.checkins.forEach(add);
             efetivoConhecido = Object.values(temp);
             
             const dl = document.getElementById('efetivo-list');
@@ -411,7 +361,6 @@
                     state = docSnap.data();
                     if(!state.sentinelasQ1) state.sentinelasQ1 = [];
                     if(!state.sentinelasQ2) state.sentinelasQ2 = [];
-                    if(!state.checkins) state.checkins = [];
                 } else {
                     state = JSON.parse(JSON.stringify(defaultState));
                 }
@@ -443,82 +392,17 @@
             }
         };
 
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
         async function processFileUpload(file, path) {
             try {
                 const fileRef = storageRef(storage, path);
                 await uploadBytes(fileRef, file);
                 return await getDownloadURL(fileRef);
             } catch (e) {
-                console.warn("Upload falhou. Tentando Base64 (Plano B)...", e);
-                if (file.size > 700000) {
-                    window.showAlert("Arquivo Muito Grande", "O Firebase bloqueou o envio e o arquivo é muito grande para o modo offline (limite de 700KB). Diminua a foto ou o PDF.");
-                    throw e;
-                }
-                return await getBase64(file);
+                console.warn("Upload falhou.", e);
+                window.showAlert("Erro de Upload", "O Firebase bloqueou o envio do arquivo.\nVocê precisa configurar as Regras do Storage para 'allow read, write: if true;'.");
+                throw e;
             }
         }
-
-        window.openCheckinModal = () => {
-            document.getElementById('checkin-grad').innerHTML = `<option value="">Graduação...</option>` + GRADUACOES.map(g=>`<option value="${g}">${g}</option>`).join('');
-            document.getElementById('checkin-nome').value = '';
-            document.getElementById('checkin-mat').value = '';
-            document.getElementById('checkin-modal').classList.remove('hidden');
-        };
-
-        window.submitCheckin = () => {
-            const grad = document.getElementById('checkin-grad').value;
-            const nome = document.getElementById('checkin-nome').value.trim().toUpperCase();
-            const mat = document.getElementById('checkin-mat').value.trim();
-            
-            if(!grad || !nome || !mat) return showToast("Preencha Graduação, Nome e Matrícula!", "warning");
-            
-            const btn = document.getElementById('btn-submit-checkin');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando Satélite...';
-            btn.disabled = true;
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-                        const distancia = calcularDistanciaGPS(lat, lng, PRESIDIO_LAT, PRESIDIO_LNG);
-                        
-                        if (distancia > RAIO_PERMITIDO_METROS) {
-                            window.closeModals();
-                            window.showAlert("Fora do Perímetro", `Distância: ${distancia} metros.\nO limite é ${RAIO_PERMITIDO_METROS}m. Aproxime-se da unidade.`);
-                        } else {
-                            const timestamp = new Date().toISOString();
-                            state.checkins = state.checkins.filter(c => c.matricula !== mat);
-                            state.checkins.push({ id: generateId(), grad, nome, matricula: mat, lat, lng, timestamp });
-                            await saveCurrentState();
-                            window.closeModals();
-                            showToast(`Check-in Confirmado! (Distância: ${distancia}m)`);
-                            render();
-                        }
-                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar';
-                        btn.disabled = false;
-                    },
-                    (error) => {
-                        window.showAlert("Falha no GPS", "Erro ao obter localização. Ative o GPS no dispositivo.");
-                        btn.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Confirmar';
-                        btn.disabled = false;
-                    },
-                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-                );
-            } else {
-                window.showAlert("Erro", "Navegador sem suporte a GPS.");
-                btn.disabled = false;
-            }
-        };
 
         window.openPolicialModal = () => {
             fileToUpload = null;
@@ -536,19 +420,21 @@
             helper.innerText = "A imagem será enviada com os seus dados.";
             helper.className = 'text-[10px] text-yellow-500/70 mt-1 italic text-center font-medium';
             
-            if(!isEditMode) {
-                const matPrompt = prompt("Digite sua MATRÍCULA para verificar o Check-in GPS:");
-                if(!matPrompt) return;
-                
-                const fezCheckin = state.checkins.find(c => c.matricula === matPrompt.trim());
-                if(!fezCheckin) return window.showAlert("Acesso Negado", "Você não realizou o Check-in GPS hoje.\nFaça o Check-in antes de montar a escala.");
-                
-                document.getElementById('pol-nome').value = fezCheckin.nome;
-                document.getElementById('pol-mat').value = fezCheckin.matricula;
-                document.getElementById('pol-grad').value = fezCheckin.grad;
-                document.getElementById('modal-pol-title').innerHTML = '<i class="fa-solid fa-user-check text-green-400 mr-2"></i>Informar Serviço';
-            } else {
+            const roleSelect = document.getElementById('pol-role');
+            Array.from(roleSelect.options).forEach(opt => {
+                if (['comandante', 'auxiliar', 'operacoes'].includes(opt.value)) {
+                    opt.classList.toggle('hidden', !isEditMode);
+                }
+            });
+            
+            if (!isEditMode && ['comandante', 'auxiliar', 'operacoes'].includes(roleSelect.value)) {
+                roleSelect.value = 'sentinelasQ1';
+            }
+
+            if(isEditMode) {
                 document.getElementById('modal-pol-title').innerHTML = '<i class="fa-solid fa-user-shield text-cyan-400 mr-2"></i>Inserir Policial (Cmt)';
+            } else {
+                document.getElementById('modal-pol-title').innerHTML = '<i class="fa-solid fa-user-plus text-green-400 mr-2"></i>Informar Serviço';
             }
 
             document.getElementById('policial-modal').classList.remove('hidden');
@@ -568,12 +454,23 @@
                 const turnos = role === 'sentinelasQ1' ? TURNOS_Q1 : TURNOS_Q2;
                 let html = '<label class="text-xs text-cyan-400 font-bold block mb-3 uppercase tracking-wider"><i class="fa-solid fa-map-pin"></i> Selecione seus postos:</label><div class="grid grid-cols-2 gap-4">';
                 turnos.forEach((t, idx) => {
+                    const usedInSlot = state[role].map(s => s.postos[idx]).filter(p => p !== 'Folga' && p !== '');
+                    
+                    let optionsHtml = `<option value="Folga" class="text-gray-500">🛌 Folga</option>`;
+                    state.postosAtivos.forEach(p => {
+                        const isUsed = usedInSlot.includes(p);
+                        if (isUsed && !isEditMode) {
+                            optionsHtml += `<option value="${p}" disabled class="text-gray-600 bg-gray-900 line-through">${p} (Ocupado)</option>`;
+                        } else {
+                            optionsHtml += `<option value="${p}">${p}</option>`;
+                        }
+                    });
+
                     html += `
                         <div class="bg-gray-900/40 p-2 rounded-lg border border-gray-700/50">
                             <label class="text-xs text-gray-300 block mb-1 font-semibold text-center"><i class="fa-regular fa-clock text-cyan-500 mr-1"></i> ${t.label}</label>
                             <select id="pol-posto-${idx}" class="input-active bg-gray-900 border-gray-600 text-sm py-2 text-center font-bold">
-                                <option value="Folga" class="text-gray-500">🛌 Folga</option>
-                                ${state.postosAtivos.map(p => `<option value="${p}">${p}</option>`).join('')}
+                                ${optionsHtml}
                             </select>
                         </div>
                     `;
@@ -632,6 +529,16 @@
                     const postosUsados = p.filter(x => x !== 'Folga');
                     const duplicados = postosUsados.filter((item, index) => postosUsados.indexOf(item) !== index);
                     if(duplicados.length > 0) return window.showAlert("Bloqueio Anti-Repetição", "Você não pode escolher o mesmo posto duas vezes!\n(Apenas o Comandante tem permissão para repetir postos).");
+                    
+                    const turnosObj = role === 'sentinelasQ1' ? TURNOS_Q1 : TURNOS_Q2;
+                    for (let i = 0; i < 4; i++) {
+                        if (p[i] !== 'Folga') {
+                            const isTaken = state[role].some(s => s.postos[i] === p[i]);
+                            if (isTaken) {
+                                return window.showAlert("Posto Ocupado", `O posto ${p[i]} no horário de ${turnosObj[i].label} já foi escolhido por outro policial.\n\nPor favor, escolha outro posto livre.`);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -651,7 +558,6 @@
             document.getElementById('admin-panel-modal').classList.add('hidden');
             document.getElementById('cmd-pass-modal').classList.add('hidden');
             document.getElementById('policial-modal').classList.add('hidden');
-            document.getElementById('checkin-modal').classList.add('hidden');
         };
 
         window.openLoginModal = () => {
@@ -665,11 +571,11 @@
 
         window.setLoginTab = (tab) => {
             document.getElementById('tab-cmd').className = tab === 'cmd' ? 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan transition' : 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition';
-            document.getElementById('tab-admin').className = tab === 'admin' ? 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-slate-500 text-slate-400 transition' : 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition';
+            document.getElementById('tab-admin').className = tab === 'admin' ? 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-blue-500 text-blue-400 transition' : 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition';
             
             const container = document.getElementById('login-container');
             if (tab === 'admin') {
-                container.className = "bg-slate-900 border border-slate-500 rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(100,116,139,0.3)] transition-all";
+                container.className = "bg-slate-900 border border-blue-500 rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all";
             } else {
                 container.className = "bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all";
             }
@@ -749,39 +655,6 @@
                 if (e.message && e.message.includes('auth/requests-from-referer')) window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste domínio. A chave da API precisa ter este site autorizado no Google Cloud Console.");
                 else showToast("Erro: " + e.message, "error"); 
             }
-        };
-
-        window.registerAdmin = async () => {
-            const email = document.getElementById('admin-email').value.trim();
-            const pass = document.getElementById('admin-pass').value;
-            
-            if(!email || !pass) return showToast("Preencha E-mail e Senha para cadastrar", "warning");
-            if(pass.length < 6) return showToast("A senha deve ter no mínimo 6 letras ou números", "warning");
-            
-            try {
-                await createUserWithEmailAndPassword(auth, email, pass);
-                isEditMode = true; isAdmin = true; window.closeModals(); showToast("Administrador criado com sucesso!"); render();
-            } catch(e) {
-                console.error(e);
-                if (e.code === 'auth/operation-not-allowed') {
-                    window.showAlert("⚠️ Firebase Bloqueado", "Você precisa ir no painel do Firebase:\n\n1. Clique em 'Authentication'.\n2. Vá na aba 'Sign-in method'.\n3. Habilite a opção 'E-mail e Senha'.\n\nSem isso, o Firebase não deixa criar a conta.");
-                } else if (e.code === 'auth/email-already-in-use') {
-                    window.showAlert("Conta já existe", "Este e-mail já está cadastrado. Por favor, feche este aviso e clique no botão 'Entrar como Admin'.");
-                } else if (e.code === 'auth/invalid-email') {
-                    showToast("E-mail com formato inválido.", "error");
-                } else {
-                    window.showAlert("Erro Desconhecido", "Ocorreu um erro: " + e.message);
-                }
-            }
-        };
-
-        window.recoverAdminPassword = async () => {
-            const email = document.getElementById('admin-email').value.trim();
-            if(!email) return showToast("Digite o e-mail primeiro!", "warning");
-            try {
-                await sendPasswordResetEmail(auth, email);
-                showToast("E-mail de recuperação enviado!");
-            } catch(e) { showToast("Erro: " + e.message, "error"); }
         };
 
         window.logout = async () => {
@@ -867,8 +740,7 @@
                 if(p.status==='PERMUTA') {
                     txt += `\n   ↳ 🔄 Subst: ${p.subGrad} ${p.subNome} (Mat: ${p.subMat})`;
                     if(p.pdfUrl) {
-                        if(p.pdfUrl.startsWith('data:')) txt += `\n   ↳ 📎 Anexo: [Salvo internamente no app]`;
-                        else txt += `\n   ↳ 📎 Anexo: ${p.pdfUrl}`;
+                        txt += `\n   ↳ 📎 Anexo: ${p.pdfUrl}`;
                     }
                 } else if(p.status==='PJES') txt += ` [PJES]`;
                 return txt;
@@ -889,7 +761,6 @@
 
         function getPdfBadgeHTML(url) {
             if(!url) return '<span class="ml-2 text-[10px] text-gray-500 italic">(Sem Anexo)</span>';
-            if(url.startsWith('data:')) return '<span class="ml-2 text-[10px] text-green-500 font-bold bg-green-900/30 px-1 rounded"><i class="fa-solid fa-check"></i> Anexo Salvo</span>';
             return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap transition"><i class="fa-solid fa-link"></i> Ver PDF</a>`;
         }
 
@@ -998,24 +869,12 @@
             return h;
         }
 
-        function renderCheckins() {
-            if(!state.checkins.length) return '';
-            let h = `<div class="glass-panel p-4 rounded-xl mb-6 border-t-4 border-t-cyan-500 mt-6 shadow-lg"><h3 class="text-white font-bold text-lg mb-4 tracking-wide"><i class="fa-solid fa-satellite text-cyan-400 mr-2"></i>Histórico de Chegada GPS</h3><div class="overflow-x-auto scrollbar-hide"><table class="w-full text-left text-sm whitespace-nowrap min-w-[500px]"><thead class="text-gray-400 border-b border-gray-700 text-[10px] uppercase tracking-wider"><th class="p-3 font-bold">Ordem</th><th class="p-3 font-bold">Policial</th><th class="p-3 text-right font-bold">Chegada</th></thead><tbody>`;
-            [...state.checkins].sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp)).forEach((c, i) => {
-                const time = new Date(c.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-                const medal = i===0?'<span class="text-2xl drop-shadow-lg">🥇</span>':(i===1?'<span class="text-2xl drop-shadow-lg">🥈</span>':(i===2?'<span class="text-2xl drop-shadow-lg">🥉</span>':`<span class="text-gray-400 font-bold ml-2">${i+1}º</span>`));
-                h += `<tr class="border-b border-gray-800/60 hover:bg-gray-800/40 transition"><td class="p-3 text-center w-16">${medal}</td><td class="p-3 text-white font-bold tracking-wide">${c.grad} ${c.nome} <span class="text-[10px] text-gray-500 block font-mono">Mat: ${c.matricula}</span></td><td class="p-3 text-right text-cyan-400 font-mono font-bold text-lg">${time}</td></tr>`;
-            });
-            return h + `</tbody></table></div></div>`;
-        }
-
         function render() {
             const badge = document.getElementById('status-badge');
             const headBtns = document.getElementById('header-buttons');
             const wrapper = document.getElementById('main-wrapper');
             const mainContent = document.getElementById('main-content');
             
-            // Controle do layout centralizado para tela inicial (quando está vazio)
             if (!isEditMode && state.status === 'draft') {
                 wrapper.classList.add('justify-center');
                 wrapper.classList.remove('pt-6', 'pb-24');
@@ -1025,11 +884,9 @@
                 wrapper.classList.remove('justify-center');
                 wrapper.classList.add('pt-6', 'pb-24');
                 mainContent.classList.remove('hidden');
-                // Timeout curto para o fade-in fluir suave
                 setTimeout(() => mainContent.classList.add('opacity-100'), 50);
             }
 
-            // Status Logic
             if (state.status === 'approved') {
                 badge.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider bg-green-700/90 text-white shadow-[0_0_10px_rgba(22,163,74,0.5)] border border-green-500/50 whitespace-nowrap";
                 badge.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Fechada (Aprovada)';
@@ -1038,24 +895,22 @@
                 badge.innerHTML = '<i class="fa-solid fa-pen mr-1"></i> Rascunho';
             }
 
-            // Header Buttons Logic
-            let btnsHtml = `<button onclick="window.openCheckinModal()" class="btn-neon bg-cyan-900/80 hover:bg-cyan-700 text-cyan-50 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-cyan-500/50 flex items-center gap-2"><i class="fa-solid fa-location-crosshairs"></i> GPS</button>`;
+            let btnsHtml = '';
             
             if (!isEditMode && state.status !== 'approved') {
-                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-green-900/80 hover:bg-green-700 text-green-50 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-green-500/50 flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Informar Serviço</button>`;
+                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-green-900/80 hover:bg-green-700 text-green-50 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-green-500/50 flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Informar Serviço</button>`;
             }
 
             if (isEditMode) {
-                if(isAdmin) btnsHtml += `<button onclick="window.openAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-slate-500 flex items-center gap-2"><i class="fa-solid fa-users-gear"></i> Painel Admin</button>`;
-                else btnsHtml += `<button onclick="document.getElementById('cmd-pass-modal').classList.remove('hidden')" class="bg-indigo-700 hover:bg-indigo-600 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-indigo-500 flex items-center gap-2"><i class="fa-solid fa-key"></i> Senha</button>`;
-                btnsHtml += `<button onclick="window.logout()" class="bg-red-900/80 hover:bg-red-700 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-red-500 flex items-center gap-2"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>`;
-                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-blue-900/80 hover:bg-blue-700 text-blue-50 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-blue-500/50 flex items-center gap-2"><i class="fa-solid fa-user-shield"></i> Inserir Sentinela</button>`;
+                if(isAdmin) btnsHtml += `<button onclick="window.openAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-slate-500 flex items-center gap-2"><i class="fa-solid fa-users-gear"></i> Painel Admin</button>`;
+                else btnsHtml += `<button onclick="document.getElementById('cmd-pass-modal').classList.remove('hidden')" class="bg-indigo-700 hover:bg-indigo-600 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-indigo-500 flex items-center gap-2"><i class="fa-solid fa-key"></i> Senha</button>`;
+                btnsHtml += `<button onclick="window.logout()" class="bg-red-900/80 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-red-500 flex items-center gap-2"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>`;
+                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-blue-900/80 hover:bg-blue-700 text-blue-50 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-blue-500/50 flex items-center gap-2"><i class="fa-solid fa-user-shield"></i> Inserir Sentinela</button>`;
             } else {
-                btnsHtml += `<button onclick="window.openLoginModal()" class="btn-neon bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition border border-gray-600 flex items-center gap-2"><i class="fa-solid fa-lock"></i> Acesso Restrito</button>`;
+                btnsHtml += `<button onclick="window.openLoginModal()" class="btn-neon bg-gray-800 hover:bg-gray-700 text-gray-300 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-gray-600 flex items-center gap-2"><i class="fa-solid fa-lock"></i> Acesso Restrito</button>`;
             }
             headBtns.innerHTML = btnsHtml;
 
-            // Renderiza apenas se não for a tela inicial limpa
             if (isEditMode || state.status === 'approved') {
                 mainContent.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -1068,7 +923,6 @@
                     </div>
                     ${renderQuartoTable('sentinelasQ1', '1º Quarto', 'fa-solid fa-sun', TURNOS_Q1)}
                     ${renderQuartoTable('sentinelasQ2', '2º Quarto', 'fa-solid fa-moon', TURNOS_Q2)}
-                    ${renderCheckins()}
 
                     <div class="flex flex-wrap justify-center mb-10 mt-10 gap-4 px-2">
                         ${isEditMode ? `

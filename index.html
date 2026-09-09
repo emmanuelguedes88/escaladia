@@ -43,8 +43,8 @@
         select:disabled { background-image: none; }
         
         .input-active {
-            background-color: #1e293b; border: 1px solid #334155; color: white; border-radius: 0.25rem;
-            padding: 0.5rem; width: 100%; transition: all 0.2s;
+            background-color: #1e293b; border: 1px solid #334155; color: white; border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem; width: 100%; transition: all 0.2s;
         }
         .input-active:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 8px rgba(6, 182, 212, 0.5); }
         
@@ -61,14 +61,14 @@
 
     <div id="main-wrapper" class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 flex flex-col min-h-screen transition-all duration-500 justify-center">
         
-        <header id="main-header" class="text-center w-full max-w-3xl mx-auto glass-panel rounded-xl p-6 sm:p-8 border-t-4 border-t-policecyan relative transition-all duration-500 shadow-2xl">
+        <header id="main-header" class="text-center w-full max-w-3xl mx-auto glass-panel rounded-2xl p-6 sm:p-8 border-t-4 border-t-policecyan relative transition-all duration-500 shadow-2xl">
             <div class="flex justify-center mb-3"><i class="fa-solid fa-shield-halved text-5xl text-policecyan" style="filter: drop-shadow(0 0 15px #06b6d4);"></i></div>
-            <h1 class="text-3xl sm:text-4xl font-bold uppercase tracking-widest text-white mb-6">Escala do Dia</h1>
+            <h1 class="text-3xl sm:text-4xl font-black uppercase tracking-widest text-white mb-6">Escala do Dia</h1>
             
             <div class="flex flex-col md:flex-row justify-center items-center gap-4 text-sm bg-gray-900/80 p-4 rounded-xl border border-gray-700 w-full shadow-inner">
                 <div class="flex flex-wrap items-center gap-3 justify-center">
                     <span class="text-gray-400 font-bold whitespace-nowrap text-lg"><i class="fa-regular fa-calendar-days mr-1"></i> Data:</span>
-                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-2 rounded-lg w-auto cursor-pointer text-lg" onchange="window.changeDate(this.value)">
+                    <input type="date" id="data-servico" class="input-active bg-gray-800 border-gray-600 text-policecyan font-bold p-2 rounded-lg w-auto cursor-pointer text-lg text-center" onchange="window.changeDate(this.value)">
                 </div>
                 
                 <div id="status-badge" class="px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider bg-gray-600 text-white whitespace-nowrap shadow-sm">Carregando...</div>
@@ -85,81 +85,95 @@
     </div>
 
     <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]" id="login-container">
-            <h3 class="text-lg font-bold mb-4 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-shield text-policecyan mr-2"></i>Acesso Restrito</h3>
+        <div class="bg-policedark border border-policecyan rounded-2xl p-6 w-full max-w-sm shadow-[0_0_30px_rgba(6,182,212,0.3)]" id="login-container">
+            <h3 class="text-xl font-black mb-4 text-white border-b border-gray-700 pb-3 text-center tracking-wide"><i class="fa-solid fa-user-shield text-policecyan mr-2"></i>Acesso Restrito</h3>
             
-            <div class="flex gap-2 mb-4 border-b border-gray-700 pb-2">
-                <button onclick="window.setLoginTab('cmd')" id="tab-cmd" class="flex-1 text-center py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan transition">Comandante</button>
-                <button onclick="window.setLoginTab('admin')" id="tab-admin" class="flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition">Administrador</button>
+            <div class="flex gap-2 mb-5 bg-gray-900 p-1 rounded-lg">
+                <button onclick="window.setLoginTab('cmd')" id="tab-cmd" class="flex-1 text-center py-2 text-sm font-bold rounded-md bg-gray-800 text-policecyan shadow transition">Comandante</button>
+                <button onclick="window.setLoginTab('admin')" id="tab-admin" class="flex-1 text-center py-2 text-sm font-bold rounded-md text-gray-500 hover:text-gray-300 transition">Administrador</button>
             </div>
 
-            <div id="form-cmd" class="space-y-3">
-                <input type="text" id="cmd-user" class="input-active text-sm" placeholder="Usuário (Sua Matrícula)">
-                <input type="password" id="cmd-pass" class="input-active text-sm" placeholder="Senha">
-                <button onclick="window.loginCommander()" class="w-full py-2 rounded-full bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm transition shadow-lg mt-2">Entrar como Cmt</button>
+            <div id="form-cmd" class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-policecyan uppercase font-bold ml-1 mb-1 block">Sua Matrícula</label>
+                    <input type="text" id="cmd-user" class="input-active text-sm" placeholder="Ex: 123456">
+                </div>
+                <div>
+                    <label class="text-[10px] text-policecyan uppercase font-bold ml-1 mb-1 block">Senha</label>
+                    <input type="password" id="cmd-pass" class="input-active text-sm" placeholder="Sua senha">
+                </div>
+                <button onclick="window.loginCommander()" class="w-full py-3 rounded-full bg-policecyan hover:bg-cyan-500 text-black font-bold text-sm transition shadow-[0_0_15px_rgba(6,182,212,0.4)] mt-2">Entrar na Escala</button>
             </div>
 
-            <div id="form-admin" class="space-y-3 hidden">
-                <input type="email" id="admin-email" class="input-active text-sm" placeholder="E-mail do Administrador">
-                <input type="password" id="admin-pass" class="input-active text-sm" placeholder="Senha (Mín. 6 letras)">
-                <button onclick="window.loginAdmin()" class="w-full py-2 rounded-full bg-blue-700 hover:bg-blue-600 text-white font-bold text-sm transition shadow-lg mt-2 border border-blue-500">Entrar como Admin</button>
-                <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-800">
-                    <button onclick="window.registerAdmin()" class="text-xs text-blue-400 hover:text-blue-300 font-bold transition">Criar Conta Admin</button>
-                    <button onclick="window.recoverAdminPassword()" class="text-xs text-yellow-400 hover:text-yellow-300 font-bold transition">Esqueci a Senha</button>
+            <div id="form-admin" class="space-y-4 hidden">
+                <div>
+                    <label class="text-[10px] text-blue-400 uppercase font-bold ml-1 mb-1 block">E-mail do Admin</label>
+                    <input type="email" id="admin-email" class="input-active text-sm" placeholder="seu@email.com">
+                </div>
+                <div>
+                    <label class="text-[10px] text-blue-400 uppercase font-bold ml-1 mb-1 block">Senha</label>
+                    <input type="password" id="admin-pass" class="input-active text-sm" placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="flex gap-2 mt-2">
+                    <button onclick="window.loginAdmin()" class="flex-1 py-3 rounded-full bg-blue-700 hover:bg-blue-600 text-white font-bold text-sm transition shadow-lg border border-blue-500">Entrar</button>
+                    <button onclick="window.registerAdmin()" class="flex-1 py-3 rounded-full bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm transition shadow-lg border border-slate-500">Cadastrar</button>
+                </div>
+                <div class="text-center mt-3 pt-3 border-t border-gray-800">
+                    <button onclick="window.recoverAdminPassword()" class="text-xs text-yellow-400 hover:text-yellow-300 font-bold transition"><i class="fa-solid fa-envelope mr-1"></i> Esqueci a Senha</button>
                 </div>
             </div>
 
-            <div class="flex justify-center mt-4">
-                <button onclick="window.closeModals()" class="px-4 py-1 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs transition">Cancelar</button>
+            <div class="flex justify-center mt-6">
+                <button onclick="window.closeModals()" class="px-6 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs transition font-bold"><i class="fa-solid fa-xmark mr-1"></i> Fechar</button>
             </div>
         </div>
     </div>
 
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] hidden p-4">
-        <div class="bg-slate-900 border border-slate-500 rounded-xl p-6 w-full max-w-lg shadow-[0_0_30px_rgba(100,116,139,0.3)]">
-            <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-2">
-                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-users-gear text-slate-400 mr-2"></i>Gerenciar Comandantes</h3>
-                <button onclick="document.getElementById('admin-panel-modal').classList.add('hidden')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <div class="bg-slate-900 border border-slate-500 rounded-2xl p-6 w-full max-w-lg shadow-[0_0_30px_rgba(100,116,139,0.3)]">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+                <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-users-gear text-slate-400 mr-2"></i>Gerenciar Comandantes</h3>
+                <button onclick="document.getElementById('admin-panel-modal').classList.add('hidden')" class="text-gray-400 hover:text-white bg-slate-800 rounded-full w-8 h-8 flex items-center justify-center transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
-            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 mb-4">
-                <h4 class="text-xs text-slate-300 uppercase font-bold mb-2">Cadastrar Novo Comandante</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
-                    <input type="text" id="new-cmd-nome" class="input-active bg-slate-900 border-slate-600 text-sm" placeholder="Grad. e Nome (Ex: 1º SGT Guedes)">
-                    <input type="text" id="new-cmd-user" class="input-active bg-slate-900 border-slate-600 text-sm" placeholder="Matrícula (Usuário)">
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-600 mb-5 shadow-inner">
+                <h4 class="text-xs text-slate-300 uppercase font-black mb-3"><i class="fa-solid fa-user-plus mr-1"></i> Novo Comandante</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                    <input type="text" id="new-cmd-nome" class="input-active bg-slate-900 border-slate-700 text-sm" placeholder="Nome (Ex: SGT Guedes)">
+                    <input type="text" id="new-cmd-user" class="input-active bg-slate-900 border-slate-700 text-sm" placeholder="Matrícula">
                 </div>
-                <div class="flex gap-2">
-                    <input type="text" id="new-cmd-pass" class="input-active bg-slate-900 border-slate-600 text-sm flex-1" placeholder="Senha Provisória">
-                    <button onclick="window.addCommander()" class="bg-slate-600 hover:bg-slate-500 text-white px-4 rounded-lg font-bold text-sm transition">Salvar</button>
+                <div class="flex gap-3">
+                    <input type="text" id="new-cmd-pass" class="input-active bg-slate-900 border-slate-700 text-sm flex-1" placeholder="Senha Provisória">
+                    <button onclick="window.addCommander()" class="bg-slate-600 hover:bg-slate-500 text-white px-6 rounded-lg font-bold text-sm transition">Salvar</button>
                 </div>
             </div>
 
-            <h4 class="text-xs text-slate-400 uppercase font-bold mb-2">Comandantes Cadastrados</h4>
-            <div class="max-h-48 overflow-y-auto pr-2 space-y-2" id="cmd-list">
+            <h4 class="text-xs text-slate-400 uppercase font-black mb-3">Comandantes Cadastrados</h4>
+            <div class="max-h-56 overflow-y-auto pr-2 space-y-2 scrollbar-hide" id="cmd-list">
             </div>
         </div>
     </div>
 
     <div id="cmd-pass-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] hidden p-4">
-        <div class="bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+        <div class="bg-policedark border border-policecyan rounded-2xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)]">
             <h3 class="text-lg font-bold mb-4 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-key text-policecyan mr-2"></i>Trocar Minha Senha</h3>
-            <input type="password" id="cmd-new-pass" class="input-active text-sm mb-4" placeholder="Digite a nova senha">
-            <div class="flex justify-end gap-2">
-                <button onclick="document.getElementById('cmd-pass-modal').classList.add('hidden')" class="px-4 py-2 rounded-full bg-gray-700 text-white text-sm">Cancelar</button>
-                <button onclick="window.changeCmdPassword()" class="px-4 py-2 rounded-full bg-policecyan text-black font-bold text-sm">Salvar Senha</button>
+            <input type="password" id="cmd-new-pass" class="input-active text-sm mb-5" placeholder="Digite a nova senha secreta">
+            <div class="flex justify-end gap-3">
+                <button onclick="document.getElementById('cmd-pass-modal').classList.add('hidden')" class="px-5 py-2 rounded-full bg-gray-700 text-white font-bold text-sm">Cancelar</button>
+                <button onclick="window.changeCmdPassword()" class="px-5 py-2 rounded-full bg-policecyan text-black font-bold text-sm shadow-[0_0_10px_rgba(6,182,212,0.4)]">Salvar Senha</button>
             </div>
         </div>
     </div>
 
     <div id="policial-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-start pt-4 sm:pt-10 justify-center z-50 hidden overflow-y-auto p-2">
-        <div class="bg-policedark border border-green-500 rounded-xl p-4 sm:p-6 w-full max-w-lg shadow-2xl mb-10 relative">
-            <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 id="modal-pol-title" class="text-lg sm:text-xl font-bold mb-1 text-white border-b border-gray-700 pb-2"><i class="fa-solid fa-user-plus text-green-400 mr-2"></i>Informar Serviço</h3>
+        <div class="bg-policedark border border-green-500 rounded-2xl p-4 sm:p-6 w-full max-w-lg shadow-[0_0_30px_rgba(34,197,94,0.2)] mb-10 relative">
+            <button onclick="window.closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 id="modal-pol-title" class="text-xl font-black mb-2 text-white border-b border-gray-700 pb-3"><i class="fa-solid fa-user-plus text-green-400 mr-2"></i>Informar Serviço</h3>
             
-            <div class="space-y-4 mt-4">
+            <div class="space-y-4 mt-5">
                 <div>
                     <label class="text-xs text-cyan-400 font-bold block mb-1 uppercase tracking-wider">Qual sua função?</label>
-                    <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800 text-sm" onchange="window.renderPolicialDynamic()">
+                    <select id="pol-role" class="input-active bg-gray-800 text-white border-cyan-800 text-sm font-bold" onchange="window.renderPolicialDynamic()">
                         <option value="sentinelasQ1">Sentinela (1º Quarto)</option>
                         <option value="sentinelasQ2">Sentinela (2º Quarto)</option>
                         <option value="comandante" class="hidden font-bold text-cyan-400">Comandante da Guarda</option>
@@ -171,23 +185,23 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gray-900/50 p-3 rounded-lg border border-gray-700 shadow-inner">
-                    <div>
-                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Graduação</label>
-                        <select id="pol-grad" class="input-active bg-gray-800 text-sm"></select>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gray-900/60 p-4 rounded-xl border border-gray-700 shadow-inner">
                     <div class="sm:col-span-2 relative">
-                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Nome Completo/Guerra</label>
-                        <input type="text" id="pol-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-mat', 'pol-grad')" class="input-active bg-gray-800 text-sm" placeholder="Digite o nome..." autocomplete="off">
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold mb-1">Nome Completo/Guerra</label>
+                        <input type="text" id="pol-nome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-mat', 'pol-grad')" class="input-active bg-gray-800 text-sm font-semibold" placeholder="Digite o nome..." autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold mb-1">Graduação</label>
+                        <select id="pol-grad" class="input-active bg-gray-800 text-sm font-semibold"></select>
                     </div>
                     <div class="sm:col-span-3">
-                        <label class="text-[10px] text-gray-400 block uppercase font-bold">Matrícula</label>
-                        <input type="text" id="pol-mat" class="input-active bg-gray-800 text-sm" placeholder="Ex: 12345">
+                        <label class="text-[10px] text-gray-400 block uppercase font-bold mb-1">Matrícula</label>
+                        <input type="text" id="pol-mat" class="input-active bg-gray-800 text-sm font-mono tracking-wider" placeholder="Ex: 123456">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1 font-bold uppercase tracking-wider">Situação</label>
+                    <label class="text-xs text-gray-400 block mb-1 font-bold uppercase tracking-wider">Situação (Falta/Permuta/PJES)</label>
                     <select id="pol-status" class="input-active bg-gray-800 font-bold text-sm" onchange="window.checkPermutaUI()">
                         <option value="ORDINÁRIO">ORDINÁRIO</option>
                         <option value="PJES" class="text-blue-400">PJES</option>
@@ -195,60 +209,59 @@
                     </select>
                 </div>
 
-                <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-3 rounded-xl border border-yellow-700/60 space-y-3 shadow-inner">
-                    <h4 class="text-yellow-500 font-bold text-sm border-b border-yellow-800/50 pb-1 mb-2"><i class="fa-solid fa-right-left mr-1"></i> Substituído (Quem sai da escala)</h4>
+                <div id="pol-permuta-area" class="hidden bg-yellow-900/20 p-4 rounded-xl border border-yellow-700/60 space-y-3 shadow-inner">
+                    <h4 class="text-yellow-500 font-black text-sm border-b border-yellow-800/50 pb-2 mb-2"><i class="fa-solid fa-right-left mr-1"></i> Substituído (Quem sai da escala)</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Graduação</label>
-                            <select id="pol-subgrad" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm"></select>
-                        </div>
                         <div class="sm:col-span-2">
-                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Nome</label>
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold mb-1">Nome</label>
                             <input type="text" id="pol-subnome" list="efetivo-list" oninput="window.handleNomeInput(this.value, 'pol-submat', 'pol-subgrad')" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm" placeholder="Quem está saindo..." autocomplete="off">
                         </div>
+                        <div>
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold mb-1">Grad.</label>
+                            <select id="pol-subgrad" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm"></select>
+                        </div>
                         <div class="sm:col-span-3">
-                            <label class="text-[10px] text-yellow-500 block uppercase font-bold">Matrícula</label>
-                            <input type="text" id="pol-submat" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm" placeholder="Matrícula de quem sai">
+                            <label class="text-[10px] text-yellow-500 block uppercase font-bold mb-1">Matrícula</label>
+                            <input type="text" id="pol-submat" class="input-active border-yellow-800/50 bg-gray-900 text-yellow-100 text-sm font-mono" placeholder="Matrícula de quem sai">
                         </div>
                     </div>
                     
-                    <div class="pt-2">
-                        <label class="text-[10px] text-yellow-500 block mb-1 uppercase font-bold">Documento / Imagem da Permuta</label>
+                    <div class="pt-3 border-t border-yellow-800/30">
+                        <label class="text-[10px] text-yellow-500 block mb-2 uppercase font-bold">Documento / Imagem da Permuta</label>
                         <div class="flex items-center gap-2">
-                            <label id="label-file-container" class="cursor-pointer bg-yellow-700/80 hover:bg-yellow-600 text-white px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-center gap-2 w-full text-center border border-yellow-500/50 shadow-md">
-                                <i class="fa-solid fa-image"></i> <span id="label-file-text">Selecionar Arquivo</span>
+                            <label id="label-file-container" class="cursor-pointer bg-yellow-700/80 hover:bg-yellow-600 text-white px-4 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 w-full text-center border border-yellow-500/50 shadow-md">
+                                <i class="fa-solid fa-image text-lg"></i> <span id="label-file-text">Selecionar Imagem/PDF</span>
                                 <input type="file" id="pol-pdf" accept="image/*,application/pdf" class="hidden" onchange="window.handleFileSelect(this)">
                             </label>
                         </div>
-                        <p id="file-helper-text" class="text-[10px] text-yellow-500/70 mt-1 italic text-center font-medium">A imagem será enviada com os seus dados.</p>
                     </div>
                 </div>
 
-                <div id="pol-dynamic-area" class="bg-gray-800/50 p-3 rounded-xl border border-gray-700 shadow-inner">
-                    <!-- Preenchido via JS -->
+                <div id="pol-dynamic-area" class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 shadow-inner">
+                    <!-- Preenchido via JS (Postos) -->
                 </div>
             </div>
             
-            <div class="flex justify-end gap-2 mt-6 border-t border-gray-700 pt-4">
-                <button onclick="window.closeModals()" class="px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm w-full sm:w-auto transition">Cancelar</button>
-                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-5 py-2 rounded-full bg-green-700 hover:bg-green-600 text-white font-bold text-sm shadow-lg flex justify-center items-center gap-2 w-full sm:w-auto transition">
-                    <i class="fa-solid fa-save"></i> Salvar na Escala
+            <div class="flex justify-end gap-3 mt-6 border-t border-gray-700 pt-4">
+                <button onclick="window.closeModals()" class="px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm w-full sm:w-auto transition">Cancelar</button>
+                <button id="btn-submit-pol" onclick="window.submitPolicialData()" class="px-6 py-2 rounded-full bg-green-700 hover:bg-green-600 text-white font-black text-sm shadow-[0_0_15px_rgba(34,197,94,0.4)] flex justify-center items-center gap-2 w-full sm:w-auto transition">
+                    <i class="fa-solid fa-save text-lg"></i> SALVAR NA ESCALA
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-2 transform translate-y-[-20px]">
-        <i id="toast-icon" class="fa-solid fa-check-circle"></i> <span id="toast-msg" class="font-semibold text-sm"></span>
+    <div id="toast" class="fixed top-4 right-4 text-white px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-opacity duration-300 opacity-0 pointer-events-none z-[200] flex items-center gap-3 transform translate-y-[-20px]">
+        <i id="toast-icon" class="fa-solid fa-check-circle text-xl"></i> <span id="toast-msg" class="font-bold text-sm"></span>
     </div>
 
     <div id="alert-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[250] hidden p-4">
         <div class="bg-policedark border border-red-500 rounded-2xl p-6 w-full max-w-sm text-center shadow-[0_0_30px_rgba(239,68,68,0.4)] relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
             <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4 drop-shadow-md"></i>
-            <h3 id="alert-title" class="text-xl font-bold text-white mb-2 uppercase tracking-wide">Atenção</h3>
+            <h3 id="alert-title" class="text-xl font-black text-white mb-2 uppercase tracking-wide">Atenção</h3>
             <p id="alert-msg" class="text-gray-300 mb-6 text-sm whitespace-pre-line"></p>
-            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-full font-bold w-full transition shadow-lg">Ciente</button>
+            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-full font-bold w-full transition shadow-lg text-lg">Entendi</button>
         </div>
     </div>
 
@@ -305,8 +318,8 @@
 
         function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
-            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 z-[300] flex items-center gap-2 transform translate-y-0 ${type === 'warning' ? 'bg-yellow-600' : (type==='error'?'bg-red-600':'bg-green-600')}`;
-            document.getElementById('toast-icon').className = type === 'warning' ? 'fa-solid fa-triangle-exclamation' : (type==='error'?'fa-solid fa-xmark':'fa-solid fa-check-circle');
+            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 z-[300] flex items-center gap-3 transform translate-y-0 ${type === 'warning' ? 'bg-yellow-600' : (type==='error'?'bg-red-600':'bg-green-600')}`;
+            document.getElementById('toast-icon').className = type === 'warning' ? 'fa-solid fa-triangle-exclamation text-xl' : (type==='error'?'fa-solid fa-xmark text-xl':'fa-solid fa-check-circle text-xl');
             document.getElementById('toast-msg').innerText = msg;
             toast.style.opacity = '1';
             setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translate-y(-20px)'; }, 4000);
@@ -344,7 +357,7 @@
                 await setDoc(docRef, state);
                 extrairEfetivoMemoria();
             } catch(e) {
-                showToast("Modo Offline Ativado (Sem internet ou permissões)", "warning");
+                showToast("Modo Offline Ativado (Sem internet)", "warning");
                 localStorage.setItem(`escala_${currentDate}`, JSON.stringify(state));
             }
         }
@@ -381,14 +394,12 @@
                 fileToUpload = input.files[0];
                 const text = document.getElementById('label-file-text');
                 const container = document.getElementById('label-file-container');
-                const helper = document.getElementById('file-helper-text');
                 
                 text.innerHTML = `Anexado: ${fileToUpload.name.substring(0,15)}...`;
                 container.classList.remove('bg-yellow-700/80', 'hover:bg-yellow-600', 'border-yellow-500/50');
                 container.classList.add('bg-green-700/90', 'hover:bg-green-600', 'border-green-400');
                 
-                helper.innerHTML = '<i class="fa-solid fa-check text-green-400"></i> Arquivo pronto para envio!';
-                helper.classList.replace('text-yellow-500/70', 'text-green-400');
+                showToast("Arquivo selecionado e pronto para envio!", "success");
             }
         };
 
@@ -398,9 +409,18 @@
                 await uploadBytes(fileRef, file);
                 return await getDownloadURL(fileRef);
             } catch (e) {
-                console.warn("Upload falhou.", e);
-                window.showAlert("Erro de Upload", "O Firebase bloqueou o envio do arquivo.\nVocê precisa configurar as Regras do Storage para 'allow read, write: if true;'.");
-                throw e;
+                console.warn("Upload Storage bloqueado. Usando Fallback Base64.", e);
+                window.showAlert("Aviso de Anexo", "O arquivo foi salvo internamente no banco de dados, pois o Firebase Storage rejeitou o link externo.\n\nPara consertar isso definitivamente e gerar o link para o WhatsApp, altere as regras do 'Storage' no painel do Firebase para 'allow read, write: if true;'.");
+                
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        if(reader.result.length > 700000) reject(new Error("Arquivo muito grande."));
+                        else resolve(reader.result);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
             }
         }
 
@@ -414,11 +434,8 @@
             
             const fileText = document.getElementById('label-file-text');
             const fileContainer = document.getElementById('label-file-container');
-            const helper = document.getElementById('file-helper-text');
-            fileText.innerHTML = 'Selecionar Arquivo';
-            fileContainer.className = 'cursor-pointer bg-yellow-700/80 hover:bg-yellow-600 text-white px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-center gap-2 w-full text-center border border-yellow-500/50 shadow-md';
-            helper.innerText = "A imagem será enviada com os seus dados.";
-            helper.className = 'text-[10px] text-yellow-500/70 mt-1 italic text-center font-medium';
+            fileText.innerHTML = 'Selecionar Imagem/PDF';
+            fileContainer.className = 'cursor-pointer bg-yellow-700/80 hover:bg-yellow-600 text-white px-4 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 w-full text-center border border-yellow-500/50 shadow-md';
             
             const roleSelect = document.getElementById('pol-role');
             Array.from(roleSelect.options).forEach(opt => {
@@ -452,7 +469,7 @@
             const area = document.getElementById('pol-dynamic-area');
             if (role.startsWith('sentinelas')) {
                 const turnos = role === 'sentinelasQ1' ? TURNOS_Q1 : TURNOS_Q2;
-                let html = '<label class="text-xs text-cyan-400 font-bold block mb-3 uppercase tracking-wider"><i class="fa-solid fa-map-pin"></i> Selecione seus postos:</label><div class="grid grid-cols-2 gap-4">';
+                let html = '<label class="text-xs text-cyan-400 font-bold block mb-3 uppercase tracking-wider"><i class="fa-solid fa-map-pin mr-1"></i> Selecione seus postos:</label><div class="grid grid-cols-2 gap-4">';
                 turnos.forEach((t, idx) => {
                     const usedInSlot = state[role].map(s => s.postos[idx]).filter(p => p !== 'Folga' && p !== '');
                     
@@ -467,8 +484,8 @@
                     });
 
                     html += `
-                        <div class="bg-gray-900/40 p-2 rounded-lg border border-gray-700/50">
-                            <label class="text-xs text-gray-300 block mb-1 font-semibold text-center"><i class="fa-regular fa-clock text-cyan-500 mr-1"></i> ${t.label}</label>
+                        <div class="bg-gray-900/60 p-3 rounded-xl border border-gray-700/50">
+                            <label class="text-xs text-gray-300 block mb-2 font-bold text-center"><i class="fa-regular fa-clock text-cyan-500 mr-1"></i> ${t.label}</label>
                             <select id="pol-posto-${idx}" class="input-active bg-gray-900 border-gray-600 text-sm py-2 text-center font-bold">
                                 ${optionsHtml}
                             </select>
@@ -502,15 +519,16 @@
                 
                 if (fileToUpload) {
                     const btn = document.getElementById('btn-submit-pol');
-                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Enviando Arquivo...`;
+                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ENVIANDO ARQUIVO...`;
                     btn.disabled = true;
                     try {
                         const fileExt = fileToUpload.name.split('.').pop();
                         const fileName = `escalas_pdfs/${currentDate}/${Date.now()}_${mat}.${fileExt}`;
                         pdfUrl = await processFileUpload(fileToUpload, fileName);
                     } catch (e) {
-                        btn.innerHTML = `<i class="fa-solid fa-save"></i> Salvar na Escala`;
+                        btn.innerHTML = `<i class="fa-solid fa-save text-lg"></i> SALVAR NA ESCALA`;
                         btn.disabled = false;
+                        if(e.message === "Arquivo muito grande.") showToast("Imagem muito pesada (Limite 700KB).", "error");
                         return;
                     }
                 }
@@ -534,9 +552,7 @@
                     for (let i = 0; i < 4; i++) {
                         if (p[i] !== 'Folga') {
                             const isTaken = state[role].some(s => s.postos[i] === p[i]);
-                            if (isTaken) {
-                                return window.showAlert("Posto Ocupado", `O posto ${p[i]} no horário de ${turnosObj[i].label} já foi escolhido por outro policial.\n\nPor favor, escolha outro posto livre.`);
-                            }
+                            if (isTaken) return window.showAlert("Posto Ocupado", `O posto ${p[i]} no horário de ${turnosObj[i].label} já foi escolhido por outro policial.\n\nPor favor, escolha outro posto livre.`);
                         }
                     }
                 }
@@ -570,14 +586,14 @@
         };
 
         window.setLoginTab = (tab) => {
-            document.getElementById('tab-cmd').className = tab === 'cmd' ? 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-policecyan text-policecyan transition' : 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition';
-            document.getElementById('tab-admin').className = tab === 'admin' ? 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-blue-500 text-blue-400 transition' : 'flex-1 text-center py-1 text-sm font-bold border-b-2 border-transparent text-gray-500 transition';
+            document.getElementById('tab-cmd').className = tab === 'cmd' ? 'flex-1 text-center py-2 text-sm font-bold rounded-md bg-gray-800 text-policecyan shadow transition' : 'flex-1 text-center py-2 text-sm font-bold rounded-md text-gray-500 hover:text-gray-300 transition';
+            document.getElementById('tab-admin').className = tab === 'admin' ? 'flex-1 text-center py-2 text-sm font-bold rounded-md bg-gray-800 text-blue-400 shadow transition' : 'flex-1 text-center py-2 text-sm font-bold rounded-md text-gray-500 hover:text-gray-300 transition';
             
             const container = document.getElementById('login-container');
             if (tab === 'admin') {
-                container.className = "bg-slate-900 border border-blue-500 rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all";
+                container.className = "bg-slate-900 border border-blue-500 rounded-2xl p-6 w-full max-w-sm shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all";
             } else {
-                container.className = "bg-policedark border border-policecyan rounded-xl p-6 w-full max-w-sm shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all";
+                container.className = "bg-policedark border border-policecyan rounded-2xl p-6 w-full max-w-sm shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all";
             }
 
             document.getElementById('form-cmd').classList.toggle('hidden', tab !== 'cmd');
@@ -598,7 +614,7 @@
                 if(found) {
                     isEditMode = true; isAdmin = false; window.closeModals(); showToast(`Bem-vindo, Comandante ${found.nome}`); render();
                 } else {
-                    showToast("Credenciais Incorretas", "error");
+                    showToast("Matrícula ou Senha incorretos.", "error");
                 }
             } catch(e) {
                 showToast("Erro ao validar login.", "error");
@@ -613,8 +629,8 @@
                 await signInWithEmailAndPassword(auth, email, pass);
                 isEditMode = true; isAdmin = true; window.closeModals(); showToast("Painel de Administrador Ativo"); render();
             } catch(e) { 
-                if (e.code === 'auth/invalid-credential') window.showAlert("Erro de Login", "E-mail ou senha estão incorretos. Se ainda não tem conta, clique em 'Criar Conta Admin'.");
-                else if (e.message && e.message.includes('auth/requests-from-referer')) window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste domínio. A chave da API precisa ter este site autorizado no Google Cloud Console.");
+                if (e.code === 'auth/invalid-credential') window.showAlert("Erro de Login", "E-mail ou senha incorretos.");
+                else if (e.message && e.message.includes('auth/requests-from-referer')) window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste site.\n\nVá no Google Cloud Console > APIs e Serviços > Credenciais, e libere esta URL nas restrições da sua API Key.");
                 else showToast("Erro: " + e.message, "error"); 
             }
         };
@@ -623,25 +639,17 @@
             const email = document.getElementById('admin-email').value.trim();
             const pass = document.getElementById('admin-pass').value;
             
-            if(!email || !pass) return showToast("Preencha E-mail e Senha para cadastrar", "warning");
-            if(pass.length < 6) return showToast("A senha deve ter no mínimo 6 letras ou números", "warning");
+            if(!email || !pass) return showToast("Preencha E-mail e Senha", "warning");
+            if(pass.length < 6) return showToast("A senha deve ter no mínimo 6 letras/números", "warning");
             
             try {
                 await createUserWithEmailAndPassword(auth, email, pass);
                 isEditMode = true; isAdmin = true; window.closeModals(); showToast("Administrador criado com sucesso!"); render();
             } catch(e) {
-                console.error(e);
-                if (e.code === 'auth/operation-not-allowed') {
-                    window.showAlert("⚠️ Firebase Bloqueado", "Você precisa ir no painel do Firebase:\n\n1. Clique em 'Authentication'.\n2. Vá na aba 'Sign-in method'.\n3. Habilite a opção 'E-mail e Senha'.\n\nSem isso, o Firebase não deixa criar a conta.");
-                } else if (e.code === 'auth/email-already-in-use') {
-                    window.showAlert("Conta já existe", "Este e-mail já está cadastrado. Por favor, feche este aviso e clique no botão 'Entrar como Admin'.");
-                } else if (e.code === 'auth/invalid-email') {
-                    showToast("E-mail com formato inválido.", "error");
-                } else if (e.message && e.message.includes('auth/requests-from-referer')) {
-                    window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste domínio. A chave da API precisa ter este site autorizado no Google Cloud Console.");
-                } else {
-                    window.showAlert("Erro Desconhecido", "Ocorreu um erro: " + e.message);
-                }
+                if (e.code === 'auth/operation-not-allowed') window.showAlert("Firebase Bloqueado", "Vá no painel do Firebase > Authentication > Sign-in method e HABILITE o login por 'E-mail e Senha'.");
+                else if (e.code === 'auth/email-already-in-use') window.showAlert("Conta já existe", "Este e-mail já está cadastrado. Use o botão Entrar.");
+                else if (e.message && e.message.includes('auth/requests-from-referer')) window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste site.\n\nVá no Google Cloud Console > APIs e Serviços > Credenciais, e libere esta URL nas restrições da sua API Key.");
+                else window.showAlert("Erro", e.message);
             }
         };
 
@@ -651,10 +659,7 @@
             try {
                 await sendPasswordResetEmail(auth, email);
                 showToast("E-mail de recuperação enviado!");
-            } catch(e) { 
-                if (e.message && e.message.includes('auth/requests-from-referer')) window.showAlert("Bloqueio de Segurança", "O Firebase bloqueou o acesso a partir deste domínio. A chave da API precisa ter este site autorizado no Google Cloud Console.");
-                else showToast("Erro: " + e.message, "error"); 
-            }
+            } catch(e) { showToast("Erro: " + e.message, "error"); }
         };
 
         window.logout = async () => {
@@ -672,13 +677,13 @@
                 let html = '';
                 snap.forEach(doc => {
                     const c = doc.data();
-                    html += `<div class="flex justify-between items-center bg-slate-800 p-2 rounded border border-slate-700">
-                        <div><p class="text-sm text-white font-bold">${c.nome}</p><p class="text-xs text-blue-400 font-mono">User: ${c.user}</p></div>
-                        <button onclick="window.deleteCommander('${doc.id}')" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    html += `<div class="flex justify-between items-center bg-slate-800 p-3 rounded-lg border border-slate-600 shadow-sm">
+                        <div><p class="text-sm text-white font-bold">${c.nome}</p><p class="text-xs text-blue-400 font-mono tracking-widest mt-1">Mat: ${c.user}</p></div>
+                        <button onclick="window.deleteCommander('${doc.id}')" class="text-red-500 hover:text-red-400 bg-red-900/30 p-2 rounded-lg transition"><i class="fa-solid fa-trash"></i></button>
                     </div>`;
                 });
                 listDiv.innerHTML = html || '<p class="text-slate-500 text-xs italic">Nenhum comandante cadastrado.</p>';
-            } catch(e) { listDiv.innerHTML = '<p class="text-red-400 text-xs">Erro ao carregar.</p>'; }
+            } catch(e) { listDiv.innerHTML = '<p class="text-red-400 text-xs">Erro ao carregar do banco de dados.</p>'; }
         };
 
         window.addCommander = async () => {
@@ -695,7 +700,7 @@
         };
 
         window.deleteCommander = async (id) => {
-            if(!confirm("Remover este Comandante?")) return;
+            if(!confirm("Remover este Comandante do sistema?")) return;
             try {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'commanders', id));
                 showToast("Comandante removido."); window.openAdminPanel();
@@ -712,11 +717,11 @@
             } catch(e) { showToast("Erro ao trocar senha", "error"); }
         };
 
-        window.approveScale = async () => { state.status = 'approved'; await saveCurrentState(); showToast("Escala Aprovada!"); render(); };
-        window.reopenScale = async () => { state.status = 'draft'; await saveCurrentState(); showToast("Escala Reaberta."); render(); };
+        window.approveScale = async () => { state.status = 'approved'; await saveCurrentState(); showToast("Escala Aprovada com sucesso!"); render(); };
+        window.reopenScale = async () => { state.status = 'draft'; await saveCurrentState(); showToast("Escala Reaberta para edição."); render(); };
         
         window.removeSentinela = async (qKey, id) => {
-            if(confirm("Remover sentinela da escala?")) { state[qKey] = state[qKey].filter(s => s.id !== id); await saveCurrentState(); }
+            if(confirm("Remover policial da escala?")) { state[qKey] = state[qKey].filter(s => s.id !== id); await saveCurrentState(); }
         };
         
         window.updateEfetivo = (role, field, val) => { if(isEditMode) { state.efetivoFixo[role][field] = val; saveCurrentState(); } };
@@ -728,20 +733,19 @@
         window.updateTurno = (qKey, id, slot, val, el) => {
             if(!isEditMode) return;
             state[qKey].find(s => s.id === id).postos[slot] = val;
-            el.className = val === 'Folga' ? "input-active text-sm text-gray-500 text-center" : "input-active text-sm text-cyan-400 font-bold bg-cyan-900/30 border-cyan-700 text-center";
+            el.className = val === 'Folga' ? "input-active text-sm text-gray-500 text-center w-full min-w-[7rem]" : "input-active text-sm text-cyan-400 font-bold bg-cyan-900/30 border-cyan-700 text-center w-full min-w-[7rem]";
             saveCurrentState();
         };
 
         window.generateWhatsAppReport = () => {
-            let r = `*ESCALA - PRESÍDIO ITAQUITINGA*\n📅 ${currentDate.split('-').reverse().join('/')}\nStatus: *${state.status==='approved'?'✅ APROVADA':'⏳ RASCUNHO'}*\n\n*🛡️ EFETIVO FIXO*\n`;
+            let r = `*ESCALA - PRESÍDIO ITAQUITINGA*\n📅 ${currentDate.split('-').reverse().join('/')}\nStatus: *✅ APROVADA*\n\n*🛡️ EFETIVO FIXO*\n`;
             
             const formatPol = (p) => {
                 let txt = `${p.grad} ${p.nome} (Mat: ${p.matricula})`;
                 if(p.status==='PERMUTA') {
                     txt += `\n   ↳ 🔄 Subst: ${p.subGrad} ${p.subNome} (Mat: ${p.subMat})`;
-                    if(p.pdfUrl) {
-                        txt += `\n   ↳ 📎 Anexo: ${p.pdfUrl}`;
-                    }
+                    if(p.pdfUrl && !p.pdfUrl.startsWith('data:')) txt += `\n   ↳ 📎 Anexo: ${p.pdfUrl}`;
+                    else if(p.pdfUrl) txt += `\n   ↳ 📎 Anexo: [Salvo internamente. Abra o sistema para ver]`;
                 } else if(p.status==='PJES') txt += ` [PJES]`;
                 return txt;
             };
@@ -760,8 +764,9 @@
         };
 
         function getPdfBadgeHTML(url) {
-            if(!url) return '<span class="ml-2 text-[10px] text-gray-500 italic">(Sem Anexo)</span>';
-            return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap transition"><i class="fa-solid fa-link"></i> Ver PDF</a>`;
+            if(!url) return '';
+            if(url.startsWith('data:')) return `<span class="ml-2 bg-green-900/50 text-green-400 border border-green-500/50 text-[10px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap"><i class="fa-solid fa-paperclip"></i> Anexo Interno</span>`;
+            return `<a href="${url}" target="_blank" class="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded shadow whitespace-nowrap transition"><i class="fa-solid fa-link"></i> Abrir Anexo</a>`;
         }
 
         function renderRoleForm(roleKey, label, icon) {
@@ -770,98 +775,116 @@
             const dis = isEditMode ? '' : 'disabled';
             const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
 
-            let h = `<div class="glass-panel p-4 rounded-xl flex flex-col gap-2 relative overflow-hidden transition hover:border-cyan-500/50">
+            let h = `<div class="glass-panel p-4 rounded-xl flex flex-col gap-3 relative overflow-hidden transition hover:border-cyan-500/50">
                     <div class="absolute top-0 left-0 w-1 h-full bg-policecyan"></div>
-                    <h3 class="text-policecyan font-bold uppercase text-xs mb-2 ml-2 tracking-wide"><i class="${icon} mr-1"></i> ${label}</h3>
+                    <h3 class="text-policecyan font-bold uppercase text-sm mb-1 ml-2 tracking-wide"><i class="${icon} mr-1"></i> ${label}</h3>
                     <div class="flex flex-col sm:flex-row gap-3 ml-2">
                         <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Grad.</label>
-                            <select onchange="window.updateEfetivo('${roleKey}','grad',this.value)" class="${inClass}" ${dis}>
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold ml-1">Grad.</label>
+                            <select onchange="window.updateEfetivo('${roleKey}','grad',this.value)" class="${inClass} font-bold" ${dis}>
                                 ${GRADUACOES.map(g => `<option value="${g}" ${d.grad===g?'selected':''}>${g}</option>`).join('')}
                             </select>
                         </div>
-                        <div class="w-full sm:w-2/4">
-                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Nome Completo</label>
-                            <input type="text" value="${d.nome}" onchange="window.updateEfetivo('${roleKey}','nome',this.value)" list="efetivo-list" class="${inClass}" placeholder="-" ${dis}>
+                        <div class="w-full sm:w-2/4 relative">
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold ml-1">Nome</label>
+                            <input type="text" value="${d.nome}" list="efetivo-list" onchange="window.updateEfetivo('${roleKey}','nome',this.value)" class="${inClass} font-bold" placeholder="-" ${dis}>
+                        </div>
+                        <div class="w-full sm:w-1/4 relative">
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold ml-1">Matrícula</label>
+                            <input type="text" value="${d.matricula}" onchange="window.updateEfetivo('${roleKey}','matricula',this.value)" class="${inClass} font-mono font-bold text-blue-300" placeholder="-" ${dis}>
                         </div>
                         <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Matrícula</label>
-                            <input type="text" value="${d.matricula}" onchange="window.updateEfetivo('${roleKey}','matricula',this.value)" class="${inClass}" placeholder="-" ${dis}>
-                        </div>
-                        <div class="w-full sm:w-1/4">
-                            <label class="text-[9px] text-gray-400 block uppercase font-bold">Situação</label>
-                            <select onchange="window.updateEfetivo('${roleKey}','status',this.value)" class="${inClass} ${isPermuta?'text-yellow-400 font-bold':(d.status==='PJES'?'text-blue-400 font-bold':'')}" ${dis}>
+                            <label class="text-[9px] text-gray-400 block uppercase font-bold ml-1">Situação</label>
+                            <select onchange="window.updateEfetivo('${roleKey}','status',this.value)" class="${inClass} ${isPermuta?'text-yellow-400 font-black':(d.status==='PJES'?'text-blue-400 font-black':'font-bold')}" ${dis}>
                                 ${STATUS_OPCOES.map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
                             </select>
                         </div>
                     </div>`;
             if(isPermuta) {
-                h += `<div class="flex flex-wrap items-center gap-2 mt-2 ml-2 bg-yellow-900/20 p-2 rounded-lg border border-yellow-700/50 text-[10px] shadow-inner">
-                        <i class="fa-solid fa-arrow-turn-up fa-rotate-90 text-yellow-500"></i> <span class="text-yellow-500 font-bold">Subst:</span>
-                        <select onchange="window.updateEfetivo('${roleKey}','subGrad',this.value)" class="${inClass} w-20 py-0 text-yellow-300" ${dis}>${GRADUACOES.map(g => `<option value="${g}" ${d.subGrad===g?'selected':''}>${g}</option>`).join('')}</select>
-                        <input type="text" value="${d.subNome}" onchange="window.updateEfetivo('${roleKey}','subNome',this.value)" class="${inClass} w-32 text-yellow-300 py-0" placeholder="Nome" ${dis}>
-                        <span class="text-yellow-500 font-bold">Mat:</span> <input type="text" value="${d.subMat}" onchange="window.updateEfetivo('${roleKey}','subMat',this.value)" class="${inClass} w-24 text-yellow-300 py-0" placeholder="Mat" ${dis}>
-                        ${getPdfBadgeHTML(d.pdfUrl)}
+                h += `<div class="flex flex-wrap items-center gap-3 mt-3 ml-2 bg-yellow-900/20 p-3 rounded-xl border border-yellow-700/50 text-[10px] shadow-inner">
+                        <div class="w-full sm:w-auto text-yellow-500 font-black mb-1 sm:mb-0"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Substitui:</div>
+                        <select onchange="window.updateEfetivo('${roleKey}','subGrad',this.value)" class="${inClass} w-full sm:w-24 text-yellow-300 font-bold" ${dis}>${GRADUACOES.map(g => `<option value="${g}" ${d.subGrad===g?'selected':''}>${g}</option>`).join('')}</select>
+                        <input type="text" value="${d.subNome}" onchange="window.updateEfetivo('${roleKey}','subNome',this.value)" class="${inClass} flex-1 min-w-[120px] text-yellow-300 font-bold" placeholder="Nome do substituído" ${dis}>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <span class="text-yellow-500 font-bold">Mat:</span>
+                            <input type="text" value="${d.subMat}" onchange="window.updateEfetivo('${roleKey}','subMat',this.value)" class="${inClass} w-28 text-yellow-300 font-mono font-bold" placeholder="Matrícula" ${dis}>
+                        </div>
+                        <div class="w-full sm:w-auto mt-2 sm:mt-0 flex justify-end">
+                            ${getPdfBadgeHTML(d.pdfUrl)}
+                        </div>
                     </div>`;
             }
             return h + `</div>`;
         }
 
+        // Tabela estendida com larguras muito maiores (min-w-[1200px]) para não cortar texto
         function renderQuartoTable(qKey, title, icon, horarios) {
             const list = state[qKey];
             const dis = isEditMode ? '' : 'disabled';
             const inClass = dis === '' ? 'input-active text-sm' : 'input-active bg-transparent border-transparent text-gray-200 text-sm pl-0';
 
-            let h = `<div class="glass-panel p-4 rounded-xl mb-8 border-l-4 border-l-blue-500 shadow-lg">
+            let h = `<div class="glass-panel p-4 rounded-xl mb-8 border-l-4 border-l-blue-500 shadow-lg overflow-hidden">
                     <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
-                        <h3 class="text-white font-bold text-lg tracking-wide"><i class="${icon} text-blue-400 mr-2"></i>${title}</h3>
+                        <h3 class="text-white font-black text-xl tracking-wide"><i class="${icon} text-blue-400 mr-2"></i>${title}</h3>
                     </div>
-                    <div class="overflow-x-auto pb-2 scrollbar-hide">
-                        <table class="w-full text-left border-collapse whitespace-nowrap min-w-[850px]">
+                    
+                    <!-- Container com overflow-x-auto para a tabela extra larga -->
+                    <div class="overflow-x-auto pb-4 scrollbar-hide rounded-lg border border-gray-800/50">
+                        <table class="w-full text-left border-collapse whitespace-nowrap min-w-[1200px]">
                             <thead>
-                                <tr class="bg-gray-800/80 text-gray-400 text-[10px] uppercase border-b border-gray-700 tracking-wider">
-                                    <th class="p-3 w-10 text-center font-bold">#</th>
-                                    <th class="p-3 w-20 font-bold">Grad.</th>
-                                    <th class="p-3 w-56 font-bold">Nome / Matrícula</th>
-                                    <th class="p-3 w-28 font-bold">Situação</th>
-                                    ${horarios.map(t => `<th class="p-3 w-28 text-center border-l border-gray-700 text-policecyan bg-gray-900/50"><i class="fa-regular fa-clock"></i> ${t.label}</th>`).join('')}
-                                    ${dis===''?`<th class="p-3 w-10"></th>`:''}
+                                <tr class="bg-gray-800 text-gray-400 text-xs uppercase tracking-widest">
+                                    <th class="p-3 w-12 text-center font-black">#</th>
+                                    <th class="p-3 w-28 font-black">Grad.</th>
+                                    <th class="p-3 w-80 font-black">Nome / Matrícula</th>
+                                    <th class="p-3 w-40 font-black border-r border-gray-700/50">Situação</th>
+                                    ${horarios.map(t => `<th class="p-3 w-40 text-center border-r border-gray-700/50 text-policecyan bg-gray-900/80"><i class="fa-regular fa-clock"></i> ${t.label}</th>`).join('')}
+                                    ${dis===''?`<th class="p-3 w-12 bg-gray-800"></th>`:''}
                                 </tr>
                             </thead>
-                            <tbody class="text-sm">`;
+                            <tbody class="text-sm bg-gray-900/30">`;
             
-            if(list.length === 0) h += `<tr><td colspan="9" class="p-6 text-center text-gray-500 italic">Nenhum guerreiro informado neste quarto.</td></tr>`;
+            if(list.length === 0) h += `<tr><td colspan="9" class="p-8 text-center text-gray-500 italic font-bold">Nenhum policial escalado neste quarto.</td></tr>`;
 
             list.forEach((s, idx) => {
                 const isPermuta = s.status === 'PERMUTA';
-                h += `<tr class="border-b border-gray-800/60 hover:bg-gray-800/40 transition">
-                    <td class="p-3 text-center text-gray-500 font-mono font-bold">${idx+1}</td>
-                    <td class="p-3"><select onchange="window.updateSentinela('${qKey}','${s.id}','grad',this.value)" class="${inClass}" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.grad===g?'selected':''}>${g}</option>`).join('')}</select></td>
-                    <td class="p-3"><input type="text" value="${s.nome}" onchange="window.updateSentinela('${qKey}','${s.id}','nome',this.value)" class="${inClass} font-bold text-white mb-1" ${dis}>
-                        <div class="flex items-center gap-1 text-[10px] text-gray-400 font-bold">MAT: <input type="text" value="${s.matricula}" onchange="window.updateSentinela('${qKey}','${s.id}','matricula',this.value)" class="${inClass} py-0 w-28 text-blue-300 font-mono" ${dis}></div>
+                h += `<tr class="border-b border-gray-800 hover:bg-gray-800/60 transition group">
+                    <td class="p-3 text-center text-gray-500 font-mono font-bold bg-gray-900/20">${idx+1}</td>
+                    <td class="p-3"><select onchange="window.updateSentinela('${qKey}','${s.id}','grad',this.value)" class="${inClass} w-full min-w-[5rem] font-bold" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.grad===g?'selected':''}>${g}</option>`).join('')}</select></td>
+                    <td class="p-3 relative">
+                        <input type="text" value="${s.nome}" list="efetivo-list" onchange="window.updateSentinela('${qKey}','${s.id}','nome',this.value)" class="${inClass} font-bold text-white mb-1 w-full min-w-[15rem]" ${dis}>
+                        <div class="flex items-center gap-1 text-[10px] text-gray-400 font-bold ml-1">MAT: <input type="text" value="${s.matricula}" onchange="window.updateSentinela('${qKey}','${s.id}','matricula',this.value)" class="${inClass} py-0 w-32 text-blue-300 font-mono" ${dis}></div>
                     </td>
-                    <td class="p-3"><select onchange="window.updateSentinela('${qKey}','${s.id}','status',this.value)" class="${inClass} font-bold ${isPermuta?'text-yellow-400':(s.status==='PJES'?'text-blue-400':'')}" ${dis}>${STATUS_OPCOES.map(op=>`<option value="${op}" ${s.status===op?'selected':''}>${op}</option>`).join('')}</select></td>`;
+                    <td class="p-3 border-r border-gray-800/60 bg-gray-900/10">
+                        <select onchange="window.updateSentinela('${qKey}','${s.id}','status',this.value)" class="${inClass} w-full min-w-[8rem] font-black ${isPermuta?'text-yellow-400':(s.status==='PJES'?'text-blue-400':'')}" ${dis}>${STATUS_OPCOES.map(op=>`<option value="${op}" ${s.status===op?'selected':''}>${op}</option>`).join('')}</select>
+                    </td>`;
 
                 s.postos.forEach((posto, slotIndex) => {
                     const isFolga = posto === 'Folga' || posto === '';
                     const selectBg = isFolga ? (dis===''?'text-gray-500':'text-gray-600') : 'text-cyan-400 font-bold bg-cyan-900/30 border-cyan-700';
-                    h += `<td class="p-2 border-l border-gray-800/60 bg-gray-900/20 text-center">
-                        <select onchange="window.updateTurno('${qKey}','${s.id}',${slotIndex},this.value,this)" class="${inClass} ${selectBg} text-center shadow-inner" ${dis}>
+                    h += `<td class="p-3 border-r border-gray-800/60 bg-gray-900/40 text-center relative">
+                        <select onchange="window.updateTurno('${qKey}','${s.id}',${slotIndex},this.value,this)" class="${inClass} ${selectBg} text-center shadow-inner w-full min-w-[7rem]" ${dis}>
                             <option value="Folga" class="text-gray-500">🛌 Folga</option>
                             ${state.postosAtivos.map(p => `<option value="${p}" ${posto===p?'selected':''}>${p}</option>`).join('')}
                         </select>
                     </td>`;
                 });
 
-                if(dis==='') h += `<td class="p-3 text-center"><button onclick="window.removeSentinela('${qKey}','${s.id}')" class="text-red-500 hover:text-red-400 transition transform hover:scale-110"><i class="fa-solid fa-trash"></i></button></td>`;
+                if(dis==='') h += `<td class="p-3 text-center bg-gray-900/20"><button onclick="window.removeSentinela('${qKey}','${s.id}')" class="text-gray-600 hover:text-red-500 bg-gray-800 hover:bg-red-900/30 p-2 rounded-lg transition transform hover:scale-110"><i class="fa-solid fa-trash"></i></button></td>`;
                 h += `</tr>`;
 
                 if(isPermuta) {
                     h += `<tr class="bg-yellow-900/10 border-b border-gray-800/60 shadow-inner">
-                        <td colspan="4" class="p-2 text-right text-[10px] text-yellow-500 font-bold pr-4"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Subst:</td>
-                        <td colspan="2" class="p-2"><div class="flex gap-2 text-xs"><select onchange="window.updateSentinela('${qKey}','${s.id}','subGrad',this.value)" class="${inClass} w-20 text-yellow-300 py-0" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.subGrad===g?'selected':''}>${g}</option>`).join('')}</select><input type="text" value="${s.subNome}" onchange="window.updateSentinela('${qKey}','${s.id}','subNome',this.value)" class="${inClass} w-full text-yellow-300 py-0 font-semibold" placeholder="Nome" ${dis}></div></td>
-                        <td colspan="2" class="p-2"><div class="flex items-center gap-2 text-xs"><span class="text-yellow-500 font-bold">Mat:</span><input type="text" value="${s.subMat}" onchange="window.updateSentinela('${qKey}','${s.id}','subMat',this.value)" class="${inClass} w-28 text-yellow-300 py-0 font-mono" placeholder="Mat" ${dis}> ${getPdfBadgeHTML(s.pdfUrl)}</div></td>
-                        ${dis===''?`<td></td>`:''}
+                        <td colspan="3" class="p-3 text-right text-xs text-yellow-500 font-black pr-4 uppercase tracking-widest"><i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i> Subst:</td>
+                        <td colspan="3" class="p-3"><div class="flex gap-3 text-sm">
+                            <select onchange="window.updateSentinela('${qKey}','${s.id}','subGrad',this.value)" class="${inClass} w-28 text-yellow-300 font-bold" ${dis}>${GRADUACOES.map(g=>`<option value="${g}" ${s.subGrad===g?'selected':''}>${g}</option>`).join('')}</select>
+                            <input type="text" value="${s.subNome}" onchange="window.updateSentinela('${qKey}','${s.id}','subNome',this.value)" class="${inClass} w-full text-yellow-300 font-bold min-w-[15rem]" placeholder="Nome Completo" ${dis}>
+                        </div></td>
+                        <td colspan="2" class="p-3"><div class="flex items-center gap-3 text-sm">
+                            <span class="text-yellow-500 font-black">MAT:</span>
+                            <input type="text" value="${s.subMat}" onchange="window.updateSentinela('${qKey}','${s.id}','subMat',this.value)" class="${inClass} w-32 text-yellow-300 font-mono font-bold" placeholder="Matrícula" ${dis}> 
+                            ${getPdfBadgeHTML(s.pdfUrl)}
+                        </div></td>
+                        ${dis===''?`<td class="bg-yellow-900/5"></td>`:''}
                     </tr>`;
                 }
             });
@@ -888,26 +911,27 @@
             }
 
             if (state.status === 'approved') {
-                badge.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider bg-green-700/90 text-white shadow-[0_0_10px_rgba(22,163,74,0.5)] border border-green-500/50 whitespace-nowrap";
-                badge.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> Fechada (Aprovada)';
+                badge.className = "px-5 py-2 rounded-full font-black text-xs uppercase tracking-widest bg-green-700 text-white shadow-[0_0_15px_rgba(22,163,74,0.6)] border border-green-500 whitespace-nowrap";
+                badge.innerHTML = '<i class="fa-solid fa-lock mr-2"></i> Escala Aprovada e Trancada';
             } else {
-                badge.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-600/90 text-white shadow-[0_0_10px_rgba(202,138,4,0.5)] border border-yellow-500/50 whitespace-nowrap";
-                badge.innerHTML = '<i class="fa-solid fa-pen mr-1"></i> Rascunho';
+                badge.className = "px-5 py-2 rounded-full font-black text-xs uppercase tracking-widest bg-yellow-600 text-white shadow-[0_0_15px_rgba(202,138,4,0.6)] border border-yellow-500 whitespace-nowrap";
+                badge.innerHTML = '<i class="fa-solid fa-pen-ruler mr-2"></i> Rascunho em Construção';
             }
 
             let btnsHtml = '';
             
             if (!isEditMode && state.status !== 'approved') {
-                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-green-900/80 hover:bg-green-700 text-green-50 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-green-500/50 flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Informar Serviço</button>`;
+                btnsHtml += `<button onclick="window.openPolicialModal()" class="bg-green-600/90 hover:bg-green-500 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-black whitespace-nowrap transition border border-green-400 flex items-center gap-2 shadow-[0_0_15px_rgba(34,197,94,0.5)] tracking-wide"><i class="fa-solid fa-user-plus text-lg"></i> INFORMAR SERVIÇO</button>`;
             }
 
             if (isEditMode) {
-                if(isAdmin) btnsHtml += `<button onclick="window.openAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-slate-500 flex items-center gap-2"><i class="fa-solid fa-users-gear"></i> Painel Admin</button>`;
-                else btnsHtml += `<button onclick="document.getElementById('cmd-pass-modal').classList.remove('hidden')" class="bg-indigo-700 hover:bg-indigo-600 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-indigo-500 flex items-center gap-2"><i class="fa-solid fa-key"></i> Senha</button>`;
-                btnsHtml += `<button onclick="window.logout()" class="bg-red-900/80 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-red-500 flex items-center gap-2"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>`;
-                btnsHtml += `<button onclick="window.openPolicialModal()" class="btn-neon bg-blue-900/80 hover:bg-blue-700 text-blue-50 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-blue-500/50 flex items-center gap-2"><i class="fa-solid fa-user-shield"></i> Inserir Sentinela</button>`;
+                if(isAdmin) btnsHtml += `<button onclick="window.openAdminPanel()" class="bg-blue-700/90 hover:bg-blue-600 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition border border-blue-400 flex items-center gap-2 shadow-lg"><i class="fa-solid fa-users-gear text-lg"></i> Gerenciar Comandantes</button>`;
+                else btnsHtml += `<button onclick="document.getElementById('cmd-pass-modal').classList.remove('hidden')" class="bg-indigo-700/90 hover:bg-indigo-600 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition border border-indigo-400 flex items-center gap-2 shadow-lg"><i class="fa-solid fa-key text-lg"></i> Trocar Minha Senha</button>`;
+                
+                btnsHtml += `<button onclick="window.openPolicialModal()" class="bg-green-600/90 hover:bg-green-500 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-black whitespace-nowrap transition border border-green-400 flex items-center gap-2 shadow-[0_0_15px_rgba(34,197,94,0.5)] tracking-wide"><i class="fa-solid fa-user-shield text-lg"></i> INSERIR POLICIAL</button>`;
+                btnsHtml += `<button onclick="window.logout()" class="bg-red-800/90 hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition border border-red-500 flex items-center gap-2 shadow-lg"><i class="fa-solid fa-right-from-bracket text-lg"></i> Sair</button>`;
             } else {
-                btnsHtml += `<button onclick="window.openLoginModal()" class="btn-neon bg-gray-800 hover:bg-gray-700 text-gray-300 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition border border-gray-600 flex items-center gap-2"><i class="fa-solid fa-lock"></i> Acesso Restrito</button>`;
+                btnsHtml += `<button onclick="window.openLoginModal()" class="bg-gray-800/90 hover:bg-gray-700 text-cyan-400 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition border border-cyan-800 flex items-center gap-2 shadow-lg"><i class="fa-solid fa-shield-halved text-lg"></i> Acesso Restrito</button>`;
             }
             headBtns.innerHTML = btnsHtml;
 
@@ -924,20 +948,20 @@
                     ${renderQuartoTable('sentinelasQ1', '1º Quarto', 'fa-solid fa-sun', TURNOS_Q1)}
                     ${renderQuartoTable('sentinelasQ2', '2º Quarto', 'fa-solid fa-moon', TURNOS_Q2)}
 
-                    <div class="flex flex-wrap justify-center mb-10 mt-10 gap-4 px-2">
+                    <div class="flex flex-wrap justify-center mb-10 mt-10 gap-5 px-2">
                         ${isEditMode ? `
-                            <button onclick="window.generateWhatsAppReport()" class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold shadow-[0_0_15px_rgba(22,163,74,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-green-400">
-                                <i class="fa-brands fa-whatsapp text-3xl"></i> Relatório WhatsApp
+                            <button onclick="window.generateWhatsAppReport()" class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-black shadow-[0_0_20px_rgba(22,163,74,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-green-400 tracking-wider">
+                                <i class="fa-brands fa-whatsapp text-3xl"></i> ENVIAR PARA WHATSAPP
                             </button>
                         ` : ''}
                         ${isEditMode && state.status === 'draft' ? `
-                            <button onclick="window.approveScale()" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-bold shadow-[0_0_15px_rgba(37,99,235,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-blue-400">
-                                <i class="fa-solid fa-lock text-2xl"></i> Aprovar Escala
+                            <button onclick="window.approveScale()" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-black shadow-[0_0_20px_rgba(37,99,235,0.6)] flex items-center justify-center gap-3 w-full sm:w-auto text-lg transition transform hover:scale-105 border border-blue-400 tracking-wider">
+                                <i class="fa-solid fa-lock text-2xl"></i> APROVAR ESCALA
                             </button>
                         ` : ''}
                         ${isEditMode && state.status === 'approved' ? `
-                            <button onclick="window.reopenScale()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-4 rounded-full font-bold shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto transition border border-yellow-400 text-lg">
-                                <i class="fa-solid fa-unlock text-2xl"></i> Reabrir Edição
+                            <button onclick="window.reopenScale()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-black shadow-lg flex items-center justify-center gap-3 w-full sm:w-auto transition border border-yellow-400 text-lg tracking-wider">
+                                <i class="fa-solid fa-unlock text-2xl"></i> REABRIR ESCALA
                             </button>
                         ` : ''}
                     </div>
@@ -963,7 +987,7 @@
                 listenToDate(currentDate);
             } catch (e) {
                  if (e.message && e.message.includes('auth/requests-from-referer')) {
-                    console.warn("Aviso: Autenticação anônima bloqueada por restrições de domínio da chave de API.");
+                    console.warn("Aviso: Autenticação anônima bloqueada por restrições de domínio.");
                  }
                 listenToDate(currentDate);
             }
